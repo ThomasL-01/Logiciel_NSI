@@ -20,8 +20,8 @@ def add_lesson_menu(master, combobox, chapter_selected):
     lesson_txt = Label(window, bg="black", fg="White", font=("Arial", 17), text="Insérer le nom de votre nouvelle leçon")
     res_txt = Label(window, bg="black", fg="White", font=("Arial", 20), text="La leçon a été ajoutée avec succès !\n Vous pouvez fermer cette fenêtre, elle se fermera dans 5 secondes")
     
-    chapter_entry = Entry(window, font = ("Helvetica", 20), bg="black", fg='white', insertbackground='white', width=30, textvariable=StringVar(value=chapter_selected))
-    lesson_entry = Entry(window, font = ("Helvetica", 20), bg="black", fg='white', insertbackground='white', width=30)
+    chapter_entry = Entry(window, font = ("Helvetica", 20), bg="black", fg='white', insertbackground='white', width=30, textvariable=StringVar(value=chapter_selected), highlightbackground="white")
+    lesson_entry = Entry(window, font = ("Helvetica", 20), bg="black", fg='white', insertbackground='white', width=30, highlightbackground="white")
 
     def recup_path_bis():
         global path
@@ -90,8 +90,8 @@ def del_lesson_menu(master, combobox, chapter_selected):
     lesson_txt = Label(window, bg="black", fg="White", font=("Arial", 17), text="Insérer le nom de la leçon à supprimer")
     res_txt = Label(window, bg="black", fg="White", font=("Arial", 20), text="La leçon a été supprimée avec succès !\n Vous pouvez fermer cette fenêtre")
     
-    chapter_entry = Entry(window, font = ("Helvetica", 20), bg="black", fg='white', insertbackground='white', width=30, textvariable=StringVar(value=chapter_selected))
-    lesson_entry = Entry(window, font = ("Helvetica", 20), bg="black", fg='white', insertbackground='white', width=30)
+    chapter_entry = Entry(window, font = ("Helvetica", 20), bg="black", fg='white', insertbackground='white', width=30, textvariable=StringVar(value=chapter_selected), highlightbackground="white")
+    lesson_entry = Entry(window, font = ("Helvetica", 20), bg="black", fg='white', insertbackground='white', width=30, highlightbackground="white")
 
     def enter():
         global path
@@ -165,7 +165,7 @@ def add_chapter_menu(master, combobox):
 
     res_txt = Label(window, bg="black", fg="White", font=("Arial", 20), text="Le chapitre a été ajoutée avec succès !\n Vous pouvez fermer cette fenêtre, elle se fermera dans 5 secondes")
     
-    chapter_entry = Entry(window, font = ("Helvetica", 20), bg="black", fg='white', insertbackground='white', width=30)
+    chapter_entry = Entry(window, font = ("Helvetica", 20), bg="black", fg='white', insertbackground='white', width=30, highlightbackground="white")
 
 
     def enter():
@@ -214,7 +214,7 @@ def del_chapter_menu(master, combobox):
 
     res_txt = Label(window, bg="black", fg="White", font=("Arial", 20), text="Le chapitre a été supprimé avec succès !\n Vous pouvez fermer cette fenêtre, elle se fermera dans 5 secondes")
     
-    chapter_entry = Entry(window, font = ("Helvetica", 20), bg="black", fg='white', insertbackground='white', width=30)
+    chapter_entry = Entry(window, font = ("Helvetica", 20), bg="black", fg='white', insertbackground='white', width=30, highlightbackground="white")
 
 
     def enter():

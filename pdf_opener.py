@@ -1,13 +1,13 @@
 import platform
 import os
-from tkinter import filedialog
+from tkinter.filedialog import askopenfilename
 import shutil
 import subprocess
 
 def open_pdf() -> None:
     """Ouvre la fenetre pour choisir un fichier PDF et l'ouvre dans le lecteur par defaut de l'OS
     """
-    file_path = filedialog.askopenfilename(filetypes=[("Fichiers PDF", "*.pdf")])
+    file_path = askopenfilename(filetypes=[("Fichiers PDF", "*.pdf")])
     if "macOS" in platform.platform():
         subprocess.run(["open", file_path])
 
@@ -31,7 +31,7 @@ def open_given_pdf(file_path: str)-> None:
 
 def recup_path() -> str:
     """Renvoie le path du fichier séléctionné"""
-    file_path = filedialog.askopenfilename(filetypes=[("Fichiers PDF", "*.pdf")])
+    file_path = askopenfilename(filetypes=[("Fichiers PDF", "*.pdf")])
     return file_path
 
 def copy_file(file_path: str) -> str:
@@ -58,3 +58,12 @@ def delete_file(file_path: str) -> str:
         os.remove(file_path)
     except OSError as e:
         pass
+
+
+"""import git
+
+# Cloner un dépôt
+repo_url = 'git@github.com:ThomasL-01/Logiciel_NSI.git'
+local_dir = '/Users/Mistigris/Documents/clone'
+
+git.Repo.clone_from(repo_url, local_dir)"""

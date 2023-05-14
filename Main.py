@@ -96,13 +96,13 @@ def connection_menu(menu:str = 'load') -> None:
     label_pseudo = Label(root, text = "Votre Pseudo:", font = ("Helvetica", 20),bg = 'black', fg='white')
     widget_lst.append(label_pseudo)
 
-    pseudo_joueur = Entry(root,font = ("Helvetica", 20), bg="black", fg='white', insertbackground='white', width=30)
+    pseudo_joueur = Entry(root,font = ("Helvetica", 20), bg="black", fg='white', insertbackground='white', width=30, highlightbackground="white")
     widget_lst.append(pseudo_joueur)
 
     label_mdp = Label(root, text = "Mot de Passe:", font = ("Helvetica", 20), bg="black", fg='white')
     widget_lst.append(label_mdp)
 
-    mdp_joueur = Entry(root,font = ("Helvetica", 20),bg ='black', fg='white', insertbackground='white', width=30, show="*")
+    mdp_joueur = Entry(root,font = ("Helvetica", 20),bg ='black', fg='white', insertbackground='white', width=30, show="*", highlightbackground="white")
     widget_lst.append(mdp_joueur)
 
     def show()-> None:
