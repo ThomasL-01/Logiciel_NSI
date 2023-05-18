@@ -38,7 +38,7 @@ def copy_file(file_path: str) -> str:
     """Copie le fichier donné dans le répertoire PDF"""
     cwd = os.getcwd()
 
-    target_folder = os.path.join(cwd, 'PDF')
+    target_folder = os.path.join(cwd, '../PDF')
 
     # Copier le fichier dans le dossier cible
     if file_path and target_folder:

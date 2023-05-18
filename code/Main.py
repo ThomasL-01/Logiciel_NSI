@@ -64,9 +64,9 @@ def connection_menu(menu:str = 'load') -> None:
         global username, is_admin, usermdp
         """systeme de verification d'une sauvegarde à charger"""
         username = pseudo_joueur.get() #On récupère le pseudo et le mdp
-        is_admin = user_is_admin(username,"csvfile.csv")
+        is_admin = user_is_admin(username,"csv_data/csvfile.csv")
         usermdp = mdp_joueur.get()
-        error = verif_sauvegarde(str(username), str(usermdp), 'csvfile.csv') #on verrifie si le pseudo existe déjà
+        error = verif_sauvegarde(str(username), str(usermdp), 'csv_data/csvfile.csv') #on verrifie si le pseudo existe déjà
         if error == True: #dans le cas d'une erreur
             error_text.config(fg='red', text= "Le nom d'utilisateur ou mot de passe est incorrect !")
             error_text.pack(pady=2)
@@ -78,15 +78,15 @@ def connection_menu(menu:str = 'load') -> None:
         """systeme de verification/creation d'une nouvelle sauvegarde"""
         username = pseudo_joueur.get()#On récupère le pseudo et le mdp
         usermdp = mdp_joueur.get()
-        verification = verifpseudo(username, 'csvfile.csv')
+        verification = verifpseudo(username, 'csv_data/csvfile.csv')
         if verification == True:#dans le cas d'une erreur
             error_text.config(fg ='red', text='Ce pseudo existe déjà !')
         else:
             if len(username) == 0:
                 error_text.config(fg='red',  text = "Vous devez utiliser un mot de passe et un pseudo")
             else:
-                nouvelle_sauvegarde(username, usermdp, 'csvfile.csv')
-                is_admin = user_is_admin(username,"csvfile.csv")
+                nouvelle_sauvegarde(username, usermdp, 'csv_data/csvfile.csv')
+                is_admin = user_is_admin(username,"csv_data/csvfile.csv")
                 main_menu()
     
     #On créé les widgets puis on les récupère dans la liste afin de pouvoir les détruire
