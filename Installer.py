@@ -2,6 +2,7 @@ import platform
 import subprocess
 from tkinter import *
 import os
+import sys
 
 system = platform.system()  # Système d'exploitation
 th_to_install = "git"
@@ -44,11 +45,13 @@ def install_git()-> None:
 def install_gitpython():
     """installe Gitpython"""
     global th_to_install, set_command
+
     try:
-        subprocess.check_call(['pip', 'install', 'GitPython'])
-        print("GitPython a été installé avec succès.")
-    except subprocess.CalledProcessError as e:
-        print("Une erreur s'est produite lors de l'installation de GitPython :", e)
+        subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'GitPython'])
+        print("GitPython installed successfully.")
+    except subprocess.CalledProcessError:
+        print("Failed to install GitPython.")
+
     th_to_install = "Logiciel"
     set_command()
 
