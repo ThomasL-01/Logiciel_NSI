@@ -8,8 +8,6 @@ def get_current_date():
 
 # Utilisation de la fonction get_current_date pour obtenir la date actuelle
 date = get_current_date()
-print(date)
-
 
 def get_files_in_directory() -> list:
     """Renvoie la liste de tous les fichiers dans PDF"""
