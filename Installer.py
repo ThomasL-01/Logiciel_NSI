@@ -6,6 +6,7 @@ import sys
 
 system = platform.system()  # Système d'exploitation
 th_to_install = "git"
+print(sys.version)
 
 def install_git()-> None:
     global th_to_install, set_command
@@ -81,7 +82,10 @@ install_button = Button(text="Installer", command=None, font=("Arial", 17))
 def start_logiciel():
     root.destroy()
     script_path = os.path.expanduser('~/Documents/Logiciel/code/Main.py')
-    subprocess.run(['python3', script_path])
+    try:
+        subprocess.run(['python3', script_path])
+    except:
+        subprocess.run(['python', script_path])
 
 def set_command():
     th_to_install_txt.config(text=f"Nous devons installer {th_to_install}")
