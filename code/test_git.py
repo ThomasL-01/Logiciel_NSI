@@ -57,7 +57,8 @@ def git_add_commit_push(directory_names: list, commit_message: list, branch: str
     repo.git.push('origin', branch)
 
 def git_update(repo_path: str = os.getcwd(), branch: str = 'master', directories: list = None) -> None:
-    """Pour l'utilisateur. Permet de mettre à jour sa version du logiciel avec tous les cours etc que l'admin a pu ajouter"""
+    """Pour l'utilisateur: Permet de mettre à jour sa version du logiciel avec tous les cours etc que l'admin a pu ajouter
+    !! NE MET PAS À JOUR LE CODE MAIS SEULEMENT LES CSV ET LES PDF (et .py du coup)"""
     repo = Repo(repo_path)
     origin = repo.remotes.origin
     
