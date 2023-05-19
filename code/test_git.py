@@ -1,5 +1,15 @@
 from git import Repo
 import os
+from datetime import datetime
+
+def get_current_date():
+    current_date = datetime.now().date()
+    return current_date
+
+# Utilisation de la fonction get_current_date pour obtenir la date actuelle
+date = get_current_date()
+print(date)
+
 
 def get_files_in_directory() -> list:
     """Renvoie la liste de tous les fichiers dans PDF"""

@@ -4,6 +4,10 @@ from sauvegarde_ import nouvelle_sauvegarde, verif_sauvegarde, verifpseudo, user
 from pdf_opener import open_given_pdf
 from import_csv import get_all_chapters, get_name_exercices, get_name_lessons, get_path_lesson, get_enonce_exercices
 from add_and_supr_menus import add_chapter_menu, add_lesson_menu, del_chapter_menu, del_lesson_menu
+from test_git import *
+from datetime import datetime
+
+git_update()
 
 #Création de la fenètre de base
 root = Tk()
@@ -310,3 +314,5 @@ def exercice(enonce: str, chapter_name: str, lesson_pdf:str, lesson_name:str) ->
 
 #On lance l'application au menu de démarrage
 start_menu()
+if is_admin:
+    git_add_commit_push(["PDF", "csv_data"], f"Mise à jour des fichiers -{datetime.now().date()}")
