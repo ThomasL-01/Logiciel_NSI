@@ -17,8 +17,8 @@ def open_pdf() -> None:
     elif "Linux" in platform.platform():
         subprocess.run(["xdg-open", file_path])
 
-def open_given_pdf(file_path: str)-> None:
-    """Ouvre un fichier PDF donné dans le lecteur par defaut de l'OS
+def open_given_file(file_path: str)-> None:
+    """Ouvre un fichier PDF ou python donné dans le lecteur par defaut de l'OS
     """
     if "macOS" in platform.platform():
         subprocess.run(["open", file_path])
@@ -34,35 +34,27 @@ def recup_path() -> str:
     file_path = askopenfilename(filetypes=[("Fichiers PDF", "*.pdf")])
     return file_path
 
-def copy_file(file_path):
-    # Obtenir le chemin absolu du répertoire parent du fichier actuel
-    parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-    
-    # Créer un dossier "Copies" dans le répertoire parent s'il n'existe pas déjà
-    target_folder = os.path.join(parent_dir, "PDF")
-    if not os.path.exists(target_folder):
-        os.makedirs(target_folder)
-    
-    # Obtenir le nom de fichier à partir du chemin absolu
-    filename = os.path.basename(file_path)
-    
-    # Construire le chemin de destination du fichier copié
-    destination = os.path.join(target_folder, filename)
-    
-    # Vérifier si le fichier existe déjà dans le dossier cible
-    if os.path.exists(destination):
-        print("Le fichier est déjà copié.")
-        return os.path.relpath(destination, os.getcwd())
-    
+def recup_path_py() ->str:
+    file_path = askopenfilename(filetypes=[("Fichiers python", "*.py")])
+    return file_path
+
+def copy_file(file_path: str) -> str:
+    """Copie le fichier donné dans le répertoire PDF"""
+    cwd = os.getcwd()
+
+    target_folder = os.path.join(cwd, 'PDF')
+
     # Copier le fichier dans le dossier cible
-    shutil.copyfile(file_path, destination)
-    
-    # Obtenir le chemin relatif du fichier copié par rapport au répertoire actuel
-    relative_path = os.path.relpath(destination, os.getcwd())
-    
-    return relative_path
+    if file_path and target_folder:
+        filename = os.path.basename(file_path)
+        destination = os.path.join(target_folder, filename)
 
-
+        if os.path.exists(destination):
+            return os.path.relpath(destination)
+            
+        else:
+            shutil.copyfile(file_path, destination)
+            return os.path.relpath(destination)
 
 def delete_file(file_path: str) -> str:
     """Supprime le fichier correspondant"""
@@ -70,7 +62,6 @@ def delete_file(file_path: str) -> str:
         os.remove(file_path)
     except OSError as e:
         pass
-
 
 """import git
 

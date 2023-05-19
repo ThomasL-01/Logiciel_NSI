@@ -1,13 +1,13 @@
 from tkinter import *
 from tkinter import ttk
 from sauvegarde_ import nouvelle_sauvegarde, verif_sauvegarde, verifpseudo, user_is_admin
-from pdf_opener import open_given_pdf
-from import_csv import get_all_chapters, get_name_exercices, get_name_lessons, get_path_lesson, get_enonce_exercices
-from add_and_supr_menus import add_chapter_menu, add_lesson_menu, del_chapter_menu, del_lesson_menu
+from pdf_opener import open_given_file
+from import_csv import get_all_chapters, get_name_exercices, get_name_lessons, get_path_lesson, get_enonce_exercice, get_correction
+from add_and_supr_menus import add_chapter_menu, add_exercice_menu, add_lesson_menu, del_chapter_menu, del_lesson_menu, del_exercice_menu
 from test_git import *
 from datetime import datetime
 
-git_update()
+#git_update()
 
 #Création de la fenètre de base
 root = Tk()
@@ -264,17 +264,17 @@ def lesson(lesson_pdf:str ,chapter_name: str, lesson_name: str) -> None:
 
     #On créé les widgets
     back_btn = Button(text="Retour", command=main_menu)
-    btn_open_pdf = Button(text=f"Cours: {chapter_name} {lesson_name}",command=lambda:open_given_pdf(lesson_pdf))
+    btn_open_pdf = Button(text=f"Cours: {chapter_name} {lesson_name}",command=lambda:open_given_file(lesson_pdf))
 
     def access_to_ex(_) -> None:
         """Permet d'acceder à l'exercice choisi"""
         select = btn_exos.get()    #Récupère le nom de l'élément séléctionné
         if select == " + Ajouter un exercice + ":
-            print("Ajouter un exo")
+            add_exercice_menu(root, btn_exos, chapter_name, lesson_name)
         elif select == " - Supprimer un exercice - ":
-            print("supprimer un exo")
-        if not "Veuillez choisir un" in select: # Si l'élément n'est pas celui de base alors l'utilsateur accede a l'exo
-            exercice(get_enonce_exercices(chapter_name, lesson_name, select),chapter_name,lesson_pdf,lesson_name)
+            del_exercice_menu(root, btn_exos, chapter_name, lesson_name)
+        elif not "Veuillez choisir un" in select: # Si l'élément n'est pas celui de base alors l'utilsateur accede a l'exo
+            exercice(get_enonce_exercice(chapter_name, lesson_name, select),chapter_name,lesson_pdf,lesson_name, select)
 
     lst_exos : list= ["Veuillez choisir un exercice :"]
     for exo in get_name_exercices(chapter_name, lesson_name):
@@ -296,21 +296,58 @@ def lesson(lesson_pdf:str ,chapter_name: str, lesson_name: str) -> None:
     btn_exos.pack(pady=50)
     back_btn.pack(side=BOTTOM, fill=X)
 
-def exercice(enonce: str, chapter_name: str, lesson_pdf:str, lesson_name:str) -> None:
+def exercice(enonce: str, chapter_name: str, lesson_pdf:str, lesson_name:str, nom_exo) -> None:
     """On créé la fenêtre pour accéder aux exercices en PDF"""
     #On reset la fenètre
     destroy_widgets()
     root.title("Exercice")
-    txt = Label(text="CECI EST UNE FENTRE TEMPORAIRE \n QUI NE SERT A RIEN")
     back_btn = Button(text="Retour", command=lambda:lesson(lesson_pdf,chapter_name,lesson_name))
+    nb_indices_depenses = 0
+
+    def execute_code():
+        code = code_entry.get("1.0", "end-1c")
+        try:
+            a = exec(code)
+            result_text.configure(state="normal")
+            result_text.insert("end", "Test reussi!")
+        except Exception as e:
+            result_text.configure(state="normal")
+            result_text.delete("1.0", "end")
+            result_text.insert("end", f"Une erreur s'est produite : {e}")
+            result_text.configure(state="disabled")
+
+    # Zone de texte pour saisir le code
+    code_entry = Text(root, height=10, width=50)
+    code_entry.grid(row=0, column=1)
+
+    # Bouton pour exécuter le code
+    execute_button = Button(root, text="Exécuter", command=execute_code)
+    execute_button.grid(row=1, column=1)
+
+    # Zone de texte pour afficher le résultat
+    result_text = Text(root, height=10, width=50, state="disabled")
+    result_text.grid(row=2, column=1)
+
+    # Zone de texte pour l'ennonce
+    enonce_txt = Label(text=f"{enonce}", bg="Black", fg="White", font=("Arial", 20), wraplength=300)
+    enonce_txt.grid(row=0, column=0)
+
+    #Bouton pour accéder à la correction
+    correction_btn = Button(root, text="Accéder à la correction", command=lambda:open_given_file(get_correction(chapter_name, lesson_name, nom_exo)), state=DISABLED)
+    if nb_indices_depenses >=3:
+        correction_btn.config(state=ACTIVE)
+    widget_lst.append(correction_btn)
+    correction_btn.grid(row=0, column=2)
 
     #On récupère les widgets dans la liste afin de pouvoir les détruire
     widget_lst.append(back_btn)
-    widget_lst.append(txt)
+    widget_lst.append(code_entry)
+    widget_lst.append(enonce_txt)
+    widget_lst.append(result_text)
+    widget_lst.append(execute_button)
 
     #On fait apparaître les widgets sur l'écran
-    back_btn.pack(side=BOTTOM, fill=X)
-    txt.pack()
+    back_btn.grid(row=4,sticky="ew", column=0, columnspan=3)
 
 #On lance l'application au menu de démarrage
 start_menu()

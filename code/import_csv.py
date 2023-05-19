@@ -22,7 +22,7 @@ def get_lessons(chapter: str) -> list:
             val =e["lst_lecons"]
     return eval(val) 
 
-def get_enonce_exercices(chapter: str, lesson: str, nom: str) -> list:
+def get_enonce_exercice(chapter: str, lesson: str, nom: str) -> list:
     """Renvoie une liste composée de couples (path,nom_leçon)"""
     f = open("csv_data/exercices.csv", "r")
     table = list(csv.DictReader(f)) 
@@ -161,16 +161,10 @@ def _change_txt(base_txt: str, what_to_add: str) -> str:
 def add_exercice(chapter:str ,lesson: str, nom: str, enonce: str, correction: str)-> bool:
     """Ajoute l'exercice dans le csv suivant les paramètres donnés. Renvoie True si l'action a eu lieu, false sinon."""
     if chapter in get_all_chapters() and lesson in get_name_lessons(chapter) and not nom in get_name_exercices(chapter,lesson):
-        with open("csv_data/exercices.csv", "r") as fr:
-            r = list(csv.DictReader(fr))
-            for e in r:
-                if e["chapitre"] == chapter and e["lecon"] == lesson and e["nom_exo"] == nom:
-                    return False
-                else:
-                    with open("csv_data/exercices.csv","a") as f:
-                        w = csv.DictWriter(f, ["chapitre", "lecon", "nom_exo", "enonce", "correction"])
-                        w.writerow({"chapitre": chapter, "lecon": lesson, "nom_exo": nom, "enonce": enonce, "correction": correction})
-                        return True
+        with open("csv_data/exercices.csv","a") as f:
+            w = csv.DictWriter(f, ["chapitre", "lecon", "nom_exo", "enonce", "correction"])
+            w.writerow({"chapitre": chapter, "lecon": lesson, "nom_exo": nom, "enonce": enonce, "correction": correction})
+            return True      
     return False
     
 def delete_exo(chapter: str, lesson: str = None, nom: str = None)-> bool:
