@@ -79,13 +79,6 @@ th_to_install_txt = Label(text=f"Nous devons installer {th_to_install}", bg="Bla
 
 install_button = Button(text="Installer", command=None, font=("Arial", 17))
 
-def start_logiciel():
-    root.destroy()
-    script_path = os.path.expanduser('~/Documents/Logiciel/code/Main.py')
-    try:
-        subprocess.run(['python3', script_path])
-    except:
-        subprocess.run(['python', script_path])
 
 def set_command():
     th_to_install_txt.config(text=f"Nous devons installer {th_to_install}")
@@ -108,9 +101,9 @@ def set_command():
     else:
         info_txt.config(text="C'est terminé, nous avons installé tout\n ce dont nous avions besoin ! \n Vous pouvez fermer cette fenètre")
         info_txt.pack(ipady= 20 )
-        th_to_install_txt.config(text="Voulez vous lancer le logiciel maintenant ?")
+        th_to_install_txt.config(text="Vous pouvez démarrer le logiciel en lançant \nMain.py dans le dossier code de Logiciel de\n votre dossier Documents")
         th_to_install_txt.pack(pady=20)
-        install_button.config(text="Démarrer le Logiciel", command=start_logiciel)
+        install_button.config(text="Démarrer le Logiciel", command=None, state=DISABLED)
         install_button.pack(pady=20)
 set_command()
 
