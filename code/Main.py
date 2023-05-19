@@ -7,7 +7,7 @@ from add_and_supr_menus import add_chapter_menu, add_exercice_menu, add_lesson_m
 from test_git import *
 from datetime import datetime
 
-git_update()
+#git_update()
 
 #Création de la fenètre de base
 root = Tk()

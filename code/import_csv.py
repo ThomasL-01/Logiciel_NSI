@@ -174,6 +174,7 @@ def delete_exo(chapter: str, lesson: str = None, nom: str = None)-> bool:
         lines = fr.readlines()
         lines_to_delete = _find_line_exo(chapter, lesson, nom)
         acc = 0
+        file_to_delete = get_correction(chapter,lesson,nom)
         # opening in writing mode
         with open('csv_data/exercices.csv', 'w') as fw:
             for line in lines:
@@ -184,6 +185,7 @@ def delete_exo(chapter: str, lesson: str = None, nom: str = None)-> bool:
             return False
         else:
             delete_hint(chapter,lesson,nom)
+            delete_file(file_to_delete)
             return True
 
 def _find_line_exo(chapter: str, lesson: str, nom: str)-> int or None:
@@ -306,4 +308,3 @@ def _find_line_hint(chapter: str, lesson: str, exercice: str) -> int:
                 res.append(line_to_delete)
         f.close()
         return res
-
