@@ -88,7 +88,7 @@ def del_lesson_menu(master, combobox, chapter_selected):
     error_txt = Label(window, bg="black", fg="black", font=("Arial", 17), text="")
 
     lesson_txt = Label(window, bg="black", fg="White", font=("Arial", 17), text="Insérer le nom de la leçon à supprimer")
-    res_txt = Label(window, bg="black", fg="White", font=("Arial", 20), text="La leçon a été supprimée avec succès !\n Vous pouvez fermer cette fenêtre")
+    res_txt = Label(window, bg="black", fg="White", font=("Arial", 20), text="La leçon a été supprimée avec succès !\n Vous pouvez fermer cette fenêtre, elle se fermera dans 5 secondes")
     
     chapter_entry = Entry(window, font = ("Helvetica", 20), bg="black", fg='white', insertbackground='white', width=30, textvariable=StringVar(value=chapter_selected), highlightbackground="white")
     lesson_entry = Entry(window, font = ("Helvetica", 20), bg="black", fg='white', insertbackground='white', width=30, highlightbackground="white")
@@ -288,9 +288,9 @@ def add_exercice_menu(master, combobox, chapter_selected, lesson_selected):
     error_txt = Label(window, bg="black", fg="black", font=("Arial", 17), text="")
     path_txt = Label(window, bg="black", fg="white", font=("Arial", 17), text="Veuillez rensigner le fichier python de la correction")
     selected_path = Label(window, bg="black", fg="black", font=("Arial", 17))
-    exercice_txt = Label(window, bg="black", fg="White", font=("Arial", 17), text="Insérer le nom de votre nouvelle exercice")
+    exercice_txt = Label(window, bg="black", fg="White", font=("Arial", 17), text="Insérer le nom de votre nouvel exercice")
     exercice_enonce = Label(window, bg="black", fg="White", font=("Arial", 17), text="Insérer l'énoncé de l'exercice'")
-    res_txt = Label(window, bg="black", fg="White", font=("Arial", 20), text="L'exercice a été ajoutée avec succès !\n Vous pouvez fermer cette fenêtre, elle se fermera dans 5 secondes")
+    res_txt = Label(window, bg="black", fg="White", font=("Arial", 20), text="L'exercice a été ajouté avec succès !\n Vous pouvez fermer cette fenêtre, elle se fermera dans 5 secondes")
     
     chapter_entry = Entry(window, font = ("Helvetica", 20), bg="black", fg='white', insertbackground='white', width=30, textvariable=StringVar(value=chapter_selected), highlightbackground="white")
     lesson_entry = Entry(window, font = ("Helvetica", 20), bg="black", fg='white', insertbackground='white', width=30, textvariable=StringVar(value=lesson_selected), highlightbackground="white")

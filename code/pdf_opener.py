@@ -62,11 +62,3 @@ def delete_file(file_path: str) -> str:
         os.remove(file_path)
     except OSError as e:
         pass
-
-"""import git
-
-# Cloner un dépôt
-repo_url = 'git@github.com:ThomasL-01/Logiciel_NSI.git'
-local_dir = '/Users/Mistigris/Documents/clone'
-
-git.Repo.clone_from(repo_url, local_dir)"""

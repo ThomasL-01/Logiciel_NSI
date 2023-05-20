@@ -71,7 +71,7 @@ def connection_menu(menu:str = 'load') -> None:
         is_admin = user_is_admin(username,"csv_data/csvfile.csv")
         usermdp = mdp_joueur.get()
         error = verif_sauvegarde(str(username), str(usermdp), 'csv_data/csvfile.csv') #on verrifie si le pseudo existe déjà
-        if error == True: #dans le cas d'une erreur
+        if error: #dans le cas d'une erreur
             error_text.config(fg='red', text= "Le nom d'utilisateur ou mot de passe est incorrect !")
             error_text.pack(pady=2)
         else:
@@ -83,7 +83,7 @@ def connection_menu(menu:str = 'load') -> None:
         username = pseudo_joueur.get()#On récupère le pseudo et le mdp
         usermdp = mdp_joueur.get()
         verification = verifpseudo(username, 'csv_data/csvfile.csv')
-        if verification == True:#dans le cas d'une erreur
+        if verification:#dans le cas d'une erreur
             error_text.config(fg ='red', text='Ce pseudo existe déjà !')
         else:
             if len(username) == 0:
