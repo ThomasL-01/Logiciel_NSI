@@ -8,6 +8,7 @@ system = platform.system()  # Système d'exploitation
 th_to_install = "git"
 
 def install_git()-> None:
+    """installe git sur le PC"""
     global th_to_install, set_command
     if system == 'Windows':
         try:
@@ -18,7 +19,6 @@ def install_git()-> None:
             git_installer_url = 'https://github.com/git-for-windows/git/releases/latest/download/Git-2.33.0-64-bit.exe'
             subprocess.run(['powershell', 'Start-BitsTransfer', '-Source', git_installer_url, '-Destination', 'GitInstaller.exe'])
             subprocess.run(['cmd', '/c', 'start', 'GitInstaller.exe'])
-            # Attendez que l'installation soit terminée
 
     elif system == 'Darwin':  # macOS
         try:
@@ -28,11 +28,7 @@ def install_git()-> None:
             # Installer Git en utilisant Homebrew
             subprocess.run(['brew', 'install', 'git'])
 
-    elif system == 'Linux':
-        # Selon la distribution Linux, utilisez le gestionnaire de paquets approprié
-        # par exemple, 'apt', 'yum', 'dnf', 'zypper', etc.
-
-        # Exemple avec apt pour Debian et Ubuntu
+    elif system == 'Linux': #Fonctionne pour Debian et Ubuntu
         try:
             # Vérifier si Git est déjà installé
             subprocess.run('git --version', check=True, shell=True)
@@ -43,7 +39,7 @@ def install_git()-> None:
     set_command()
 
 def install_gitpython():
-    """installe Gitpython"""
+    """installe Gitpython dans python"""
     global th_to_install, set_command
 
     try:
@@ -56,6 +52,7 @@ def install_gitpython():
     set_command()
 
 def clone_repository(repo_url: str = "https://github.com/ThomasL-01/Logiciel_NSI.git", destination_path: str = os.path.expanduser('~/Documents/Logiciel'))-> None:
+    #On clone le répertoire dans Documents (pour le moment après on verra)
     global th_to_install
     try:
         from git import Repo
@@ -92,7 +89,7 @@ def set_command():
         th_to_install_txt.pack(pady=20)
         install_button.pack(pady=20)
     elif th_to_install == "Logiciel":
-        th_to_install_txt.config(text=f"Nous devons installer {th_to_install}, il sera installé \n dans votre dossier Documents")
+        th_to_install_txt.config(text=f"Nous devons installer le {th_to_install}, il sera installé \n dans votre dossier Documents (vous pourrez \n toujours le changer de place après)")
         install_button.config(command=clone_repository)
         info_txt.pack(pady= 20)
         th_to_install_txt.pack(pady=20)
