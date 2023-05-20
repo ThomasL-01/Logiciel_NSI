@@ -6,7 +6,6 @@ import sys
 
 system = platform.system()  # Système d'exploitation
 th_to_install = "git"
-print(sys.version)
 
 def install_git()-> None:
     global th_to_install, set_command
