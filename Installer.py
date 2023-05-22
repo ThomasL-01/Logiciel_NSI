@@ -56,10 +56,15 @@ def clone_repository(repo_url: str = "https://github.com/ThomasL-01/Logiciel_NSI
     global th_to_install
     try:
         from git import Repo
+        print(destination_path)
+        if system == "Windows":
+            destination_path = os.path.expanduser('~/Programmes/Logiciel_NSI')
         Repo.clone_from(repo_url, destination_path)
         print("Le dépôt a été cloné avec succès.")
     except Exception as e:
         print("Une erreur s'est produite lors du clonage du dépôt :", e)
+        if os.path.exists(destination_path):
+            th_to_install = "Failed" 
     th_to_install = None
     set_command()
 
@@ -70,14 +75,13 @@ root.geometry("500x500")
 root.maxsize(500,500)
 root.minsize(500,500)
 
-info_txt = Label(text="Pour installer le logiciel, \nnous allons devoir installer plusieurs chose.", bg="Black", fg="White", font=("Arial", 20))
-th_to_install_txt = Label(text=f"Nous devons installer {th_to_install}", bg="Black", fg="White", font=("Arial", 20))
+info_txt = Label(text="Pour installer le logiciel, nous allons devoir installer plusieurs chose.", bg="Black", fg="White", font=("Arial", 20), wraplength=500)
+th_to_install_txt = Label(text=f"Nous devons installer {th_to_install}, cliquez pour installer.", bg="Black", fg="White", font=("Arial", 20), wraplength=500)
 
 install_button = Button(text="Installer", command=None, font=("Arial", 17))
 
-
 def set_command():
-    th_to_install_txt.config(text=f"Nous devons installer {th_to_install}")
+    th_to_install_txt.config(text=f"Nous devons installer {th_to_install}, cliquez pour installer.")
     if th_to_install == "git":
         install_button.config(command=install_git)
         info_txt.pack(pady= 20)
@@ -88,18 +92,30 @@ def set_command():
         info_txt.pack(pady= 20)
         th_to_install_txt.pack(pady=20)
         install_button.pack(pady=20)
+    elif th_to_install == "Failed":
+        install_button.config(command=None, state=DISABLED, text="Erreur")
+        th_to_install_txt.config(text="Il y a eu une erreur, veuillez recommencer. Si l'erreur persiste, veuillez contacter le staff.")
+        info_txt.pack(pady= 20)
+        th_to_install_txt.pack(pady=20)
+        install_button.pack(pady=20)
     elif th_to_install == "Logiciel":
-        th_to_install_txt.config(text=f"Nous devons installer le {th_to_install}, il sera installé \n dans votre dossier Documents (vous pourrez \n toujours le changer de place après)")
+        if system == "Windows":
+            th_to_install_txt.config(text=f"Nous devons installer le {th_to_install}, il sera installé  dans votre dossier Programmes sur votre PC (vous pourrez  toujours le changer de place après)")
+        else:
+            th_to_install_txt.config(text=f"Nous devons installer le {th_to_install}, il sera installé  dans votre dossier Documents (vous pourrez  toujours le changer de place après)")
         install_button.config(command=clone_repository)
         info_txt.pack(pady= 20)
         th_to_install_txt.pack(pady=20)
         install_button.pack(pady=20)
     else:
-        info_txt.config(text="C'est terminé, nous avons installé tout\n ce dont nous avions besoin ! \n Vous pouvez fermer cette fenètre")
+        info_txt.config(text="C'est terminé, nous avons installé tout ce dont nous avions besoin !  Vous pouvez fermer cette fenètre")
         info_txt.pack(ipady= 20 )
-        th_to_install_txt.config(text="Vous pouvez démarrer le logiciel en lançant \nMain.py dans le dossier code de Logiciel de\n votre dossier Documents")
+        if system == "Windows":
+            th_to_install_txt.config(text="Vous pouvez démarrer le logiciel en lançant Main.py dans le dossier code de Logiciel_NSI de votre dossier Programmes sur votre PC")
+        else:
+            th_to_install_txt.config(text="Vous pouvez démarrer le logiciel en lançant Main.py dans le dossier code de Logiciel_NSI de votre dossier Documents")
         th_to_install_txt.pack(pady=20)
-        install_button.config(text="Démarrer le Logiciel", command=None, state=DISABLED)
+        install_button.config(text="C'est fini !", command=None, state=DISABLED)
         install_button.pack(pady=20)
 set_command()
 
