@@ -309,6 +309,7 @@ def exercice(enonce: str, chapter_name: str, lesson_pdf:str, lesson_name:str, no
         try:
             a = exec(code)
             result_text.configure(state="normal")
+            result_text.delete("1.0", "end")
             result_text.insert("end", "Test reussi!")
         except Exception as e:
             result_text.configure(state="normal")

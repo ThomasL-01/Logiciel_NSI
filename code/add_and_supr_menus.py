@@ -286,10 +286,10 @@ def add_exercice_menu(master, combobox, chapter_selected, lesson_selected):
     
     lesson_txt = Label(window, bg="black", fg="White", font=("Arial", 17), text="Insérer le nom de la leçon")
     error_txt = Label(window, bg="black", fg="black", font=("Arial", 17), text="")
-    path_txt = Label(window, bg="black", fg="white", font=("Arial", 17), text="Veuillez rensigner le fichier python de la correction")
+    path_txt = Label(window, bg="black", fg="white", font=("Arial", 17), text="Veuillez renseigner le fichier python de la correction")
     selected_path = Label(window, bg="black", fg="black", font=("Arial", 17))
     exercice_txt = Label(window, bg="black", fg="White", font=("Arial", 17), text="Insérer le nom de votre nouvel exercice")
-    exercice_enonce = Label(window, bg="black", fg="White", font=("Arial", 17), text="Insérer l'énoncé de l'exercice'")
+    exercice_enonce = Label(window, bg="black", fg="White", font=("Arial", 17), text="Insérer l'énoncé de l'exercice")
     res_txt = Label(window, bg="black", fg="White", font=("Arial", 20), text="L'exercice a été ajouté avec succès !\n Vous pouvez fermer cette fenêtre, elle se fermera dans 5 secondes")
     
     chapter_entry = Entry(window, font = ("Helvetica", 20), bg="black", fg='white', insertbackground='white', width=30, textvariable=StringVar(value=chapter_selected), highlightbackground="white")
@@ -381,20 +381,41 @@ def del_exercice_menu(master, combobox, chapter_selected, lesson_selected):
         elif exercice_entry.get() not in get_name_exercices(chapter_entry.get(), lesson_entry.get()) or exercice_entry == "":
             error_txt.config(text="Cet exercice n'existe pas ou ne convient pas!", fg = "red")
         else:
-            res = delete_exo(chapter_entry.get(), lesson_entry.get(), exercice_entry.get())
-            if res is False:
-                error_txt.config(text="Jpeux pas frerot", fg = "red")
-            else:
-                error_txt.config(fg="black")
-                res_txt.pack(pady=15)
-                lst_exos = ["Veuillez choisir un exercice"]
-                for exo in get_name_exercices(chapter_entry.get(), lesson_entry.get()):
-                    lst_exos.append(exo)
-                lst_exos.append(" + Ajouter un exercice + ")
-                lst_exos.append(" - Supprimer un exercice - ")  
-                combobox.config(values = lst_exos) 
-                window.after(5000, window.destroy)
+            sure = Toplevel(master=window, bg="black")
+            sure.geometry("1000x600")
+            sure.minsize(1000,300)
+            sure.maxsize(1000,300)
+            sure.title("En êtes vous sûr ?")
+            sure.attributes("-topmost",True)
 
+            label_title_ = Label(sure, bg="black", fg="White", font=("Arial", 20), text=f"Voulez vous vraiment supprimer l'exercice: {exercice_entry.get()} ?\n Cela entraînera la suppression de l'exercice, de la correction et de tous les indices", wraplength=1000)
+
+            def answer(x):
+                if not x :
+                    sure.destroy()
+                else:
+                    sure.destroy()
+                    res = delete_exo(chapter_entry.get(), lesson_entry.get(), exercice_entry.get())
+                    if res is False:
+                        error_txt.config(text="Il y'a eu un problème... Il faut recommencer", fg = "red")
+                    else:
+                        error_txt.config(fg="black")
+                        res_txt.pack(pady=15)
+                        lst_exos = ["Veuillez choisir un exercice"]
+                        for exo in get_name_exercices(chapter_entry.get(), lesson_entry.get()):
+                                lst_exos.append(exo)
+                        lst_exos.append(" + Ajouter un exercice + ")
+                        lst_exos.append(" - Supprimer un exercice - ")  
+                        combobox.config(values = lst_exos) 
+                        window.after(5000, window.destroy)
+
+
+            yes_btn = Button(sure, text="OUI", command=lambda:answer(True))
+            no_btn = Button(sure, text="NON", command=lambda:answer(False))
+
+            label_title_.pack(pady=50)
+            yes_btn.pack(pady=20)
+            no_btn.pack()
 
     enter_btn = Button(window, text="Entrer", command=enter)
     quit_btn = Button(window,text="Quitter", command=window.destroy)
