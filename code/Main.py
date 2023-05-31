@@ -7,7 +7,8 @@ from add_and_supr_menus import add_chapter_menu, add_exercice_menu, add_lesson_m
 from test_git import *
 from datetime import datetime
 
-#git_update()
+#Update la version de l'utilisateur
+#git_update() Pour le moment vu qu'on est en dev on le met pas
 
 #Création de la fenètre de base
 root = Tk()
@@ -329,7 +330,7 @@ def exercice(enonce: str, chapter_name: str, lesson_pdf:str, lesson_name:str, no
     code_entry.pack(fill=X, expand=True)
 
     # Bouton pour exécuter le code
-    execute_button = Button(frame_1, text="Exécuter", command=execute_code)
+    execute_button = Button(frame_1, text="   Vérifier   ", command=execute_code)
     execute_button.pack(pady=10)
 
     # Zone de texte pour afficher le résultat
@@ -346,6 +347,7 @@ def exercice(enonce: str, chapter_name: str, lesson_pdf:str, lesson_name:str, no
     if is_admin:
         add_suppr_hint_btn = Button(frame_2, text="Ajouter / supprimer indices", bg="Black", fg="black", font=("Arial", 20), height=4)
         add_suppr_hint_btn.pack(pady=20,fill=X, expand=True)    
+        widget_lst.append(add_suppr_hint_btn)
 
     #Bouton pour accéder à la correction
     correction_btn = Button(frame_2,height=6, text="Accéder à la correction", command=lambda:open_given_file(get_correction(chapter_name, lesson_name, nom_exo)), state=DISABLED, font=("Arial", 20), fg="black")
@@ -367,7 +369,7 @@ def exercice(enonce: str, chapter_name: str, lesson_pdf:str, lesson_name:str, no
     widget_lst.append(execute_button)
     widget_lst.append(correction_btn)
     widget_lst.append(indices_btn)
-    widget_lst.append(add_suppr_hint_btn)
+    
     widget_lst.append(frame_1)
     widget_lst.append(frame_2)
     widget_lst.append(frame_3)
