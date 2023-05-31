@@ -1,4 +1,4 @@
-from git import Repo
+from git import Repo, GitCommandError
 import os
 from datetime import datetime
 
@@ -41,7 +41,10 @@ def git_add_commit_push(directory_names: list, commit_message: list, branch: str
                     file_path = os.path.join(root, file_name)
                     relative_path = os.path.relpath(file_path, repo_path)
                     if relative_path not in [diff_file.a_path for diff_file in diff]:
-                        repo.git.add(relative_path)
+                        try:
+                            repo.git.add(relative_path)
+                        except GitCommandError:
+                            continue
 
             # Supprimer les fichiers manquants de l'index
             for diff_file in diff:
@@ -50,7 +53,10 @@ def git_add_commit_push(directory_names: list, commit_message: list, branch: str
                     if not os.path.exists(file_path):
                         repo.git.rm(diff_file.a_path)
         if directory_name == "csv_data":
-            repo.git.add(directory_path, update=True)
+            try:
+                repo.git.add(directory_path, update=True)
+            except GitCommandError:
+                continue
 
     # Effectuer le commit et le push
     repo.index.commit(commit_message)

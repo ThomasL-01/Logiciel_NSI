@@ -39,7 +39,7 @@ def start_menu() -> None:
     destroy_widgets()
 
     #On créé des widgets
-    txt = Label(text="Inserer un nom de logiciel", bg="Black", fg="White", font=("Arial", 20))
+    txt = Label(text="__NameError__", bg="Black", fg="White", font=("Arial", 20))
     quit_btn = Button(text="Quitter", command=root.destroy)
     btn_connect = Button(text="     Connexion     ", command=connection_menu, font=("Arial", 17))
     btn_create = Button(text=" Créer un compte ", command=lambda:connection_menu('create'), font=("Arial", 17))
@@ -301,7 +301,6 @@ def exercice(enonce: str, chapter_name: str, lesson_pdf:str, lesson_name:str, no
     #On reset la fenètre
     destroy_widgets()
     root.title("Exercice")
-    back_btn = Button(text="Retour", command=lambda:lesson(lesson_pdf,chapter_name,lesson_name))
     nb_indices_depenses = 0
 
     def execute_code():
@@ -317,28 +316,48 @@ def exercice(enonce: str, chapter_name: str, lesson_pdf:str, lesson_name:str, no
             result_text.insert("end", f"Une erreur s'est produite : {e}")
             result_text.configure(state="disabled")
 
-    # Zone de texte pour saisir le code
-    code_entry = Text(root, height=10, width=50)
-    code_entry.grid(row=0, column=1)
-
-    # Bouton pour exécuter le code
-    execute_button = Button(root, text="Exécuter", command=execute_code)
-    execute_button.grid(row=1, column=1)
-
-    # Zone de texte pour afficher le résultat
-    result_text = Text(root, height=10, width=50, state="disabled")
-    result_text.grid(row=2, column=1)
+    #Frame 1
+    frame_1 = Frame(root, width=850, bg = "black")
+    frame_1.grid(row=0, column=0, rowspan=9, columnspan=4, sticky="nsew")
 
     # Zone de texte pour l'ennonce
-    enonce_txt = Label(text=f"{enonce}", bg="Black", fg="White", font=("Arial", 20), wraplength=300)
-    enonce_txt.grid(row=0, column=0)
+    enonce_txt = Label(master = frame_1, text=f"{enonce}", bg="Black", fg="White", font=("Arial", 20), wraplength=300)
+    enonce_txt.pack(fill=X, expand=True, pady=10)
+
+    # Zone de texte pour saisir le code
+    code_entry = Text(frame_1, height=15)
+    code_entry.pack(fill=X, expand=True)
+
+    # Bouton pour exécuter le code
+    execute_button = Button(frame_1, text="Exécuter", command=execute_code)
+    execute_button.pack(pady=10)
+
+    # Zone de texte pour afficher le résultat
+    result_text = Text(frame_1, height=15,state="disabled")
+    result_text.pack(fill=X, expand=True)
+
+    frame_2 = Frame(root, width=150, bg="black")
+    frame_2.grid(row=0, column=5, rowspan=9, columnspan=1, sticky="nsew")
+
+    #Bouton pour acceder aux indices
+    indices_btn = Button(frame_2, text="Indices", bg="Black", fg="black", font=("Arial", 20), height=4)
+    indices_btn.pack(pady=50,fill=X, expand=True)    
+
+    if is_admin:
+        add_suppr_hint_btn = Button(frame_2, text="Ajouter / supprimer indices", bg="Black", fg="black", font=("Arial", 20), height=4)
+        add_suppr_hint_btn.pack(pady=20,fill=X, expand=True)    
 
     #Bouton pour accéder à la correction
-    correction_btn = Button(root, text="Accéder à la correction", command=lambda:open_given_file(get_correction(chapter_name, lesson_name, nom_exo)), state=DISABLED)
+    correction_btn = Button(frame_2,height=6, text="Accéder à la correction", command=lambda:open_given_file(get_correction(chapter_name, lesson_name, nom_exo)), state=DISABLED, font=("Arial", 20), fg="black")
     if nb_indices_depenses >=3:
         correction_btn.config(state=ACTIVE)
-    widget_lst.append(correction_btn)
-    correction_btn.grid(row=0, column=2)
+    correction_btn.pack(pady=50,fill=X, expand=True)
+
+    frame_3 = Frame(root, bg="black")
+    back_btn = Button(frame_3,text="Retour", command=lambda:lesson(lesson_pdf,chapter_name,lesson_name))
+    back_btn.pack(fill=X, expand=True)
+    frame_3.grid(row=10, column=0, rowspan=1, columnspan=6, sticky="nsew")
+
 
     #On récupère les widgets dans la liste afin de pouvoir les détruire
     widget_lst.append(back_btn)
@@ -346,9 +365,18 @@ def exercice(enonce: str, chapter_name: str, lesson_pdf:str, lesson_name:str, no
     widget_lst.append(enonce_txt)
     widget_lst.append(result_text)
     widget_lst.append(execute_button)
+    widget_lst.append(correction_btn)
+    widget_lst.append(indices_btn)
+    widget_lst.append(add_suppr_hint_btn)
+    widget_lst.append(frame_1)
+    widget_lst.append(frame_2)
+    widget_lst.append(frame_3)
 
-    #On fait apparaître les widgets sur l'écran
-    back_btn.grid(row=4,sticky="ew", column=0, columnspan=3)
+    #On configure la grille de la fenetre
+    for row in range(10):
+        root.grid_rowconfigure(row, weight=1)
+    for column in range (5): 
+        root.grid_columnconfigure(column, weight=1)
 
 #On lance l'application au menu de démarrage
 start_menu()
