@@ -322,11 +322,11 @@ def exercice(enonce: str, chapter_name: str, lesson_pdf:str, lesson_name:str, no
     frame_1.grid(row=0, column=0, rowspan=9, columnspan=4, sticky="nsew")
 
     # Zone de texte pour l'ennonce
-    enonce_txt = Label(master = frame_1, text=f"{enonce}", bg="Black", fg="White", font=("Arial", 20), wraplength=300)
+    enonce_txt = Label(master = frame_1, text=f"{enonce}", bg="Black", fg="White", font=("Arial", 20), wraplength=600, highlightbackground="white", highlightthickness=1)
     enonce_txt.pack(fill=X, expand=True, pady=10)
 
     # Zone de texte pour saisir le code
-    code_entry = Text(frame_1, height=15)
+    code_entry = Text(frame_1, height=12)
     code_entry.pack(fill=X, expand=True)
 
     # Bouton pour exécuter le code
@@ -334,7 +334,7 @@ def exercice(enonce: str, chapter_name: str, lesson_pdf:str, lesson_name:str, no
     execute_button.pack(pady=10)
 
     # Zone de texte pour afficher le résultat
-    result_text = Text(frame_1, height=15,state="disabled")
+    result_text = Text(frame_1, height=12,state="disabled")
     result_text.pack(fill=X, expand=True)
 
     frame_2 = Frame(root, width=150, bg="black")
@@ -360,7 +360,6 @@ def exercice(enonce: str, chapter_name: str, lesson_pdf:str, lesson_name:str, no
     back_btn.pack(fill=X, expand=True)
     frame_3.grid(row=10, column=0, rowspan=1, columnspan=6, sticky="nsew")
 
-
     #On récupère les widgets dans la liste afin de pouvoir les détruire
     widget_lst.append(back_btn)
     widget_lst.append(code_entry)
@@ -382,5 +381,7 @@ def exercice(enonce: str, chapter_name: str, lesson_pdf:str, lesson_name:str, no
 
 #On lance l'application au menu de démarrage
 start_menu()
+
+#A la fin du programme, si admin, MAJ du dépot git
 if is_admin:
     git_add_commit_push(["PDF", "csv_data"], f"Mise à jour des fichiers -{datetime.now().date()}")

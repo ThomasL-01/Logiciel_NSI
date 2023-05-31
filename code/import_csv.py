@@ -169,24 +169,26 @@ def add_exercice(chapter:str ,lesson: str, nom: str, enonce: str, correction: st
     
 def delete_exo(chapter: str, lesson: str = None, nom: str = None)-> bool:
     """Supprime l'exercice avec les infos données en argument. Renvoie True si tout c'est bien passé, False sinon"""
-    with open('csv_data/exercices.csv', 'r') as fr:
-        # reading line by line
-        lines = fr.readlines()
-        lines_to_delete = _find_line_exo(chapter, lesson, nom)
-        acc = 0
-        file_to_delete = get_correction(chapter,lesson,nom)
-        # opening in writing mode
-        with open('csv_data/exercices.csv', 'w') as fw:
-            for line in lines:
-                if lines_to_delete is None or acc not in lines_to_delete:
-                    fw.write(line)
-                acc += 1
-        if lines_to_delete is None:
-            return False
-        else:
-            delete_hint(chapter,lesson,nom)
-            delete_file(file_to_delete)
-            return True
+    if nom in get_name_exercices(chapter,lesson):
+        with open('csv_data/exercices.csv', 'r') as fr:
+            # reading line by line
+            lines = fr.readlines()
+            lines_to_delete = _find_line_exo(chapter, lesson, nom)
+            acc = 0
+            file_to_delete = get_correction(chapter,lesson,nom)
+            # opening in writing mode
+            with open('csv_data/exercices.csv', 'w') as fw:
+                for line in lines:
+                    if lines_to_delete is None or acc not in lines_to_delete:
+                        fw.write(line)
+                    acc += 1
+            if lines_to_delete is None:
+                return False
+            else:
+                delete_hint(chapter,lesson,nom)
+                delete_file(file_to_delete)
+                return True
+    return False
 
 def _find_line_exo(chapter: str, lesson: str, nom: str)-> int or None:
     with open("csv_data/exercices.csv", 'r') as f:
@@ -225,18 +227,20 @@ def delete_chapter(chapter: str) -> bool:
 
 def delete_lesson(chapter: str,lesson_name: str) -> bool:
     """Supprime la lecon du chapter dans le csv et renvoie True si tout a marché False sinon """
-    lst = get_lessons(chapter)
-    res = []
-    for chap in lst:
-        if chap[1] != lesson_name:
-            res.append(chap)
+    if lesson_name in get_name_lessons(chapter):
+        lst = get_lessons(chapter)
+        res = []
+        for chap in lst:
+            if chap[1] != lesson_name:
+                res.append(chap)
+            else:
+                delete_file(chap[0])
+        if res == lst:
+            return False
         else:
-            delete_file(chap[0])
-    if res == lst:
-        return False
-    else:
-        delete_exo(chapter, lesson_name)
-        return _modif_line(str(res), str(lst), "lst_lecons", "csv_data/chapitres.csv", ";")
+            delete_exo(chapter, lesson_name)
+            return _modif_line(str(res), str(lst), "lst_lecons", "csv_data/chapitres.csv", ";")
+    return False
 
 def _modif_line(new_val: str, previous_val: str, key: str, file: str, delimiter: str = ",") -> bool:
     """Permet de remplacer la valeur 'previous_val' par 'new_val' de clé 'key' dans le fichier 'file' ayant pour séparateur 'delimiter'
