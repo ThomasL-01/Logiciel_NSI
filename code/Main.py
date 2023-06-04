@@ -341,16 +341,16 @@ def exercice(enonce: str, chapter_name: str, lesson_pdf:str, lesson_name:str, no
     frame_2.grid(row=0, column=5, rowspan=9, columnspan=1, sticky="nsew")
 
     #Bouton pour acceder aux indices
-    indices_btn = Button(frame_2, text="Indices", bg="Black", fg="black", font=("Arial", 20), height=4)
+    indices_btn = Button(frame_2, text="Indices", bg="White", fg="black", font=("Arial", 20), height=4)
     indices_btn.pack(pady=50,fill=X, expand=True)    
 
     if is_admin:
-        add_suppr_hint_btn = Button(frame_2, text="Ajouter / supprimer indices", bg="Black", fg="black", font=("Arial", 20), height=4)
+        add_suppr_hint_btn = Button(frame_2, text="Ajouter / supprimer indices", bg="White", fg="black", font=("Arial", 20), height=4)
         add_suppr_hint_btn.pack(pady=20,fill=X, expand=True)    
         widget_lst.append(add_suppr_hint_btn)
 
     #Bouton pour accéder à la correction
-    correction_btn = Button(frame_2,height=6, text="Accéder à la correction", command=lambda:open_given_file(get_correction(chapter_name, lesson_name, nom_exo)), state=DISABLED, font=("Arial", 20), fg="black")
+    correction_btn = Button(frame_2,height=6, text="Accéder à la correction", command=lambda:open_given_file(get_correction(chapter_name, lesson_name, nom_exo)), state=DISABLED, font=("Arial", 20), fg="black", bg="White")
     if nb_indices_depenses >=3:
         correction_btn.config(state=ACTIVE)
     correction_btn.pack(pady=50,fill=X, expand=True)
