@@ -330,11 +330,11 @@ def exercice(enonce: str, chapter_name: str, lesson_pdf:str, lesson_name:str, no
     code_entry.pack(fill=X, expand=True)
 
     # Bouton pour exécuter le code
-    execute_button = Button(frame_1, text="   Vérifier   ", command=execute_code)
+    execute_button = Button(frame_1, text="   Vérifier   ", command=execute_code, bg="#141414")
     execute_button.pack(pady=10)
 
     # Zone de texte pour afficher le résultat
-    result_text = Text(frame_1, height=12,state="disabled")
+    result_text = Text(frame_1, height=12,state="disabled", bg="#141414")
     result_text.pack(fill=X, expand=True)
 
     frame_2 = Frame(root, width=150, bg="black")
