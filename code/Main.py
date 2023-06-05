@@ -6,6 +6,7 @@ from import_csv import get_all_chapters, get_name_exercices, get_name_lessons, g
 from add_and_supr_menus import add_chapter_menu, add_exercice_menu, add_lesson_menu, del_chapter_menu, del_lesson_menu, del_exercice_menu
 from test_git import *
 from datetime import datetime
+import hashlib
 
 #Update la version de l'utilisateur
 #git_update() Pour le moment vu qu'on est en dev on le met pas
@@ -71,7 +72,9 @@ def connection_menu(menu:str = 'load') -> None:
         username = pseudo_joueur.get() #On récupère le pseudo et le mdp
         is_admin = user_is_admin(username,"csv_data/csvfile.csv")
         usermdp = mdp_joueur.get()
-        error = verif_sauvegarde(str(username), str(usermdp), 'csv_data/csvfile.csv') #on verrifie si le pseudo existe déjà
+        hash_object = hashlib.sha256(usermdp.encode())  # Encode la chaîne en bytes et calcule le haché
+        hex_digest = hash_object.hexdigest()  # Convertit le haché en une représentation hexadécimale
+        error = verif_sauvegarde(str(username), str(hex_digest), 'csv_data/csvfile.csv') #on verrifie si le pseudo existe déjà
         if error: #dans le cas d'une erreur
             error_text.config(fg='red', text= "Le nom d'utilisateur ou mot de passe est incorrect !")
             error_text.pack(pady=2)
@@ -83,6 +86,8 @@ def connection_menu(menu:str = 'load') -> None:
         """systeme de verification/creation d'une nouvelle sauvegarde"""
         username = pseudo_joueur.get()#On récupère le pseudo et le mdp
         usermdp = mdp_joueur.get()
+        hash_object = hashlib.sha256(usermdp.encode())  # Encode la chaîne en bytes et calcule le haché
+        hex_digest = hash_object.hexdigest()  # Convertit le haché en une représentation hexadécimale
         verification = verifpseudo(username, 'csv_data/csvfile.csv')
         if verification:#dans le cas d'une erreur
             error_text.config(fg ='red', text='Ce pseudo existe déjà !')
@@ -90,7 +95,7 @@ def connection_menu(menu:str = 'load') -> None:
             if len(username) == 0:
                 error_text.config(fg='red',  text = "Vous devez utiliser un mot de passe et un pseudo")
             else:
-                nouvelle_sauvegarde(username, usermdp, 'csv_data/csvfile.csv')
+                nouvelle_sauvegarde(username, hex_digest, 'csv_data/csvfile.csv')
                 is_admin = user_is_admin(username,"csv_data/csvfile.csv")
                 main_menu()
     
