@@ -3,6 +3,7 @@ import subprocess
 from tkinter import *
 import os
 import sys
+import shutil
 
 system = platform.system()  # Système d'exploitation
 th_to_install = "git"
@@ -51,20 +52,24 @@ def install_gitpython():
     th_to_install = "Logiciel"
     set_command()
 
-def clone_repository(repo_url: str = "https://github.com/ThomasL-01/Logiciel_NSI.git", destination_path: str = os.path.expanduser('~/Documents/Logiciel'))-> None:
-    #On clone le répertoire dans Documents (pour le moment après on verra)
+def clone_repository(repo_url: str = "https://github.com/ThomasL-01/Logiciel_NSI.git", destination_path: str = os.path.expanduser('~/Documents/Logiciel')) -> None:
     global th_to_install
+    from git import Repo
+    # On supprime le dossier de destination s'il existe déjà
+    if os.path.exists(destination_path):
+        shutil.rmtree(destination_path)
+
+    # On clone le répertoire dans le nouveau dossier
     try:
-        from git import Repo
         print(destination_path)
         if system == "Windows":
-            destination_path = os.path.expanduser('~/Programmes/Logiciel_NSI')
+            destination_path = os.path.expanduser('C:\\Users\\Programmes\\Logiciel_NSI')
         Repo.clone_from(repo_url, destination_path)
         print("Le dépôt a été cloné avec succès.")
     except Exception as e:
         print("Une erreur s'est produite lors du clonage du dépôt :", e)
         if os.path.exists(destination_path):
-            th_to_install = "Failed" 
+            th_to_install = "Failed"
     th_to_install = None
     set_command()
 
@@ -75,10 +80,10 @@ root.geometry("500x500")
 root.maxsize(500,500)
 root.minsize(500,500)
 
-info_txt = Label(text="Pour installer le logiciel, nous allons devoir installer plusieurs chose.", bg="Black", fg="White", font=("Arial", 20), wraplength=500)
-th_to_install_txt = Label(text=f"Nous devons installer {th_to_install}, cliquez pour installer.", bg="Black", fg="White", font=("Arial", 20), wraplength=500)
+info_txt = Label(text="Pour installer le logiciel, nous allons devoir installer plusieurs chose.", bg="Black", fg="White", font=("Cascadia Code", 20), wraplength=500)
+th_to_install_txt = Label(text=f"Nous devons installer {th_to_install}, cliquez pour installer.", bg="Black", fg="White", font=("Cascadia Code", 20), wraplength=500)
 
-install_button = Button(text="Installer", command=None, font=("Arial", 17))
+install_button = Button(text="Installer", command=None, font=("Cascadia Code", 17))
 
 def set_command():
     th_to_install_txt.config(text=f"Nous devons installer {th_to_install}, cliquez pour installer.")
