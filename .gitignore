@@ -1,0 +1,6 @@
+.DS_Store
+code/__pycache__
+test.py
+csv_data/achievments.csv
+csv_data/exercice_user.csv
+csv_data/csv_save.csv

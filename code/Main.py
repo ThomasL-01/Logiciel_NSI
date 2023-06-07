@@ -2,7 +2,7 @@ from tkinter import *
 from tkinter import ttk
 from sauvegarde_ import nouvelle_sauvegarde, verif_sauvegarde, verifpseudo, user_is_admin
 from pdf_opener import open_given_file
-from import_csv import get_all_chapters, get_name_exercices, get_name_lessons, get_path_lesson, get_enonce_exercice, get_correction, get_hint
+from import_csv import get_all_chapters, get_name_exercices, get_name_lessons, get_path_lesson, get_enonce_exercice, get_correction, get_hint, save_code, get_save
 from add_and_supr_menus import add_chapter_menu, add_exercice_menu, add_lesson_menu, del_chapter_menu, del_lesson_menu, del_exercice_menu, modif_hint_menu, set_background, menu_compte
 from test_git import *
 from datetime import datetime
@@ -395,6 +395,8 @@ def exercice(enonce: str, chapter_name: str, lesson_pdf:str, lesson_name:str, no
             result_text.delete("1.0", "end")
             result_text.insert("end", f"Une erreur s'est produite : {e}")
             result_text.configure(state="disabled")
+        save_code(chapter_name,lesson_name,nom_exo,code2)
+
 
     #Frame 1
     frame_1 = Frame(root, width=850, bg = "black")
@@ -405,9 +407,15 @@ def exercice(enonce: str, chapter_name: str, lesson_pdf:str, lesson_name:str, no
     enonce_txt.insert("end", f"{enonce}")
     enonce_txt.configure(state="disabled")
     enonce_txt.pack(fill=X, pady=10)
+    print(get_save(chapter_name,lesson_name,nom_exo))
 
+    if get_save(chapter_name,lesson_name,nom_exo) is not None:
+        code_entry = Text(frame_1, height=12)
+        code_entry.insert("1.0",get_save(chapter_name,lesson_name,nom_exo))
+    else:
+        code_entry = Text(frame_1, height=12, )
     # Zone de texte pour saisir le code
-    code_entry = Text(frame_1, height=12)
+    
     code_entry.pack(fill=X, expand=True)
 
     # Bouton pour exécuter le root

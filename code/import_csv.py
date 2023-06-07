@@ -4,6 +4,7 @@ from sauvegarde_ import add_user
 #Module permettant tout ce qu'il doit se passer au niveau de la sauvegarde des chapitres, exercices, corrections, leçons et indices.
 #Tu trouveras forcément ton bonheur !
 
+
 def get_all_chapters() -> list: 
     """Permet de récupérer la liste de tous les chapitres"""
     f = open("csv_data/chapitres.csv", "r", encoding= "utf-8")
@@ -328,3 +329,53 @@ def get_user():
 def modif_mdp_admin(new_mdp):
     delete_user("Admin")
     add_user("Admin", new_mdp,True)
+
+def get_save(chapitre,lesson,exercice):
+    x = _find_line_save(chapitre,lesson,exercice)
+    print(x)
+    if x == []:
+        return None
+    f = open("csv_data/csv_save.csv", "r", encoding= "utf-8")
+    table = list(csv.DictReader(f,delimiter=";")) #Preciser que le delimiter est ; et non ,
+    acc = 1
+    for e in table:
+        if acc in x:
+            return e["code"]
+        acc += 1
+
+
+def _find_line_save(chapitre, lesson, exercice):
+    with open("csv_data/csv_save.csv", 'r', encoding= "utf-8") as f:
+        test = list(csv.DictReader(f, delimiter=";"))
+        line_to_delete = 0
+        res = []
+        for e in test:
+            line_to_delete += 1
+            if e["chapitre"] == chapitre and e["lecon"] == lesson and e["exercice"] == exercice :
+                res.append(line_to_delete)
+        f.close()
+        return res
+
+def save_code(chapitre,lesson,exercice,code):
+    x = _find_line_save(chapitre,lesson,exercice)
+    print(x)
+    if x == []:
+        f = open("csv_data/csv_save.csv", "a", encoding= "utf-8")
+        table = csv.DictWriter(f, ["chapitre", "lecon", "exercice", "code"], delimiter=";")
+        table.writerow({"chapitre":chapitre, "lecon":lesson,"exercice":exercice, "code":code})
+        f.close()
+    else:
+        f = open("csv_data/csv_save.csv", "r", encoding= "utf-8")
+        lines = f.readlines()
+        acc = 0
+        with open('csv_data/csv_save.csv', 'w', encoding= "utf-8") as fw:
+            for line in lines:
+                if x is None or acc not in x:
+                    fw.write(line)
+                acc += 1
+        f = open("csv_data/csv_save.csv", "a", encoding= "utf-8")
+        table = csv.DictWriter(f, ["chapitre", "lecon", "exercice", "code"], delimiter=";")
+        table.writerow({"chapitre":chapitre, "lecon":lesson,"exercice":exercice, "code":code})
+        f.close()
+
+print(get_save("chapitre1","leçon1","Exercice1"))
