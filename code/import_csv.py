@@ -1,5 +1,6 @@
 import csv
 from pdf_opener import delete_file
+from sauvegarde_ import add_user
 #Module permettant tout ce qu'il doit se passer au niveau de la sauvegarde des chapitres, exercices, corrections, leçons et indices.
 #Tu trouveras forcément ton bonheur !
 
@@ -38,7 +39,7 @@ def get_hint(chapter: str, lesson: str, name_exo: str) -> list:
     r = list(csv.DictReader(f))
     lst = []
     for exo in r:
-        if exo["chapitre"] == chapter and exo["lecon"] == lesson and exo["nom_exo"] == name_exo:
+        if exo["chapitre"] == chapter and exo["lecon"] == lesson and exo["exercice"] == name_exo:
             lst.append(exo["text"])
     f.close()
     return lst
@@ -279,7 +280,7 @@ def add_hint(text: str, chapter: str, lesson: str, exercice: str)-> bool:
         return True
     return False
 
-def delete_hint(chapter: str, lesson: str = None, exercice: str = None) -> bool:
+def delete_hint(chapter: str, lesson: str = None, exercice: str = None, txt = "") -> bool:
     """Supprime l'indice avec les infos données en argument. Renvoie True si tout c'est bien passé, False sinon"""
     with open('csv_data/indices.csv', 'r', encoding= "utf-8") as fr:
         # reading line by line
@@ -296,7 +297,7 @@ def delete_hint(chapter: str, lesson: str = None, exercice: str = None) -> bool:
             return False
         return True   
 
-def _find_line_hint(chapter: str, lesson: str, exercice: str) -> int:
+def _find_line_hint(chapter: str, lesson: str, exercice: str, txt) -> int:
     """Renvoie la ligne correspondant à la valeur de l'indice"""
     with open("csv_data/indices.csv", 'r', encoding= "utf-8") as f:
         test = list(csv.DictReader(f))
@@ -304,11 +305,26 @@ def _find_line_hint(chapter: str, lesson: str, exercice: str) -> int:
         res = []
         for e in test:
             line_to_delete += 1
-            if e["chapitre"] == chapter and lesson is None and exercice is None:
+            if e["chapitre"] == chapter and lesson is None and exercice is None and txt is None:
                 res.append(line_to_delete)
-            elif e["chapitre"] == chapter and e["lecon"] == lesson and exercice is None:
+            elif e["chapitre"] == chapter and e["lecon"] == lesson and exercice is None and txt is None:
                 res.append(line_to_delete)
-            elif e["chapitre"] == chapter and e["lecon"] == lesson and e["exercice"] == exercice:
+            elif e["chapitre"] == chapter and e["lecon"] == lesson and e["exercice"] == exercice and txt is None:
+                res.append(line_to_delete)
+            elif e["chapitre"] == chapter and e["lecon"] == lesson and e["exercice"] == exercice and txt == e["text"]:
                 res.append(line_to_delete)
         f.close()
         return res
+
+def get_user():
+    """Renvoie la liste de tous les utilisateurs"""
+    f = open("csv_data/csvfile.csv", "r", encoding= "utf-8")
+    table = list(csv.DictReader(f,delimiter=",")) #Preciser que le delimiter est ; et non ,
+    val = []
+    for e in table:
+        val.append(e["pseudo"])
+    return val 
+
+def modif_mdp_admin(new_mdp):
+    delete_user("Admin")
+    add_user("Admin", new_mdp,True)

@@ -2,8 +2,8 @@ from tkinter import *
 from tkinter import ttk
 from sauvegarde_ import nouvelle_sauvegarde, verif_sauvegarde, verifpseudo, user_is_admin
 from pdf_opener import open_given_file
-from import_csv import get_all_chapters, get_name_exercices, get_name_lessons, get_path_lesson, get_enonce_exercice, get_correction
-from add_and_supr_menus import add_chapter_menu, add_exercice_menu, add_lesson_menu, del_chapter_menu, del_lesson_menu, del_exercice_menu, modif_hint_menu
+from import_csv import get_all_chapters, get_name_exercices, get_name_lessons, get_path_lesson, get_enonce_exercice, get_correction, get_hint
+from add_and_supr_menus import add_chapter_menu, add_exercice_menu, add_lesson_menu, del_chapter_menu, del_lesson_menu, del_exercice_menu, modif_hint_menu, set_background, menu_compte
 from test_git import *
 from datetime import datetime
 import hashlib
@@ -77,22 +77,21 @@ def destroy_widgets(special_widget = None) -> None:
 
 def start_menu() -> None:
     """Creer le menu de démarrage"""
-    global gif, quit_img, connect_img, create_img
     root.title("Authentification")
     #On reset la fenètre
     destroy_widgets()
+    set_background("graphics/bg.png", root)
 
     #On créé des widgets
-    cnvas = Canvas(root, bg = "black", width=500, height=100, highlightthickness=0, bd = 0)
+    cnvas = Canvas(master = root, bg = "black", width=500, height=100, highlightthickness=0, bd = 0)
     gif = AnimatedGif(7, "graphics/titre.gif" ,cnvas, 1, 150, -1)
     gif.update(7)
-    
     quit_img = PhotoImage(master = root, file="graphics/quitter.png")
-    quit_btn = Button(image=quit_img, command=root.destroy)
+    quit_btn = Button(master = root, image=quit_img, command=root.destroy)
     connect_img = PhotoImage(master = root, file="graphics/connexion.png")
-    btn_connect = Button(image = connect_img , command=connection_menu, font=("Cascadia Code", 17))
+    btn_connect = Button(master = root, image = connect_img , command=connection_menu, font=("Cascadia Code", 17))
     create_img = PhotoImage(master = root, file="graphics/create.png")
-    btn_create = Button(image=create_img, command=lambda:connection_menu('create'), font=("Cascadia Code", 17))
+    btn_create = Button(master = root,image=create_img, command=lambda:connection_menu('create'), font=("Cascadia Code", 17))
 
     #On récupère les widgets dans la liste afin de pouvoir les détruire
     widget_lst.append(btn_connect)
@@ -101,6 +100,7 @@ def start_menu() -> None:
     widget_lst.append(cnvas)
 
     #On fait apparaître les widgets sur l'écran
+
     cnvas.pack(pady=10)
     btn_connect.pack(pady=100)
     btn_create.pack(pady=0)
@@ -179,7 +179,7 @@ def connection_menu(menu:str = 'load') -> None:
     see_mdp_txt = Label(root,text="Voir Mot de passe:", fg="white", bg="black", font=("Cascadia Code",13))
     widget_lst.append(see_mdp_txt)
 
-    error_text = Label(root, text="message erreur", font = ("Cascadia Code", 20), bg="black", fg='black')
+    error_text = Label(root, text=None, font = ("Cascadia Code", 20), bg="black", fg='black')
     widget_lst.append(error_text)
 
     enter_img = PhotoImage(master = root, file="graphics/enter.png").subsample(2)
@@ -300,17 +300,19 @@ def main_menu() -> None:
     chapters_btn = ttk.Combobox(root,values=lst_chapters, width = 40)
     chapters_btn.current(0)
     chapters_btn.bind("<<ComboboxSelected>>", access_to_btn_lessons)
-    btn_account = Button(text='Compte (pour le moment ne sert a rien)', font=("Cascadia Code", 17))
+
+    if is_admin:
+        btn_account = Button(text='Compte', font=("Cascadia Code", 17), command = lambda:menu_compte(root))
+        btn_account.place(anchor=NW)
 
     #On récupère les widgets dans la liste afin de pouvoir les détruire
     widget_lst.append(chapters_btn)
     widget_lst.append(btn_account)
     widget_lst.append(quit_btn)
     widget_lst.append(txt)
-
     #On fait apparaître les widgets sur l'écran
     txt.pack(pady=50)
-    btn_account.place(anchor=NW)
+    
     chapters_btn.pack(pady=50)
     quit_btn.pack(side=BOTTOM, fill=X)
 
@@ -393,7 +395,7 @@ def exercice(enonce: str, chapter_name: str, lesson_pdf:str, lesson_name:str, no
     code_entry = Text(frame_1, height=12)
     code_entry.pack(fill=X, expand=True)
 
-    # Bouton pour exécuter le code
+    # Bouton pour exécuter le root
     verif_img = PhotoImage(master = root, file = "graphics/valider.png")
     execute_button = Button(frame_1, image= verif_img, command=execute_code)
     execute_button.pack(pady=10)
@@ -404,6 +406,17 @@ def exercice(enonce: str, chapter_name: str, lesson_pdf:str, lesson_name:str, no
 
     frame_2 = Frame(root, width=150, bg="black")
     frame_2.grid(row=0, column=5, rowspan=9, columnspan=1, sticky="nsew")
+
+    def access_hint():
+        window = Toplevel(root, bg="black")
+        window.geometry("500x300")
+        window.minsize(500,300)
+        window.maxsize(500,300)
+        window.title("Indice")
+
+        hint_label = Label(master=window, font=("Cascadia Code", 20), bg="white", fg="black", text="")
+        for hint in get_hint(chapter_name, lesson_name, nom_exo):
+            pass
 
     #Bouton pour acceder aux indices
     indices_img = PhotoImage(master = root, file = "graphics/hint.png").subsample(2)
