@@ -21,12 +21,54 @@ username = ""
 usermdp = ""
 is_admin = False
 
-#Permet de reset une page sans la détruire
+class AnimatedGif():
+    def __init__(self, max_frame, path: str, canvas, zoom=1, speed=100, repeat=1):
+        self.max_frame = max_frame
+        self.path = path
+        self.canvas = canvas
+        self.zoom = zoom
+        self.speed = speed
+        self.repeat = repeat
+        self.frames = [PhotoImage(file=path, format='gif -index %i' % (i)).zoom(zoom) for i in range(max_frame)]
+        self.updating = True
+        self.image_id = None
+
+    def update(self, ind):
+        if self.updating and self.path is not None:
+            if ind + 1 <= self.max_frame:
+                frame = self.frames[ind]
+                ind += 1
+            else:
+                frame = self.frames[ind - 1]
+            if ind == self.max_frame and self.repeat == -1:
+                ind = 0
+            if self.image_id is not None:
+                self.canvas.delete('gif')  # Supprimer l'ancienne image du GIF
+            self.image_id = self.canvas.create_image(self.canvas.winfo_width() / 2, self.canvas.winfo_height() / 2, image=frame, anchor='center', tags='gif')
+            self.canvas.after(self.speed, self.update, ind)
+
+    def clear_image(self):
+        if self.image_id is not None:
+            self.canvas.delete('gif')  # Supprimer l'image du GIF
+            self.image_id = None
+
+    def stop_anim(self):
+        self.updating = False
+
+    def destroy(self):
+        self.clear_image()
+        self.updating = False
+        self.canvas = None
+        self.frames = []
+
+
 widget_lst: list = []
 def destroy_widgets(special_widget = None) -> None: 
     """Permet de détruire tous les widgets de la fenetre actuelle"""
     if special_widget is None:
         for widget in widget_lst:
+            if hasattr(widget, "image"):
+                widget.config(image = None)
             widget.destroy()
     else:
         for widget in widget_lst:
@@ -36,24 +78,31 @@ def destroy_widgets(special_widget = None) -> None:
 
 def start_menu() -> None:
     """Creer le menu de démarrage"""
+    global gif, quit_img, connect_img, create_img
     root.title("Authentification")
     #On reset la fenètre
     destroy_widgets()
 
     #On créé des widgets
-    txt = Label(text="__NameError__", bg="Black", fg="White", font=("Arial", 20))
-    quit_btn = Button(text="Quitter", command=root.destroy)
-    btn_connect = Button(text="     Connexion     ", command=connection_menu, font=("Arial", 17))
-    btn_create = Button(text=" Créer un compte ", command=lambda:connection_menu('create'), font=("Arial", 17))
+    cnvas = Canvas(root, bg = "black", width=500, height=100, highlightthickness=0, bd = 0)
+    gif = AnimatedGif(7, "graphics/titre.gif" ,cnvas, 1, 150, -1)
+    gif.update(7)
+    
+    quit_img = PhotoImage(master = root, file="graphics/quitter.png")
+    quit_btn = Button(image=quit_img, command=root.destroy)
+    connect_img = PhotoImage(master = root, file="graphics/connexion.png")
+    btn_connect = Button(image = connect_img , command=connection_menu, font=("Cascadia Code", 17))
+    create_img = PhotoImage(master = root, file="graphics/create.png")
+    btn_create = Button(image=create_img, command=lambda:connection_menu('create'), font=("Cascadia Code", 17))
 
     #On récupère les widgets dans la liste afin de pouvoir les détruire
     widget_lst.append(btn_connect)
-    widget_lst.append(quit_btn)
     widget_lst.append(btn_create)
-    widget_lst.append(txt)
+    widget_lst.append(quit_btn)
+    widget_lst.append(cnvas)
 
     #On fait apparaître les widgets sur l'écran
-    txt.pack(pady=50)
+    cnvas.pack(pady=10)
     btn_connect.pack(pady=100)
     btn_create.pack(pady=0)
     quit_btn.pack(side=BOTTOM, fill=X)
@@ -61,7 +110,6 @@ def start_menu() -> None:
     root.mainloop()
     
 def connection_menu(menu:str = 'load') -> None:
-
     """Creer le menu de connection (soit connection soit charger)"""
     #On reset la fenètre
     destroy_widgets()
@@ -100,19 +148,19 @@ def connection_menu(menu:str = 'load') -> None:
                 main_menu()
     
     #On créé les widgets puis on les récupère dans la liste afin de pouvoir les détruire
-    label_titel = Label(root, font = ("Helvetica", 20), bg = 'black', fg='white')
+    label_titel = Label(root, font = ("Cascadia Code", 20), bg = 'black', fg='white')
     widget_lst.append(label_titel)
 
-    label_pseudo = Label(root, text = "Votre Pseudo:", font = ("Helvetica", 20),bg = 'black', fg='white')
+    label_pseudo = Label(root, text = "Votre Pseudo:", font = ("Cascadia Code", 20),bg = 'black', fg='white')
     widget_lst.append(label_pseudo)
 
-    pseudo_joueur = Entry(root,font = ("Helvetica", 20), bg="black", fg='white', insertbackground='white', width=30, highlightbackground="white")
+    pseudo_joueur = Entry(root,font = ("Cascadia Code", 20), bg="black", fg='white', insertbackground='white', width=30, highlightbackground="white")
     widget_lst.append(pseudo_joueur)
 
-    label_mdp = Label(root, text = "Mot de Passe:", font = ("Helvetica", 20), bg="black", fg='white')
+    label_mdp = Label(root, text = "Mot de Passe:", font = ("Cascadia Code", 20), bg="black", fg='white')
     widget_lst.append(label_mdp)
 
-    mdp_joueur = Entry(root,font = ("Helvetica", 20),bg ='black', fg='white', insertbackground='white', width=30, show="*", highlightbackground="white")
+    mdp_joueur = Entry(root,font = ("Cascadia Code", 20),bg ='black', fg='white', insertbackground='white', width=30, show="*", highlightbackground="white")
     widget_lst.append(mdp_joueur)
 
     def show()-> None:
@@ -129,19 +177,20 @@ def connection_menu(menu:str = 'load') -> None:
     see_mdp = Checkbutton(root, fg="black", bg="black",variable=see_mdp_bool,command=show)
     widget_lst.append(see_mdp)
 
-    see_mdp_txt = Label(root,text="Voir Mot de passe:", fg="white", bg="black", font=("Arial",13))
+    see_mdp_txt = Label(root,text="Voir Mot de passe:", fg="white", bg="black", font=("Cascadia Code",13))
     widget_lst.append(see_mdp_txt)
 
-    error_text = Label(root, text="message erreur", font = ("Helvetica", 20), bg="black", fg='black')
+    error_text = Label(root, text="message erreur", font = ("Cascadia Code", 20), bg="black", fg='black')
     widget_lst.append(error_text)
 
-    entrer_button = Button(root, text= 'Entrer',font = ("Helvetica", 20))
+    enter_img = PhotoImage(master = root, file="graphics/enter.png")
+    entrer_button = Button(root, text= 'Entrer',font = ("Cascadia Code", 20), image=enter_img)
     widget_lst.append(entrer_button)
 
-    back_btn = Button(text="Retour", command=start_menu)
+    back_img = PhotoImage(master = root, file="graphics/back.png")
+    back_btn = Button(image=back_img, command=start_menu)
     widget_lst.append(back_btn)
 
-    
     #Permet la modification entre le menu de connection et de création de compte
     if menu=='create':  #Menu création compte
         root.title("Création d'un compte")
@@ -164,6 +213,9 @@ def connection_menu(menu:str = 'load') -> None:
     entrer_button.pack(pady=10)
     error_text.pack(pady=2)
     back_btn.pack(side=BOTTOM, fill=X)
+    widget_lst.append(back_btn)
+
+    root.mainloop()
 
 def main_menu() -> None:
     """On créé la fenêtre du menu principal"""
@@ -175,8 +227,9 @@ def main_menu() -> None:
     destroy_widgets()
     
     #On créé les widgets
-    txt = Label(text="Menu principal", bg="Black", fg="White", font=("Arial", 20))
-    quit_btn = Button(text="Quitter", command=root.destroy)
+    txt = Label(text="Menu principal", bg="Black", fg="White", font=("Cascadia Code", 20))
+    quit_img = PhotoImage(master = root, file="graphics/quitter.png")
+    quit_btn = Button(image= quit_img, command=root.destroy)
 
     has_spawned = False
 
@@ -201,7 +254,7 @@ def main_menu() -> None:
         if is_admin:
             lessons_lst.append(" + Ajouter une leçon + ")
             lessons_lst.append(" - Supprimer une leçon - ")
-        lessons_btn = ttk.Combobox(root,values=lessons_lst)
+        lessons_btn = ttk.Combobox(root,values=lessons_lst, width = 40)
         lessons_btn.current(0)
         lessons_btn.bind("<<ComboboxSelected>>",access_to_lesson)
 
@@ -245,10 +298,10 @@ def main_menu() -> None:
     if is_admin:
         lst_chapters.append(" + Ajouter un chapitre + ")
         lst_chapters.append(" - Supprimer un chapitre - ")
-    chapters_btn = ttk.Combobox(root,values=lst_chapters)
+    chapters_btn = ttk.Combobox(root,values=lst_chapters, width = 40)
     chapters_btn.current(0)
     chapters_btn.bind("<<ComboboxSelected>>", access_to_btn_lessons)
-    btn_account = Button(text='Compte (pour le moment ne sert a rien)', font=("Arial", 17))
+    btn_account = Button(text='Compte (pour le moment ne sert a rien)', font=("Cascadia Code", 17))
 
     #On récupère les widgets dans la liste afin de pouvoir les détruire
     widget_lst.append(chapters_btn)
@@ -288,7 +341,7 @@ def lesson(lesson_pdf:str ,chapter_name: str, lesson_name: str) -> None:
     if is_admin:
         lst_exos.append(" + Ajouter un exercice + ")
         lst_exos.append(" - Supprimer un exercice - ")
-    btn_exos = ttk.Combobox(root,values=lst_exos)
+    btn_exos = ttk.Combobox(root,values=lst_exos, width = 40)
     btn_exos.current(0)
     btn_exos.bind("<<ComboboxSelected>>", access_to_ex)
 
@@ -327,15 +380,17 @@ def exercice(enonce: str, chapter_name: str, lesson_pdf:str, lesson_name:str, no
     frame_1.grid(row=0, column=0, rowspan=9, columnspan=4, sticky="nsew")
 
     # Zone de texte pour l'ennonce
-    enonce_txt = Label(master = frame_1, text=f"{enonce}", bg="Black", fg="White", font=("Arial", 20), wraplength=600, highlightbackground="white", highlightthickness=1)
-    enonce_txt.pack(fill=X, expand=True, pady=10)
+    enonce_txt = Text(master = frame_1, bg="Black", fg="White", font=("Cascadia Code", 17), highlightbackground="white", highlightthickness=1, state="normal", height=5)
+    enonce_txt.insert("end", f"{enonce}")
+    enonce_txt.configure(state="disabled")
+    enonce_txt.pack(fill=X, pady=10)
 
     # Zone de texte pour saisir le code
     code_entry = Text(frame_1, height=12)
     code_entry.pack(fill=X, expand=True)
 
     # Bouton pour exécuter le code
-    execute_button = Button(frame_1, text="   Vérifier   ", command=execute_code, bg="#141414")
+    execute_button = Button(frame_1, text="   Vérifier   ", command=execute_code)#, bg="#141414"
     execute_button.pack(pady=10)
 
     # Zone de texte pour afficher le résultat
@@ -346,16 +401,16 @@ def exercice(enonce: str, chapter_name: str, lesson_pdf:str, lesson_name:str, no
     frame_2.grid(row=0, column=5, rowspan=9, columnspan=1, sticky="nsew")
 
     #Bouton pour acceder aux indices
-    indices_btn = Button(frame_2, text="Indices", bg="White", fg="black", font=("Arial", 20), height=4)
+    indices_btn = Button(frame_2, text="Indices", bg="White", fg="black", font=("Cascadia Code", 20), height=4)
     indices_btn.pack(pady=50,fill=X, expand=True)    
 
     if is_admin:
-        add_suppr_hint_btn = Button(frame_2, text="Ajouter / supprimer indices", bg="White", fg="black", font=("Arial", 20), height=4)
+        add_suppr_hint_btn = Button(frame_2, text="Ajouter / supprimer indices", bg="White", fg="black", font=("Cascadia Code", 20), height=4)
         add_suppr_hint_btn.pack(pady=20,fill=X, expand=True)    
         widget_lst.append(add_suppr_hint_btn)
 
     #Bouton pour accéder à la correction
-    correction_btn = Button(frame_2,height=6, text="Accéder à la correction", command=lambda:open_given_file(get_correction(chapter_name, lesson_name, nom_exo)), state=DISABLED, font=("Arial", 20), fg="black", bg="White")
+    correction_btn = Button(frame_2,height=6, text="Accéder à la correction", command=lambda:open_given_file(get_correction(chapter_name, lesson_name, nom_exo)), state=DISABLED, font=("Cascadia Code", 20), fg="black", bg="White")
     if nb_indices_depenses >=3:
         correction_btn.config(state=ACTIVE)
     correction_btn.pack(pady=50,fill=X, expand=True)
