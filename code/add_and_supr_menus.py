@@ -1,5 +1,5 @@
 from tkinter import *
-from import_csv import get_all_chapters, add_lesson, get_name_exercices, get_name_lessons, delete_lesson, add_chapter, delete_chapter, add_exercice, delete_exo
+from import_csv import get_all_chapters, add_lesson, get_name_exercices, get_name_lessons, delete_lesson, add_chapter, delete_chapter, add_exercice, delete_exo, add_hint, delete_hint, get_hint
 from pdf_opener import recup_path, copy_file, delete_file, recup_path_py
 
 def add_lesson_menu(master, combobox, chapter_selected):
@@ -432,7 +432,8 @@ def del_exercice_menu(master, combobox, chapter_selected, lesson_selected):
 
     enter_img = PhotoImage(master = window, file="graphics/enter.png").subsample(2)
     enter_btn = Button(window, image=enter_img, command=enter)
-    quit_btn = Button(master = window,text="Quitter", command=window.destroy)
+    quit_img = PhotoImage(master = window, file="graphics/quitter.png")
+    quit_btn = Button(master = window,image= quit_img, command=window.destroy)
 
     label_title.pack(pady=0)
     chapter_txt.pack()
@@ -446,5 +447,89 @@ def del_exercice_menu(master, combobox, chapter_selected, lesson_selected):
     enter_btn.pack(pady=0)
     quit_btn.pack(side=BOTTOM, fill=X)
 
+
+    window.mainloop()
+
+def modif_hint_menu(master,chapitre,lesson,exercice):
+    window = Toplevel(master = master, bg="black")
+    window.geometry("1000x600")
+    window.minsize(1000,600)
+    window.maxsize(1000,600)
+    window.title("Modifier un indice")
+    window.attributes("-topmost", True)
+
+
+    label_title = Label(master = window, bg="black", text="Modifier un indice",font=("Cascadia Code", 17))
+    error_txt = Label(window, bg="black", fg="black", font=("Cascadia Code", 17), text="")
+    hint_txt = Label(window, bg="black", fg="White", font=("Cascadia Code", 17), text="Insérer le nom de votre indice à jouter ou supprimer:")
+    res_txt = Label(window, bg="black", fg="White", font=("Cascadia Code", 20), text="L'indice a été supprimé avec succès !\n Vous pouvez fermer cette fenêtre, elle se fermera dans 5 secondes")
+
+
+    hint_entry = Entry(window, font = ("Cascadia Code", 20), bg="black", fg='white', insertbackground='white', width=30, highlightbackground="white")
+
+    def enter(command):
+        if command == "supprimé":
+            if hint_entry.get() not in get_hint(chapitre,lesson,exercice):
+                error_txt.config(fg="red", text="Cet indice n'existe pas")
+                error_txt.pack(padx=3)
+            else:
+                sure = Toplevel(master=window, bg="black")
+                sure.geometry("1000x600")
+                sure.minsize(1000,300)
+                sure.maxsize(1000,300)
+                sure.title("En êtes vous sûr ?")
+                sure.attributes("-topmost",True)
+
+                label_title_ = Label(sure, bg="black", fg="White", font=("Cascadia Code", 20), text=f"Voulez vous vraiment supprimer l'indice: {hint_entry.get()} ?", wraplength=1000)
+
+                def answer(x):
+                    if not x :
+                        sure.destroy()
+                    else:
+                        sure.destroy()
+                        res = delete_hint(chapter=chapitre, lesson=lesson, exercice=exercice)
+                        if res is False:
+                            error_txt.config(text="Il y'a eu un problème... Il faut recommencer", fg = "red")
+                        else:
+                            error_txt.config(fg="black")
+                            res_txt.config(text=f"L'indice a été {command} avec succès !\n Vous pouvez fermer cette fenêtre, elle se fermera dans 5 secondes")
+                            res_txt.pack(pady=15)
+                yes_btn = Button(sure, text="OUI", command=lambda:answer(True))
+                no_btn = Button(sure, text="NON", command=lambda:answer(False))
+
+                label_title_.pack(pady=50)
+                yes_btn.pack(pady=20)
+                no_btn.pack()
+
+        elif command == "ajouté":
+            if hint_entry.get() is "":
+                error_txt.config(text= "Veuillez renseigner un indice valable", fg="red")
+                error_txt.pack(pady=3)
+            else:
+
+                res = add_hint(hint_entry.get(), chapitre, lesson, exercice)
+                if res is False:
+                    error_txt.config(text="Il y'a eu un problème... Il faut recommencer", fg = "red")
+                else:
+                    error_txt.config(fg="black")
+                    res_txt.config(text=f"L'indice a été {command} avec succès !\n Vous pouvez fermer cette fenêtre, elle se fermera dans 5 secondes")
+                    res_txt.pack(pady=15)
+    
+    add_img = PhotoImage(master = window, file="graphics/enter.png").subsample(2)
+    add_btn = Button(window, text="ajouter", command=lambda:enter("ajouté"))
+    del_img = PhotoImage(master = window, file="graphics/enter.png").subsample(2)
+    del_btn = Button(window, text="supprimer", command=lambda:enter("supprimé"))
+
+    quit_img = PhotoImage(master = window, file="graphics/quitter.png")
+    quit_btn = Button(master = window,image= quit_img, command=window.destroy)
+
+    label_title.pack(pady = 20)
+    hint_txt.pack(pady=10)
+    hint_entry.pack()
+    error_txt.pack(pady=3)
+    add_btn.pack(pady=10)
+    del_btn.pack(pady=10)
+
+    quit_btn.pack(side=BOTTOM, fill=X)
 
     window.mainloop()

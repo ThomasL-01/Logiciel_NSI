@@ -3,7 +3,7 @@ from tkinter import ttk
 from sauvegarde_ import nouvelle_sauvegarde, verif_sauvegarde, verifpseudo, user_is_admin
 from pdf_opener import open_given_file
 from import_csv import get_all_chapters, get_name_exercices, get_name_lessons, get_path_lesson, get_enonce_exercice, get_correction
-from add_and_supr_menus import add_chapter_menu, add_exercice_menu, add_lesson_menu, del_chapter_menu, del_lesson_menu, del_exercice_menu
+from add_and_supr_menus import add_chapter_menu, add_exercice_menu, add_lesson_menu, del_chapter_menu, del_lesson_menu, del_exercice_menu, modif_hint_menu
 from test_git import *
 from datetime import datetime
 import hashlib
@@ -60,7 +60,6 @@ class AnimatedGif():
         self.updating = False
         self.canvas = None
         self.frames = []
-
 
 widget_lst: list = []
 def destroy_widgets(special_widget = None) -> None: 
@@ -413,7 +412,7 @@ def exercice(enonce: str, chapter_name: str, lesson_pdf:str, lesson_name:str, no
 
     if is_admin:
         add_suppr_hint_img = PhotoImage(master = root, file="graphics/add_supr_hint.png").subsample(2)
-        add_suppr_hint_btn = Button(frame_2, image=add_suppr_hint_img, bg="White", fg="black", font=("Cascadia Code", 20))
+        add_suppr_hint_btn = Button(frame_2, image=add_suppr_hint_img, bg="White", fg="black", font=("Cascadia Code", 20),command=lambda: modif_hint_menu(root,chapter_name,lesson_name,nom_exo))
         add_suppr_hint_btn.pack(pady=20, expand=True)    
         widget_lst.append(add_suppr_hint_btn)
 
