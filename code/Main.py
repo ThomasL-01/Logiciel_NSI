@@ -183,7 +183,7 @@ def connection_menu(menu:str = 'load') -> None:
     error_text = Label(root, text="message erreur", font = ("Cascadia Code", 20), bg="black", fg='black')
     widget_lst.append(error_text)
 
-    enter_img = PhotoImage(master = root, file="graphics/enter.png")
+    enter_img = PhotoImage(master = root, file="graphics/enter.png").subsample(2)
     entrer_button = Button(root, text= 'Entrer',font = ("Cascadia Code", 20), image=enter_img)
     widget_lst.append(entrer_button)
 
@@ -314,6 +314,8 @@ def main_menu() -> None:
     btn_account.place(anchor=NW)
     chapters_btn.pack(pady=50)
     quit_btn.pack(side=BOTTOM, fill=X)
+
+    root.mainloop()
     
 def lesson(lesson_pdf:str ,chapter_name: str, lesson_name: str) -> None:
     """On créé la fenêtre pour accéder aux cours en PDF"""
@@ -322,7 +324,8 @@ def lesson(lesson_pdf:str ,chapter_name: str, lesson_name: str) -> None:
     root.title(f"Cours {chapter_name}, {lesson_name}")
 
     #On créé les widgets
-    back_btn = Button(text="Retour", command=main_menu)
+    back_img = PhotoImage(master = root, file="graphics/back.png")
+    back_btn = Button(image=back_img, command=main_menu)
     btn_open_pdf = Button(text=f"Cours: {chapter_name} {lesson_name}",command=lambda:open_given_file(lesson_pdf))
 
     def access_to_ex(_) -> None:
@@ -354,6 +357,8 @@ def lesson(lesson_pdf:str ,chapter_name: str, lesson_name: str) -> None:
     btn_open_pdf.pack(pady=100)
     btn_exos.pack(pady=50)
     back_btn.pack(side=BOTTOM, fill=X)
+
+    root.mainloop()
 
 def exercice(enonce: str, chapter_name: str, lesson_pdf:str, lesson_name:str, nom_exo) -> None:
     """On créé la fenêtre pour accéder aux exercices en PDF"""
@@ -390,33 +395,38 @@ def exercice(enonce: str, chapter_name: str, lesson_pdf:str, lesson_name:str, no
     code_entry.pack(fill=X, expand=True)
 
     # Bouton pour exécuter le code
-    execute_button = Button(frame_1, text="   Vérifier   ", command=execute_code)#, bg="#141414"
+    verif_img = PhotoImage(master = root, file = "graphics/valider.png")
+    execute_button = Button(frame_1, image= verif_img, command=execute_code)
     execute_button.pack(pady=10)
 
     # Zone de texte pour afficher le résultat
-    result_text = Text(frame_1, height=12,state="disabled", bg="#141414")
+    result_text = Text(frame_1,state="disabled", bg="#141414")
     result_text.pack(fill=X, expand=True)
 
     frame_2 = Frame(root, width=150, bg="black")
     frame_2.grid(row=0, column=5, rowspan=9, columnspan=1, sticky="nsew")
 
     #Bouton pour acceder aux indices
-    indices_btn = Button(frame_2, text="Indices", bg="White", fg="black", font=("Cascadia Code", 20), height=4)
-    indices_btn.pack(pady=50,fill=X, expand=True)    
+    indices_img = PhotoImage(master = root, file = "graphics/hint.png").subsample(2)
+    indices_btn = Button(frame_2, image = indices_img, bg="White", fg="black", font=("Cascadia Code", 20))
+    indices_btn.pack(pady=50, expand=True)    
 
     if is_admin:
-        add_suppr_hint_btn = Button(frame_2, text="Ajouter / supprimer indices", bg="White", fg="black", font=("Cascadia Code", 20), height=4)
-        add_suppr_hint_btn.pack(pady=20,fill=X, expand=True)    
+        add_suppr_hint_img = PhotoImage(master = root, file="graphics/add_supr_hint.png").subsample(2)
+        add_suppr_hint_btn = Button(frame_2, image=add_suppr_hint_img, bg="White", fg="black", font=("Cascadia Code", 20))
+        add_suppr_hint_btn.pack(pady=20, expand=True)    
         widget_lst.append(add_suppr_hint_btn)
 
     #Bouton pour accéder à la correction
-    correction_btn = Button(frame_2,height=6, text="Accéder à la correction", command=lambda:open_given_file(get_correction(chapter_name, lesson_name, nom_exo)), state=DISABLED, font=("Cascadia Code", 20), fg="black", bg="White")
+    corrcetion_img = PhotoImage(master = root, file="graphics/correction.png").subsample(2)
+    correction_btn = Button(frame_2, image = corrcetion_img, command=lambda:open_given_file(get_correction(chapter_name, lesson_name, nom_exo)), state=DISABLED, font=("Cascadia Code", 20), fg="black", bg="White")
     if nb_indices_depenses >=3:
         correction_btn.config(state=ACTIVE)
-    correction_btn.pack(pady=50,fill=X, expand=True)
+    correction_btn.pack(pady=50, expand=True)
 
     frame_3 = Frame(root, bg="black")
-    back_btn = Button(frame_3,text="Retour", command=lambda:lesson(lesson_pdf,chapter_name,lesson_name))
+    back_img = PhotoImage(master = root, file="graphics/back.png")
+    back_btn = Button(frame_3,image=back_img, command=lambda:lesson(lesson_pdf,chapter_name,lesson_name))
     back_btn.pack(fill=X, expand=True)
     frame_3.grid(row=10, column=0, rowspan=1, columnspan=6, sticky="nsew")
 
@@ -438,6 +448,8 @@ def exercice(enonce: str, chapter_name: str, lesson_pdf:str, lesson_name:str, no
         root.grid_rowconfigure(row, weight=1)
     for column in range (5): 
         root.grid_columnconfigure(column, weight=1)
+
+    root.mainloop()
 
 #On lance l'application au menu de démarrage
 start_menu()

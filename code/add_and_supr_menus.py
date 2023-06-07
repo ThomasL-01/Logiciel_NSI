@@ -58,8 +58,10 @@ def add_lesson_menu(master, combobox, chapter_selected):
 
 
     select_path_btn = Button(window, text="séléctionner le PDF du cours", command=recup_path_bis)
-    enter_btn = Button(window, text="Entrer", command=enter)
-    quit_btn = Button(window,text="Quitter", command=window.destroy)
+    enter_img = PhotoImage(master = window, file="graphics/enter.png").subsample(2)
+    enter_btn = Button(window, image=enter_img, command=enter)
+    quit_img = PhotoImage(master = window, file="graphics/quitter.png")
+    quit_btn = Button(master = window, image= quit_img, command=window.destroy)
 
     label_title.pack(pady=50)
     chapter_txt.pack()
@@ -137,8 +139,10 @@ def del_lesson_menu(master, combobox, chapter_selected):
             no_btn.pack()
         
 
-    enter_btn = Button(window, text="Entrer", command=enter)
-    quit_btn = Button(window,text="Quitter", command=window.destroy)
+    enter_img = PhotoImage(master = window, file="graphics/enter.png").subsample(2)
+    enter_btn = Button(window, image=enter_img, command=enter)
+    quit_img = PhotoImage(master = window, file="graphics/quitter.png")
+    quit_btn = Button(master = window,image= quit_img, command=window.destroy)
 
     label_title.pack(pady=50)
     chapter_txt.pack()
@@ -188,8 +192,10 @@ def add_chapter_menu(master, combobox):
                 combobox.config(values = lst_chapters) 
                 window.after(5000, window.destroy)
 
-    enter_btn = Button(window, text="Entrer", command=enter)
-    quit_btn = Button(window,text="Quitter", command=window.destroy)
+    enter_img = PhotoImage(master = window, file="graphics/enter.png").subsample(2)
+    enter_btn = Button(window, image=enter_img, command=enter)
+    quit_img = PhotoImage(master = window, file="graphics/quitter.png")
+    quit_btn = Button(master = window,image= quit_img, command=window.destroy)
 
     label_title.pack(pady=50)
     chapter_txt.pack()
@@ -259,8 +265,10 @@ def del_chapter_menu(master, combobox):
             yes_btn.pack(pady=20)
             no_btn.pack()
 
-    enter_btn = Button(window, text="Entrer", command=enter)
-    quit_btn = Button(window,text="Quitter", command=window.destroy)
+    enter_img = PhotoImage(master = window, file="graphics/enter.png").subsample(2)
+    enter_btn = Button(window, image=enter_img, command=enter)
+    quit_img = PhotoImage(master = window, file="graphics/quitter.png")
+    quit_btn = Button(master = window,image= quit_img, command=window.destroy)
 
     label_title.pack(pady=50)
     chapter_txt.pack()
@@ -334,8 +342,11 @@ def add_exercice_menu(master, combobox, chapter_selected, lesson_selected):
 
 
     select_path_btn = Button(window, text="Séléctionner le fichier python de la correction", command=recup_path_bis)
-    enter_btn = Button(window, text="Entrer", command=enter)
-    quit_btn = Button(window,text="Quitter", command=window.destroy)
+    
+    enter_img = PhotoImage(master = window, file="graphics/enter.png").subsample(2)
+    enter_btn = Button(window, image=enter_img, command=enter)
+    quit_img = PhotoImage(master = window, file="graphics/quitter.png")
+    quit_btn = Button(master = window,image= quit_img, command=window.destroy)
 
     label_title.pack(pady=0)
     chapter_txt.pack()
@@ -352,6 +363,8 @@ def add_exercice_menu(master, combobox, chapter_selected, lesson_selected):
     error_txt.pack(pady=0)
     enter_btn.pack(pady=0)
     quit_btn.pack(side=BOTTOM, fill=X)
+
+    window.mainloop()
 
 def del_exercice_menu(master, combobox, chapter_selected, lesson_selected):
     window = Toplevel(master=master, bg="black")
@@ -417,8 +430,9 @@ def del_exercice_menu(master, combobox, chapter_selected, lesson_selected):
             yes_btn.pack(pady=20)
             no_btn.pack()
 
-    enter_btn = Button(window, text="Entrer", command=enter)
-    quit_btn = Button(window,text="Quitter", command=window.destroy)
+    enter_img = PhotoImage(master = window, file="graphics/enter.png").subsample(2)
+    enter_btn = Button(window, image=enter_img, command=enter)
+    quit_btn = Button(master = window,text="Quitter", command=window.destroy)
 
     label_title.pack(pady=0)
     chapter_txt.pack()
