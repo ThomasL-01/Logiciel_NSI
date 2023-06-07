@@ -227,8 +227,8 @@ def add_lesson_menu(master, combobox, chapter_selected):
                 combobox.config(values = lst_chapters) 
                 window.after(5000, window.destroy)
 
-
-    select_path_btn = Button(window, text="séléctionner le PDF du cours", command=recup_path_bis)
+    select_img = PhotoImage(master = window, file="graphics/select_file.png").subsample(2)
+    select_path_btn = Button(window,image=select_img, command=recup_path_bis)
     enter_img = PhotoImage(master = window, file="graphics/enter.png").subsample(2)
     enter_btn = Button(window, image=enter_img, command=enter)
     quit_img = PhotoImage(master = window, file="graphics/quitter.png")
@@ -302,13 +302,18 @@ def del_lesson_menu(master, combobox, chapter_selected):
                         lst_chapters.append(" - Supprimer un chapitre - ")  
                         combobox.config(values = lst_chapters) 
                         window.after(5000, window.destroy)
+
             
-            yes_btn = Button(sure, text="OUI", command=lambda:answer(True))
-            no_btn = Button(sure, text="NON", command=lambda:answer(False))
+            yes_img = PhotoImage(master = window, file="graphics/oui.png").subsample(2)
+            yes_btn = Button(sure, image = yes_img, command=lambda:answer(True))
+            no_img = PhotoImage(master = window, file="graphics/non.png").subsample(2)
+            no_btn = Button(sure, image = no_img, command=lambda:answer(False))
 
             label_title_.pack(pady=50)
             yes_btn.pack(pady=20)
             no_btn.pack()
+
+            sure.mainloop()
         
 
     enter_img = PhotoImage(master = window, file="graphics/enter.png").subsample(2)
@@ -431,13 +436,16 @@ def del_chapter_menu(master, combobox):
                         combobox.config(values = lst_chapters) 
                         window.after(5000, window.destroy)
 
-
-            yes_btn = Button(sure, text="OUI", command=lambda:answer(True))
-            no_btn = Button(sure, text="NON", command=lambda:answer(False))
+            yes_img = PhotoImage(master = window, file="graphics/oui.png").subsample(2)
+            yes_btn = Button(sure, image = yes_img, command=lambda:answer(True))
+            no_img = PhotoImage(master = window, file="graphics/non.png").subsample(2)
+            no_btn = Button(sure, image = no_img, command=lambda:answer(False))
 
             label_title_.pack(pady=50)
             yes_btn.pack(pady=20)
             no_btn.pack()
+
+            sure.mainloop()
 
     enter_img = PhotoImage(master = window, file="graphics/enter.png").subsample(2)
     enter_btn = Button(window, image=enter_img, command=enter)
@@ -464,21 +472,20 @@ def add_exercice_menu(master, combobox, chapter_selected, lesson_selected):
     path = ""
     set_background("graphics/bg.png", window)
 
-    label_title = Label(window, bg="black", fg="White", font=("Cascadia Code", 20), text="Ajouter un exercice")
-    chapter_txt = Label(window, bg="black", fg="White", font=("Cascadia Code", 17), text="Insérer le nom du chapitre")
+    chapter_txt = Label(window, bg="black", fg="White", font=("Cascadia Code", 16), text="Insérer le nom du chapitre")
     
-    lesson_txt = Label(window, bg="black", fg="White", font=("Cascadia Code", 17), text="Insérer le nom de la leçon")
-    error_txt = Label(window, bg="black", fg="black", font=("Cascadia Code", 17), text="")
-    path_txt = Label(window, bg="black", fg="white", font=("Cascadia Code", 17), text="Veuillez renseigner le fichier python de la correction")
-    selected_path = Label(window, bg="black", fg="black", font=("Cascadia Code", 17))
-    exercice_txt = Label(window, bg="black", fg="White", font=("Cascadia Code", 17), text="Insérer le nom de votre nouvel exercice")
-    exercice_enonce = Label(window, bg="black", fg="White", font=("Cascadia Code", 17), text="Insérer l'énoncé de l'exercice")
-    res_txt = Label(window, bg="black", fg="White", font=("Cascadia Code", 20), text="L'exercice a été ajouté avec succès !\n Vous pouvez fermer cette fenêtre, elle se fermera dans 5 secondes")
+    lesson_txt = Label(window, bg="black", fg="White", font=("Cascadia Code", 16), text="Insérer le nom de la leçon")
+    error_txt = Label(window, bg="black", fg="black", font=("Cascadia Code", 16), text="")
+    path_txt = Label(window, bg="black", fg="white", font=("Cascadia Code", 16), text="Veuillez renseigner le fichier python de la correction")
+    selected_path = Label(window, bg="black", fg="black", font=("Cascadia Code", 16))
+    exercice_txt = Label(window, bg="black", fg="White", font=("Cascadia Code", 16), text="Insérer le nom de votre nouvel exercice")
+    exercice_enonce = Label(window, bg="black", fg="White", font=("Cascadia Code", 16), text="Insérer l'énoncé de l'exercice")
+    res_txt = Label(window, bg="black", fg="White", font=("Cascadia Code", 16), text="L'exercice a été ajouté avec succès !\n Vous pouvez fermer cette fenêtre, elle se fermera dans 5 secondes")
     
     chapter_entry = Entry(window, font = ("Cascadia Code", 20), bg="black", fg='white', insertbackground='white', width=30, textvariable=StringVar(value=chapter_selected), highlightbackground="white")
     lesson_entry = Entry(window, font = ("Cascadia Code", 20), bg="black", fg='white', insertbackground='white', width=30, textvariable=StringVar(value=lesson_selected), highlightbackground="white")
     exercice_entry = Entry(window, font = ("Cascadia Code", 20), bg="black", fg='white', insertbackground='white', width=30, highlightbackground="white")
-    enonce_entry = Text(window, font = ("Cascadia Code", 20), bg="black", fg='white', insertbackground='white', width=30, highlightbackground="white", state="normal", height=6)
+    enonce_entry = Text(window, font = ("Cascadia Code", 20), bg="black", fg='white', insertbackground='white', width=30, highlightbackground="white", state="normal", height=5)
 
     def recup_path_bis():
         global path
@@ -515,15 +522,14 @@ def add_exercice_menu(master, combobox, chapter_selected, lesson_selected):
                 combobox.config(values = lst_exos) 
                 window.after(5000, window.destroy)
 
-
-    select_path_btn = Button(window, text="Séléctionner le fichier python de la correction", command=recup_path_bis)
+    select_img = PhotoImage(master = window, file="graphics/select_file.png").subsample(2)
+    select_path_btn = Button(window, image=select_img, command=recup_path_bis)
     
     enter_img = PhotoImage(master = window, file="graphics/enter.png").subsample(2)
     enter_btn = Button(window, image=enter_img, command=enter)
     quit_img = PhotoImage(master = window, file="graphics/quitter.png")
     quit_btn = Button(master = window,image= quit_img, command=window.destroy)
 
-    label_title.pack(pady=0)
     chapter_txt.pack()
     chapter_entry.pack(pady=0)
     path_txt.pack()
@@ -599,12 +605,16 @@ def del_exercice_menu(master, combobox, chapter_selected, lesson_selected):
                         window.after(5000, window.destroy)
 
 
-            yes_btn = Button(sure, text="OUI", command=lambda:answer(True))
-            no_btn = Button(sure, text="NON", command=lambda:answer(False))
+            yes_img = PhotoImage(master = window, file="graphics/oui.png").subsample(2)
+            yes_btn = Button(sure, image = yes_img, command=lambda:answer(True))
+            no_img = PhotoImage(master = window, file="graphics/non.png").subsample(2)
+            no_btn = Button(sure, image = no_img, command=lambda:answer(False))
 
             label_title_.pack(pady=50)
             yes_btn.pack(pady=20)
             no_btn.pack()
+
+            sure.mainloop()
 
     enter_img = PhotoImage(master = window, file="graphics/enter.png").subsample(2)
     enter_btn = Button(window, image=enter_img, command=enter)
@@ -675,12 +685,17 @@ def modif_hint_menu(master,chapitre,lesson,exercice):
                         combobox.config(values = lst_hint) 
                         window.after(5000, window.destroy)
                         
-            yes_btn = Button(sure, text="OUI", command=lambda:answer(True))
-            no_btn = Button(sure, text="NON", command=lambda:answer(False))
+            yes_img = PhotoImage(master = window, file="graphics/oui.png").subsample(2)
+            yes_btn = Button(sure, image = yes_img, command=lambda:answer(True))
+            no_img = PhotoImage(master = window, file="graphics/non.png").subsample(2)
+            no_btn = Button(sure, image = no_img, command=lambda:answer(False))
 
             label_title_.pack(pady=50)
             yes_btn.pack(pady=20)
             no_btn.pack()
+
+            sure.mainloop()
+
         if command == "ajouté":
             if hint_add_entry.get() == "":
                 error_txt.config(text= "Veuillez renseigner un indice valable", fg="red")
@@ -702,10 +717,10 @@ def modif_hint_menu(master,chapitre,lesson,exercice):
     hint_suppr.current(0)
     hint_suppr.bind("<<ComboboxSelected>>",None)
 
-    add_img = PhotoImage(master = window, file="graphics/enter.png").subsample(2)
-    add_btn = Button(window, text="ajouter", command=lambda:enter("ajouté"))
-    del_img = PhotoImage(master = window, file="graphics/enter.png").subsample(2)
-    del_btn = Button(window, text="supprimer", command=lambda:enter("supprimé", hint_suppr))
+    add_img = PhotoImage(master = window, file="graphics/ajouter.png").subsample(2)
+    add_btn = Button(window, image=add_img, command=lambda:enter("ajouté"))
+    del_img = PhotoImage(master = window, file="graphics/supprimer.png").subsample(2)
+    del_btn = Button(window,image = del_img, command=lambda:enter("supprimé", hint_suppr))
 
     quit_img = PhotoImage(master = window, file="graphics/quitter.png")
     quit_btn = Button(master = window,image= quit_img, command=window.destroy)

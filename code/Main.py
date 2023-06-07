@@ -228,7 +228,7 @@ def main_menu() -> None:
     destroy_widgets()
     
     #On créé les widgets
-    txt = Label(text="Menu principal", bg="Black", fg="White", font=("Cascadia Code", 20))
+    txt = Label(text="Menu principal", bg="Black", fg="White", font=("Cascadia Code", 30))
     quit_img = PhotoImage(master = root, file="graphics/quitter.png")
     quit_btn = Button(image= quit_img, command=root.destroy)
 
@@ -304,7 +304,8 @@ def main_menu() -> None:
     chapters_btn.bind("<<ComboboxSelected>>", access_to_btn_lessons)
 
     if is_admin:
-        btn_account = Button(text='Compte', font=("Cascadia Code", 17), command = lambda:menu_compte(root))
+        account_img = PhotoImage(master = root, file="graphics/compte.png")
+        btn_account = Button(image =account_img, text='Compte', font=("Cascadia Code", 17), command = lambda:menu_compte(root))
         btn_account.place(anchor=NW)
         widget_lst.append(btn_account)
 
@@ -326,11 +327,13 @@ def lesson(lesson_pdf:str ,chapter_name: str, lesson_name: str) -> None:
     #On reset la fenètre
     destroy_widgets()
     root.title(f"Cours {chapter_name}, {lesson_name}")
+    set_background("graphics/bg.png", root)
 
     #On créé les widgets
     back_img = PhotoImage(master = root, file="graphics/back.png")
     back_btn = Button(image=back_img, command=main_menu)
-    btn_open_pdf = Button(text=f"Cours: {chapter_name} {lesson_name}",command=lambda:open_given_file(lesson_pdf))
+    open_img = PhotoImage(master = root, file = "graphics/cours.png")
+    btn_open_pdf = Button(image = open_img, text=f"Cours: {chapter_name} {lesson_name}",command=lambda:open_given_file(lesson_pdf))
 
     def access_to_ex(_) -> None:
         """Permet d'acceder à l'exercice choisi"""
@@ -401,6 +404,7 @@ def exercice(enonce: str, chapter_name: str, lesson_pdf:str, lesson_name:str, no
     #Frame 1
     frame_1 = Frame(root, width=850, bg = "black")
     frame_1.grid(row=0, column=0, rowspan=9, columnspan=4, sticky="nsew")
+    set_background("graphics/noir.png")
 
     # Zone de texte pour l'ennonce
     enonce_txt = Text(master = frame_1, bg="Black", fg="White", font=("Cascadia Code", 17), highlightbackground="white", highlightthickness=1, state="normal", height=5)
@@ -498,6 +502,3 @@ start_menu()
 #A la fin du programme, si admin, MAJ du dépot git
 if is_admin:
     git_add_commit_push(["PDF", "csv_data"], f"Mise à jour des fichiers -{datetime.now().date()}")
-
-
-
