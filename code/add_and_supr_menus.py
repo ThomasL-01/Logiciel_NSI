@@ -60,7 +60,7 @@ def menu_compte(master):
         mdp_entry.pack()
         selected_mdp.pack()
         error_txt.pack()
-        enter_btn.pack(pad)
+        enter_btn.pack(pady = 20)
         quit_btn.pack(side=BOTTOM, fill=X)
 
         window_2.mainloop()
@@ -500,7 +500,7 @@ def add_exercice_menu(master, combobox, chapter_selected, lesson_selected):
             error_txt.config(text="Votre chemin de fichier ne convient pas", fg = "red")
         else:
             path = copy_file(path)
-            res = add_exercice(chapter_entry.get(), lesson_entry.get(), exercice_entry.get(), enonce_entry.get(), path)
+            res = add_exercice(chapter_entry.get(), lesson_entry.get(), exercice_entry.get(), enonce_entry.get("1.0", "end-1c"), path)
             if res is False:
                 delete_file(path)
                 error_txt.config(text="Il y'a eu un problème... Il faut recommencer", fg = "red")
@@ -645,7 +645,7 @@ def modif_hint_menu(master,chapitre,lesson,exercice):
 
     info_txt = Label(window, bg="black", fg="White", font=("Cascadia Code", 17), text="Cliquez sur l'action correspondante:")
     
-    def enter(command):
+    def enter(command, combobox = None):
         if command == "supprimé":
             hint_selected = hint_suppr.get()
             sure = Toplevel(master=window, bg="black")
@@ -669,6 +669,11 @@ def modif_hint_menu(master,chapitre,lesson,exercice):
                         error_txt.config(fg="black")
                         res_txt.config(text=f"L'indice a été supprimé avec succès !\n Vous pouvez fermer cette fenêtre, elle se fermera dans 5 secondes")
                         res_txt.pack(pady=15)
+                        lst_hint = ["Veuillez choisir un indice"]
+                        for hint in get_hint(chapitre,lesson,exercice):
+                                lst_hint.append(hint)
+                        combobox.config(values = lst_hint) 
+                        window.after(5000, window.destroy)
                         
             yes_btn = Button(sure, text="OUI", command=lambda:answer(True))
             no_btn = Button(sure, text="NON", command=lambda:answer(False))
@@ -688,28 +693,32 @@ def modif_hint_menu(master,chapitre,lesson,exercice):
                     error_txt.config(fg="black")
                     res_txt.config(text=f"L'indice a été ajouté avec succès !\n Vous pouvez fermer cette fenêtre, elle se fermera dans 5 secondes")
                     res_txt.pack(pady=15)
-    
+                    window.after(5000, window.destroy)
+
     lst_hint = ["Veuillez choisir un indice à supprimer"]
     for hint in get_hint(chapitre,lesson,exercice):
         lst_hint.append(hint)
     hint_suppr = ttk.Combobox(window,values=lst_hint, width = 40)
     hint_suppr.current(0)
-    hint_suppr.bind("<<ComboboxSelected>>", enter("supprimé"))
+    hint_suppr.bind("<<ComboboxSelected>>",None)
 
     add_img = PhotoImage(master = window, file="graphics/enter.png").subsample(2)
     add_btn = Button(window, text="ajouter", command=lambda:enter("ajouté"))
+    del_img = PhotoImage(master = window, file="graphics/enter.png").subsample(2)
+    del_btn = Button(window, text="supprimer", command=lambda:enter("supprimé", hint_suppr))
 
     quit_img = PhotoImage(master = window, file="graphics/quitter.png")
     quit_btn = Button(master = window,image= quit_img, command=window.destroy)
 
-    label_title.pack(pady = 20)
+    label_title.pack(pady = 10)
     hint_txt.pack(pady=10)
-    hint_suppr.pack(pady=20)
-    hint_add_label.pack(pady = 20)
+    hint_suppr.pack(pady=10)
+    hint_add_label.pack(pady = 10)
     hint_add_entry.pack(pady = 10)
     error_txt.pack(pady=3)
-    info_txt.pack(pady=20)
+    info_txt.pack(pady=10)
     add_btn.pack(pady=10)
+    del_btn.pack(pady = 10)
 
     quit_btn.pack(side=BOTTOM, fill=X)
 

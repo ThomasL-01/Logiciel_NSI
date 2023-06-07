@@ -280,12 +280,12 @@ def add_hint(text: str, chapter: str, lesson: str, exercice: str)-> bool:
         return True
     return False
 
-def delete_hint(chapter: str, lesson: str = None, exercice: str = None, txt = "") -> bool:
+def delete_hint(chapter: str, lesson: str = None, exercice: str = None, txt = None) -> bool:
     """Supprime l'indice avec les infos données en argument. Renvoie True si tout c'est bien passé, False sinon"""
     with open('csv_data/indices.csv', 'r', encoding= "utf-8") as fr:
         # reading line by line
         lines = fr.readlines()
-        lines_to_delete = _find_line_hint(chapter, lesson,exercice)
+        lines_to_delete = _find_line_hint(chapter, lesson,exercice, txt)
         acc = 0
         # opening in writing mode
         with open('csv_data/indices.csv', 'w', encoding= "utf-8") as fw:

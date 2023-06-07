@@ -7,6 +7,7 @@ from add_and_supr_menus import add_chapter_menu, add_exercice_menu, add_lesson_m
 from test_git import *
 from datetime import datetime
 import hashlib
+from random import choice
 
 #Update la version de l'utilisateur
 #git_update() Pour le moment vu qu'on est en dev on le met pas
@@ -20,6 +21,7 @@ root.maxsize(1000,600)
 username = ""
 usermdp = ""
 is_admin = False
+set_background("graphics/bg.png", root)
 
 class AnimatedGif():
     def __init__(self, max_frame, path: str, canvas, zoom=1, speed=100, repeat=1):
@@ -80,7 +82,7 @@ def start_menu() -> None:
     root.title("Authentification")
     #On reset la fenètre
     destroy_widgets()
-    set_background("graphics/bg.png", root)
+    
 
     #On créé des widgets
     cnvas = Canvas(master = root, bg = "black", width=500, height=100, highlightthickness=0, bd = 0)
@@ -304,10 +306,11 @@ def main_menu() -> None:
     if is_admin:
         btn_account = Button(text='Compte', font=("Cascadia Code", 17), command = lambda:menu_compte(root))
         btn_account.place(anchor=NW)
+        widget_lst.append(btn_account)
 
     #On récupère les widgets dans la liste afin de pouvoir les détruire
     widget_lst.append(chapters_btn)
-    widget_lst.append(btn_account)
+    
     widget_lst.append(quit_btn)
     widget_lst.append(txt)
     #On fait apparaître les widgets sur l'écran
@@ -362,6 +365,7 @@ def lesson(lesson_pdf:str ,chapter_name: str, lesson_name: str) -> None:
     root.mainloop()
 
 def exercice(enonce: str, chapter_name: str, lesson_pdf:str, lesson_name:str, nom_exo) -> None:
+    global nb_indices_depenses
     """On créé la fenêtre pour accéder aux exercices en PDF"""
     #On reset la fenètre
     destroy_widgets()
@@ -369,9 +373,20 @@ def exercice(enonce: str, chapter_name: str, lesson_pdf:str, lesson_name:str, no
     nb_indices_depenses = 0
 
     def execute_code():
-        code = code_entry.get("1.0", "end-1c")
+        code2 = code_entry.get("1.0", "end-1c")
         try:
-            a = exec(code)
+            
+            with open(get_correction(chapter_name,lesson_name, nom_exo), "r") as file:
+                code1 = file.read()
+            variables1 = {}
+            exec(code1, variables1)
+            variables2 = {}
+            exec(code2, variables2)
+
+            resultat1 = variables1["correction"]()
+            resultat2 = variables2["f"]()
+            assert resultat1 == resultat2
+
             result_text.configure(state="normal")
             result_text.delete("1.0", "end")
             result_text.insert("end", "Test reussi!")
@@ -408,31 +423,37 @@ def exercice(enonce: str, chapter_name: str, lesson_pdf:str, lesson_name:str, no
     frame_2.grid(row=0, column=5, rowspan=9, columnspan=1, sticky="nsew")
 
     def access_hint():
+        hint_list = get_hint(chapter_name, lesson_name, nom_exo)
+      
+        global nb_indices_depenses
         window = Toplevel(root, bg="black")
-        window.geometry("500x300")
-        window.minsize(500,300)
-        window.maxsize(500,300)
         window.title("Indice")
 
-        hint_label = Label(master=window, font=("Cascadia Code", 20), bg="white", fg="black", text="")
-        for hint in get_hint(chapter_name, lesson_name, nom_exo):
-            pass
-
+        if not hint_list == []:
+            hint_label = Label(master=window, font=("Cascadia Code", 17), bg="black", fg="white", text=f"{choice(hint_list)}", wraplength=500)
+            nb_indices_depenses += 1
+            if nb_indices_depenses ==3:
+                change_state_correction_button()
+            hint_label.pack()
+        else:
+            hint_label = Label(master=window, font=("Cascadia Code", 17), bg="black", fg="white", text=f"Il n'y a aucun indice disponible pour cet exercice", wraplength=500)
+            hint_label.pack()
+        
     #Bouton pour acceder aux indices
     indices_img = PhotoImage(master = root, file = "graphics/hint.png").subsample(2)
-    indices_btn = Button(frame_2, image = indices_img, bg="White", fg="black", font=("Cascadia Code", 20))
+    indices_btn = Button(frame_2, image = indices_img, bg="White", fg="black", font=("Cascadia Code", 17), command=access_hint)
     indices_btn.pack(pady=50, expand=True)    
 
     if is_admin:
         add_suppr_hint_img = PhotoImage(master = root, file="graphics/add_supr_hint.png").subsample(2)
-        add_suppr_hint_btn = Button(frame_2, image=add_suppr_hint_img, bg="White", fg="black", font=("Cascadia Code", 20),command=lambda: modif_hint_menu(root,chapter_name,lesson_name,nom_exo))
+        add_suppr_hint_btn = Button(frame_2, image=add_suppr_hint_img, bg="White", fg="black", font=("Cascadia Code", 17),command=lambda: modif_hint_menu(root,chapter_name,lesson_name,nom_exo))
         add_suppr_hint_btn.pack(pady=20, expand=True)    
         widget_lst.append(add_suppr_hint_btn)
 
     #Bouton pour accéder à la correction
     corrcetion_img = PhotoImage(master = root, file="graphics/correction.png").subsample(2)
     correction_btn = Button(frame_2, image = corrcetion_img, command=lambda:open_given_file(get_correction(chapter_name, lesson_name, nom_exo)), state=DISABLED, font=("Cascadia Code", 20), fg="black", bg="White")
-    if nb_indices_depenses >=3:
+    def change_state_correction_button():
         correction_btn.config(state=ACTIVE)
     correction_btn.pack(pady=50, expand=True)
 
@@ -469,3 +490,6 @@ start_menu()
 #A la fin du programme, si admin, MAJ du dépot git
 if is_admin:
     git_add_commit_push(["PDF", "csv_data"], f"Mise à jour des fichiers -{datetime.now().date()}")
+
+
+
