@@ -332,7 +332,6 @@ def modif_mdp_admin(new_mdp):
 
 def get_save(chapitre,lesson,exercice):
     x = _find_line_save(chapitre,lesson,exercice)
-    print(x)
     if x == []:
         return None
     f = open("csv_data/csv_save.csv", "r", encoding= "utf-8")
@@ -358,7 +357,6 @@ def _find_line_save(chapitre, lesson, exercice):
 
 def save_code(chapitre,lesson,exercice,code):
     x = _find_line_save(chapitre,lesson,exercice)
-    print(x)
     if x == []:
         f = open("csv_data/csv_save.csv", "a", encoding= "utf-8")
         table = csv.DictWriter(f, ["chapitre", "lecon", "exercice", "code"], delimiter=";")
@@ -378,4 +376,3 @@ def save_code(chapitre,lesson,exercice,code):
         table.writerow({"chapitre":chapitre, "lecon":lesson,"exercice":exercice, "code":code})
         f.close()
 
-print(get_save("chapitre1","leçon1","Exercice1"))
