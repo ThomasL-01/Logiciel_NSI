@@ -369,6 +369,7 @@ def lesson(lesson_pdf:str ,chapter_name: str, lesson_name: str) -> None:
 
 def exercice(enonce: str, chapter_name: str, lesson_pdf:str, lesson_name:str, nom_exo) -> None:
     global nb_indices_depenses
+    set_background("graphics/noir.png",root)
     """On créé la fenêtre pour accéder aux exercices en PDF"""
     #On reset la fenètre
     destroy_widgets()
@@ -404,7 +405,7 @@ def exercice(enonce: str, chapter_name: str, lesson_pdf:str, lesson_name:str, no
     #Frame 1
     frame_1 = Frame(root, width=850, bg = "black")
     frame_1.grid(row=0, column=0, rowspan=9, columnspan=4, sticky="nsew")
-    set_background("graphics/noir.png")
+    
 
     # Zone de texte pour l'ennonce
     enonce_txt = Text(master = frame_1, bg="Black", fg="White", font=("Cascadia Code", 17), highlightbackground="white", highlightthickness=1, state="normal", height=5)
