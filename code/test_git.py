@@ -22,7 +22,12 @@ def get_files_in_directory() -> list:
             files.append(rel_path)
     return files
 
-def git_add_commit_push(repo_path = os.path.dirname(os.getcwd)):
+def obtenir_dossier_parent():
+    dossier_courant = os.path.abspath(os.getcwd())
+    dossier_parent = os.path.dirname(dossier_courant)
+    return dossier_parent
+
+def git_add_commit_push(repo_path = obtenir_dossier_parent()):
     try:
         repo = Repo(repo_path)
         repo.remotes.origin.pull()
