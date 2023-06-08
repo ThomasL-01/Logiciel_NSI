@@ -64,7 +64,7 @@ def git_add_commit_push(directory_names: list, commit_message: list, branch: str
 
 def git_update(repo_path: str = os.getcwd(), branch: str = 'master') -> None:
     """Pour l'utilisateur: Permet de mettre à jour sa version du logiciel avec tous les cours etc que l'admin a pu ajouter"""
-    repo = Repo(repo_path)
+    repo = Repo(os.path.dirname(repo_path))
     origin = repo.remotes.origin
 
     if repo.is_dirty():
