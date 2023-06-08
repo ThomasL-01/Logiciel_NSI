@@ -18,7 +18,7 @@ else:
     big_font = 17
 
 #Update la version de l'utilisateur
-#git_update() #Pour le moment vu qu'on est en dev on le met pas
+git_update() #Pour le moment vu qu'on est en dev on le met pas
 
 #Création de la fenètre de base
 root = Tk()
