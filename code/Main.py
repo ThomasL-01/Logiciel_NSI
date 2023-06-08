@@ -18,7 +18,7 @@ else:
     big_font = 17
 
 #Update la version de l'utilisateur
-git_update() #Pour le moment vu qu'on est en dev on le met pas
+#git_update() #Pour le moment vu qu'on est en dev on le met pas
 
 #Création de la fenètre de base
 root = Tk()
@@ -29,7 +29,7 @@ root.maxsize(1000,600)
 username = ""
 usermdp = ""
 is_admin = False
-set_background("graphics/bg.png", root)
+set_background("../graphics/bg.png", root)
 
 class AnimatedGif():
     def __init__(self, max_frame, path: str, canvas, zoom=1, speed=100, repeat=1):
@@ -93,13 +93,13 @@ def start_menu() -> None:
     
     #On créé des widgets
     cnvas = Canvas(master = root, bg = "black", width=500, height=100, highlightthickness=0, bd = 0)
-    gif = AnimatedGif(7, "graphics/titre.gif" ,cnvas, 1, 150, -1)
+    gif = AnimatedGif(7, "../graphics/titre.gif" ,cnvas, 1, 150, -1)
     gif.update(7)
-    quit_img = PhotoImage(master = root, file="graphics/quitter.png")
+    quit_img = PhotoImage(master = root, file="../graphics/quitter.png")
     quit_btn = Button(master = root, image=quit_img, command=root.destroy)
-    connect_img = PhotoImage(master = root, file="graphics/connexion.png")
+    connect_img = PhotoImage(master = root, file="../graphics/connexion.png")
     btn_connect = Button(master = root, image = connect_img , command=connection_menu, font=("Cascadia Code", font))
-    create_img = PhotoImage(master = root, file="graphics/create.png")
+    create_img = PhotoImage(master = root, file="../graphics/create.png")
     btn_create = Button(master = root,image=create_img, command=lambda:connection_menu('create'), font=("Cascadia Code", font))
 
     #On récupère les widgets dans la liste afin de pouvoir les détruire
@@ -126,11 +126,11 @@ def connection_menu(menu:str = 'load') -> None:
         global username, is_admin, usermdp
         """systeme de verification d'une sauvegarde à charger"""
         username = pseudo_joueur.get() #On récupère le pseudo et le mdp
-        is_admin = user_is_admin(username,"csv_data/csvfile.csv")
+        is_admin = user_is_admin(username,"../csv_data/csvfile.csv")
         usermdp = mdp_joueur.get()
         hash_object = hashlib.sha256(usermdp.encode())  # Encode la chaîne en bytes et calcule le haché
         hex_digest = hash_object.hexdigest()  # Convertit le haché en une représentation hexadécimale
-        error = verif_sauvegarde(str(username), str(hex_digest), 'csv_data/csvfile.csv') #on verrifie si le pseudo existe déjà
+        error = verif_sauvegarde(str(username), str(hex_digest), '../csv_data/csvfile.csv') #on verrifie si le pseudo existe déjà
         if error: #dans le cas d'une erreur
             error_text.config(fg='red', text= "Le nom d'utilisateur ou mot de passe est incorrect !")
             error_text.pack(pady=2)
@@ -144,15 +144,15 @@ def connection_menu(menu:str = 'load') -> None:
         usermdp = mdp_joueur.get()
         hash_object = hashlib.sha256(usermdp.encode())  # Encode la chaîne en bytes et calcule le haché
         hex_digest = hash_object.hexdigest()  # Convertit le haché en une représentation hexadécimale
-        verification = verifpseudo(username, 'csv_data/csvfile.csv')
+        verification = verifpseudo(username, '../csv_data/csvfile.csv')
         if verification:#dans le cas d'une erreur
             error_text.config(fg ='red', text='Ce pseudo existe déjà !')
         else:
             if len(username) == 0:
                 error_text.config(fg='red',  text = "Vous devez utiliser un mot de passe et un pseudo")
             else:
-                nouvelle_sauvegarde(username, hex_digest, 'csv_data/csvfile.csv')
-                is_admin = user_is_admin(username,"csv_data/csvfile.csv")
+                nouvelle_sauvegarde(username, hex_digest, '../csv_data/csvfile.csv')
+                is_admin = user_is_admin(username,"../csv_data/csvfile.csv")
                 main_menu()
     
     #On créé les widgets puis on les récupère dans la liste afin de pouvoir les détruire
@@ -191,11 +191,11 @@ def connection_menu(menu:str = 'load') -> None:
     error_text = Label(root, text=None, font = ("Cascadia Code", big_font), bg="black", fg='black')
     widget_lst.append(error_text)
 
-    enter_img = PhotoImage(master = root, file="graphics/enter.png").subsample(2)
+    enter_img = PhotoImage(master = root, file="../graphics/enter.png").subsample(2)
     entrer_button = Button(root, text= 'Entrer',font = ("Cascadia Code", big_font), image=enter_img)
     widget_lst.append(entrer_button)
 
-    back_img = PhotoImage(master = root, file="graphics/back.png")
+    back_img = PhotoImage(master = root, file="../graphics/back.png")
     back_btn = Button(image=back_img, command=start_menu)
     widget_lst.append(back_btn)
 
@@ -236,7 +236,7 @@ def main_menu() -> None:
     
     #On créé les widgets
     txt = Label(text="Menu principal", bg="Black", fg="White", font=("Cascadia Code", 30))
-    quit_img = PhotoImage(master = root, file="graphics/quitter.png")
+    quit_img = PhotoImage(master = root, file="../graphics/quitter.png")
     quit_btn = Button(image= quit_img, command=root.destroy)
 
     has_spawned = False
@@ -311,7 +311,7 @@ def main_menu() -> None:
     chapters_btn.bind("<<ComboboxSelected>>", access_to_btn_lessons)
 
     if is_admin:
-        account_img = PhotoImage(master = root, file="graphics/compte.png")
+        account_img = PhotoImage(master = root, file="../graphics/compte.png")
         btn_account = Button(image =account_img, text='Compte', font=("Cascadia Code", font), command = lambda:menu_compte(root))
         btn_account.place(anchor=NW)
         widget_lst.append(btn_account)
@@ -334,12 +334,12 @@ def lesson(lesson_pdf:str ,chapter_name: str, lesson_name: str) -> None:
     #On reset la fenètre
     destroy_widgets()
     root.title(f"Cours {chapter_name}, {lesson_name}")
-    set_background("graphics/bg.png", root)
+    set_background("../graphics/bg.png", root)
 
     #On créé les widgets
-    back_img = PhotoImage(master = root, file="graphics/back.png")
+    back_img = PhotoImage(master = root, file="../graphics/back.png")
     back_btn = Button(image=back_img, command=main_menu)
-    open_img = PhotoImage(master = root, file = "graphics/cours.png")
+    open_img = PhotoImage(master = root, file = "../graphics/cours.png")
     btn_open_pdf = Button(image = open_img, text=f"Cours: {chapter_name} {lesson_name}",command=lambda:open_given_file(lesson_pdf))
 
     def access_to_ex(_) -> None:
@@ -376,7 +376,7 @@ def lesson(lesson_pdf:str ,chapter_name: str, lesson_name: str) -> None:
 
 def exercice(enonce: str, chapter_name: str, lesson_pdf:str, lesson_name:str, nom_exo) -> None:
     global nb_indices_depenses
-    set_background("graphics/noir.png",root)
+    set_background("../graphics/noir.png",root)
     """On créé la fenêtre pour accéder aux exercices en PDF"""
     #On reset la fenètre
     destroy_widgets()
@@ -431,7 +431,7 @@ def exercice(enonce: str, chapter_name: str, lesson_pdf:str, lesson_name:str, no
     code_entry.pack(fill=X, expand=True)
 
     # Bouton pour exécuter le root
-    verif_img = PhotoImage(master = root, file = "graphics/valider.png")
+    verif_img = PhotoImage(master = root, file = "../graphics/valider.png")
     execute_button = Button(frame_1, image= verif_img, command=execute_code)
     execute_button.pack(pady=10)
 
@@ -460,25 +460,25 @@ def exercice(enonce: str, chapter_name: str, lesson_pdf:str, lesson_name:str, no
             hint_label.pack()
         
     #Bouton pour acceder aux indices
-    indices_img = PhotoImage(master = root, file = "graphics/hint.png").subsample(2)
+    indices_img = PhotoImage(master = root, file = "../graphics/hint.png").subsample(2)
     indices_btn = Button(frame_2, image = indices_img, bg="White", fg="black", font=("Cascadia Code", font), command=access_hint)
     indices_btn.pack(pady=50, expand=True)    
 
     if is_admin:
-        add_suppr_hint_img = PhotoImage(master = root, file="graphics/add_supr_hint.png").subsample(2)
+        add_suppr_hint_img = PhotoImage(master = root, file="../graphics/add_supr_hint.png").subsample(2)
         add_suppr_hint_btn = Button(frame_2, image=add_suppr_hint_img, bg="White", fg="black", font=("Cascadia Code", font),command=lambda: modif_hint_menu(root,chapter_name,lesson_name,nom_exo))
         add_suppr_hint_btn.pack(pady=big_font, expand=True)    
         widget_lst.append(add_suppr_hint_btn)
 
     #Bouton pour accéder à la correction
-    corrcetion_img = PhotoImage(master = root, file="graphics/correction.png").subsample(2)
+    corrcetion_img = PhotoImage(master = root, file="../graphics/correction.png").subsample(2)
     correction_btn = Button(frame_2, image = corrcetion_img, command=lambda:open_given_file(get_correction(chapter_name, lesson_name, nom_exo)), state=DISABLED, font=("Cascadia Code", big_font), fg="black", bg="White")
     def change_state_correction_button():
         correction_btn.config(state=ACTIVE)
     correction_btn.pack(pady=50, expand=True)
 
     frame_3 = Frame(root, bg="black")
-    back_img = PhotoImage(master = root, file="graphics/back.png")
+    back_img = PhotoImage(master = root, file="../graphics/back.png")
     back_btn = Button(frame_3,image=back_img, command=lambda:lesson(lesson_pdf,chapter_name,lesson_name))
     back_btn.pack(fill=X, expand=True)
     frame_3.grid(row=10, column=0, rowspan=1, columnspan=6, sticky="nsew")
@@ -509,4 +509,4 @@ start_menu()
 
 #A la fin du programme, si admin, MAJ du dépot git
 if is_admin:
-    git_add_commit_push(["PDF", "csv_data"], f"Mise à jour des fichiers -{datetime.now().date()}")
+    git_add_commit_push(["PDF", "../csv_data"], f"Mise à jour des fichiers -{datetime.now().date()}")

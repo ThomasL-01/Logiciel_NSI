@@ -26,7 +26,7 @@ def menu_compte(master):
     window.maxsize(1000,600)
     window.title("Compte")
     window.attributes("-topmost", True)
-    set_background("graphics/bg.png", window)
+    set_background("../graphics/bg.png", window)
 
     def add_user_window():
         window.attributes("-topmost", False)
@@ -34,7 +34,7 @@ def menu_compte(master):
         window_2.minsize(1000,600)
         window_2.maxsize(1000,600)
         window_2.attributes("-topmost", True)
-        set_background("graphics/bg.png", window_2)
+        set_background("../graphics/bg.png", window_2)
 
         label_title = Label(window_2, bg="black", fg="White", font=("Cascadia Code", big_font), text="Ajouter un utilisateur")
         user_txt = Label(window_2, bg="black", fg="White", font=("Cascadia Code", big_font), text="Ajouter le nom de l'utilisateur:")
@@ -55,10 +55,10 @@ def menu_compte(master):
                 res_txt.pack()
         
         
-        enter_img = PhotoImage(master = window_2, file="graphics/enter.png").subsample(2)
+        enter_img = PhotoImage(master = window_2, file="../graphics/enter.png").subsample(2)
         enter_btn = Button(window_2, image=enter_img, command=enter)
 
-        quit_img = PhotoImage(master = window, file="graphics/quitter.png")
+        quit_img = PhotoImage(master = window, file="../graphics/quitter.png")
         quit_btn = Button(master = window_2, image= quit_img, command=window_2.destroy)
 
         label_title.pack(pady = big_font)
@@ -79,7 +79,7 @@ def menu_compte(master):
         window_2.minsize(1000,600)
         window_2.maxsize(1000,600)
         window_2.attributes("-topmost", True)
-        set_background("graphics/bg.png", window_2)
+        set_background("../graphics/bg.png", window_2)
 
         label_title = Label(window_2, bg="black", fg="White", font=("Cascadia Code", big_font), text="Supprimer un utilisateur")
         user_txt = Label(window_2, bg="black", fg="White", font=("Cascadia Code", big_font), text="Ajouter le nom de l'utilisateur: que vous voulez supprimer")
@@ -97,10 +97,10 @@ def menu_compte(master):
                 res_txt.pack()
         
         
-        enter_img = PhotoImage(master = window_2, file="graphics/enter.png").subsample(2)
+        enter_img = PhotoImage(master = window_2, file="../graphics/enter.png").subsample(2)
         enter_btn = Button(window_2, image=enter_img, command=enter)
 
-        quit_img = PhotoImage(master = window, file="graphics/quitter.png")
+        quit_img = PhotoImage(master = window, file="../graphics/quitter.png")
         quit_btn = Button(master = window_2, image= quit_img, command=window_2.destroy)
         
         label_title.pack()
@@ -118,7 +118,7 @@ def menu_compte(master):
         window_2.minsize(1000,600)
         window_2.maxsize(1000,600)
         window_2.attributes("-topmost", True)
-        set_background("graphics/bg.png", window_2)
+        set_background("../graphics/bg.png", window_2)
 
         label_title = Label(window_2, bg="black", fg="White", font=("Cascadia Code", big_font), text="Modifier mot de passe")
         user_txt = Label(window_2, bg="black", fg="White", font=("Cascadia Code", big_font), text="Veuillez mettre votre nouveau mot de passe")
@@ -140,10 +140,10 @@ def menu_compte(master):
                 res_txt.pack()
         
         
-        enter_img = PhotoImage(master = window_2, file="graphics/enter.png").subsample(2)
+        enter_img = PhotoImage(master = window_2, file="../graphics/enter.png").subsample(2)
         enter_btn = Button(window_2, image=enter_img, command=enter)
 
-        quit_img = PhotoImage(master = window, file="graphics/quitter.png")
+        quit_img = PhotoImage(master = window, file="../graphics/quitter.png")
         quit_btn = Button(master = window_2, image= quit_img, command=window_2.destroy)
         
         label_title.pack()
@@ -169,7 +169,7 @@ def menu_compte(master):
     user_btn.current(0)
     user_btn.bind("<<ComboboxSelected>>",None)
     
-    quit_img = PhotoImage(master = window, file="graphics/quitter.png")
+    quit_img = PhotoImage(master = window, file="../graphics/quitter.png")
     quit_btn = Button(master = window, image= quit_img, command=window.destroy)
 
     useradd.pack(pady=big_font)
@@ -189,7 +189,7 @@ def add_lesson_menu(master, combobox, chapter_selected):
     window.title("Ajouter une leçon")
     window.attributes("-topmost", True)
     path = ""
-    set_background("graphics/bg.png", window)
+    set_background("../graphics/bg.png", window)
 
     label_title = Label(window, bg="black", fg="White", font=("Cascadia Code", big_font), text="Ajouter une leçon")
     chapter_txt = Label(window, bg="black", fg="White", font=("Cascadia Code", big_font), text="Insérer le nom du chapitre")
@@ -235,11 +235,11 @@ def add_lesson_menu(master, combobox, chapter_selected):
                 combobox.config(values = lst_chapters) 
                 window.after(5000, window.destroy)
 
-    select_img = PhotoImage(master = window, file="graphics/select_file.png").subsample(2)
+    select_img = PhotoImage(master = window, file="../graphics/select_file.png").subsample(2)
     select_path_btn = Button(window,image=select_img, command=recup_path_bis)
-    enter_img = PhotoImage(master = window, file="graphics/enter.png").subsample(2)
+    enter_img = PhotoImage(master = window, file="../graphics/enter.png").subsample(2)
     enter_btn = Button(window, image=enter_img, command=enter)
-    quit_img = PhotoImage(master = window, file="graphics/quitter.png")
+    quit_img = PhotoImage(master = window, file="../graphics/quitter.png")
     quit_btn = Button(master = window, image= quit_img, command=window.destroy)
 
     label_title.pack(pady=50)
@@ -263,7 +263,7 @@ def del_lesson_menu(master, combobox, chapter_selected):
     window.maxsize(1000,600)
     window.title("Supprimer une leçon")
     window.attributes("-topmost", True)
-    set_background("graphics/bg.png", window)
+    set_background("../graphics/bg.png", window)
 
     label_title = Label(window, bg="black", fg="White", font=("Cascadia Code", big_font), text="Supprmier une leçon")
     chapter_txt = Label(window, bg="black", fg="White", font=("Cascadia Code", big_font), text="Insérer le nom du chapitre")
@@ -312,9 +312,9 @@ def del_lesson_menu(master, combobox, chapter_selected):
                         window.after(5000, window.destroy)
 
             
-            yes_img = PhotoImage(master = window, file="graphics/oui.png").subsample(2)
+            yes_img = PhotoImage(master = window, file="../graphics/oui.png").subsample(2)
             yes_btn = Button(sure, image = yes_img, command=lambda:answer(True))
-            no_img = PhotoImage(master = window, file="graphics/non.png").subsample(2)
+            no_img = PhotoImage(master = window, file="../graphics/non.png").subsample(2)
             no_btn = Button(sure, image = no_img, command=lambda:answer(False))
 
             label_title_.pack(pady=50)
@@ -324,9 +324,9 @@ def del_lesson_menu(master, combobox, chapter_selected):
             sure.mainloop()
         
 
-    enter_img = PhotoImage(master = window, file="graphics/enter.png").subsample(2)
+    enter_img = PhotoImage(master = window, file="../graphics/enter.png").subsample(2)
     enter_btn = Button(window, image=enter_img, command=enter)
-    quit_img = PhotoImage(master = window, file="graphics/quitter.png")
+    quit_img = PhotoImage(master = window, file="../graphics/quitter.png")
     quit_btn = Button(master = window,image= quit_img, command=window.destroy)
 
     label_title.pack(pady=50)
@@ -347,7 +347,7 @@ def add_chapter_menu(master, combobox):
     window.maxsize(1000,600)
     window.title("Ajouter un chapitre")
     window.attributes("-topmost", True)
-    set_background("graphics/bg.png", window)
+    set_background("../graphics/bg.png", window)
 
     label_title = Label(window, bg="black", fg="White", font=("Cascadia Code", big_font), text="Ajouter un chapitre")
     chapter_txt = Label(window, bg="black", fg="White", font=("Cascadia Code", big_font), text="Insérer le nom du chapitre à ajouter")
@@ -378,12 +378,12 @@ def add_chapter_menu(master, combobox):
                 combobox.config(values = lst_chapters) 
                 window.after(5000, window.destroy)
 
-    enter_img = PhotoImage(master = window, file="graphics/enter.png").subsample(2)
+    enter_img = PhotoImage(master = window, file="../graphics/enter.png").subsample(2)
     enter_btn = Button(window, image=enter_img, command=enter)
-    quit_img = PhotoImage(master = window, file="graphics/quitter.png")
+    quit_img = PhotoImage(master = window, file="../graphics/quitter.png")
     quit_btn = Button(master = window,image= quit_img, command=window.destroy)
 
-    label_title.pack(pady=50)
+    label_title.pack(pady=10)
     chapter_txt.pack()
     chapter_entry.pack(pady=big_font)
     error_txt.pack(pady=5)
@@ -399,7 +399,7 @@ def del_chapter_menu(master, combobox):
     window.maxsize(1000,600)
     window.title("Supprimer un chapitre")
     window.attributes("-topmost", True)
-    set_background("graphics/bg.png", window)
+    set_background("../graphics/bg.png", window)
 
     label_title = Label(window, bg="black", fg="White", font=("Cascadia Code", big_font), text="Supprimer un chapitre")
     chapter_txt = Label(window, bg="black", fg="White", font=("Cascadia Code", big_font), text="Insérer le nom du chapitre à supprimer")
@@ -444,9 +444,9 @@ def del_chapter_menu(master, combobox):
                         combobox.config(values = lst_chapters) 
                         window.after(5000, window.destroy)
 
-            yes_img = PhotoImage(master = window, file="graphics/oui.png").subsample(2)
+            yes_img = PhotoImage(master = window, file="../graphics/oui.png").subsample(2)
             yes_btn = Button(sure, image = yes_img, command=lambda:answer(True))
-            no_img = PhotoImage(master = window, file="graphics/non.png").subsample(2)
+            no_img = PhotoImage(master = window, file="../graphics/non.png").subsample(2)
             no_btn = Button(sure, image = no_img, command=lambda:answer(False))
 
             label_title_.pack(pady=50)
@@ -455,9 +455,9 @@ def del_chapter_menu(master, combobox):
 
             sure.mainloop()
 
-    enter_img = PhotoImage(master = window, file="graphics/enter.png").subsample(2)
+    enter_img = PhotoImage(master = window, file="../graphics/enter.png").subsample(2)
     enter_btn = Button(window, image=enter_img, command=enter)
-    quit_img = PhotoImage(master = window, file="graphics/quitter.png")
+    quit_img = PhotoImage(master = window, file="../graphics/quitter.png")
     quit_btn = Button(master = window,image= quit_img, command=window.destroy)
 
     label_title.pack(pady=50)
@@ -478,7 +478,7 @@ def add_exercice_menu(master, combobox, chapter_selected, lesson_selected):
     window.title("Ajouter un exercice")
     window.attributes("-topmost", True)
     path = ""
-    set_background("graphics/bg.png", window)
+    set_background("../graphics/bg.png", window)
 
     chapter_txt = Label(window, bg="black", fg="White", font=("Cascadia Code", 16), text="Insérer le nom du chapitre")
     
@@ -530,12 +530,12 @@ def add_exercice_menu(master, combobox, chapter_selected, lesson_selected):
                 combobox.config(values = lst_exos) 
                 window.after(5000, window.destroy)
 
-    select_img = PhotoImage(master = window, file="graphics/select_file.png").subsample(2)
+    select_img = PhotoImage(master = window, file="../graphics/select_file.png").subsample(2)
     select_path_btn = Button(window, image=select_img, command=recup_path_bis)
     
-    enter_img = PhotoImage(master = window, file="graphics/enter.png").subsample(2)
+    enter_img = PhotoImage(master = window, file="../graphics/enter.png").subsample(2)
     enter_btn = Button(window, image=enter_img, command=enter)
-    quit_img = PhotoImage(master = window, file="graphics/quitter.png")
+    quit_img = PhotoImage(master = window, file="../graphics/quitter.png")
     quit_btn = Button(master = window,image= quit_img, command=window.destroy)
 
     chapter_txt.pack()
@@ -562,7 +562,7 @@ def del_exercice_menu(master, combobox, chapter_selected, lesson_selected):
     window.maxsize(1000,600)
     window.title("Supprimer un exercice")
     window.attributes("-topmost", True)
-    set_background("graphics/bg.png", window)
+    set_background("../graphics/bg.png", window)
 
     label_title = Label(window, bg="black", fg="White", font=("Cascadia Code", big_font), text="Supprimer un exercice")
     chapter_txt = Label(window, bg="black", fg="White", font=("Cascadia Code", big_font), text="Insérer le nom du chapitre")
@@ -613,9 +613,9 @@ def del_exercice_menu(master, combobox, chapter_selected, lesson_selected):
                         window.after(5000, window.destroy)
 
 
-            yes_img = PhotoImage(master = window, file="graphics/oui.png").subsample(2)
+            yes_img = PhotoImage(master = window, file="../graphics/oui.png").subsample(2)
             yes_btn = Button(sure, image = yes_img, command=lambda:answer(True))
-            no_img = PhotoImage(master = window, file="graphics/non.png").subsample(2)
+            no_img = PhotoImage(master = window, file="../graphics/non.png").subsample(2)
             no_btn = Button(sure, image = no_img, command=lambda:answer(False))
 
             label_title_.pack(pady=50)
@@ -624,9 +624,9 @@ def del_exercice_menu(master, combobox, chapter_selected, lesson_selected):
 
             sure.mainloop()
 
-    enter_img = PhotoImage(master = window, file="graphics/enter.png").subsample(2)
+    enter_img = PhotoImage(master = window, file="../graphics/enter.png").subsample(2)
     enter_btn = Button(window, image=enter_img, command=enter)
-    quit_img = PhotoImage(master = window, file="graphics/quitter.png")
+    quit_img = PhotoImage(master = window, file="../graphics/quitter.png")
     quit_btn = Button(master = window,image= quit_img, command=window.destroy)
 
     label_title.pack(pady=0)
@@ -651,7 +651,7 @@ def modif_hint_menu(master,chapitre,lesson,exercice):
     window.maxsize(1000,600)
     window.title("Modifier un indice")
     window.attributes("-topmost", True)
-    set_background("graphics/bg.png", window)
+    set_background("../graphics/bg.png", window)
 
     label_title = Label(master = window, bg="black", text="Modifier un indice",font=("Cascadia Code", big_font))
     error_txt = Label(window, bg="black", fg="black", font=("Cascadia Code", big_font), text="")
@@ -693,9 +693,9 @@ def modif_hint_menu(master,chapitre,lesson,exercice):
                         combobox.config(values = lst_hint) 
                         window.after(5000, window.destroy)
                         
-            yes_img = PhotoImage(master = window, file="graphics/oui.png").subsample(2)
+            yes_img = PhotoImage(master = window, file="../graphics/oui.png").subsample(2)
             yes_btn = Button(sure, image = yes_img, command=lambda:answer(True))
-            no_img = PhotoImage(master = window, file="graphics/non.png").subsample(2)
+            no_img = PhotoImage(master = window, file="../graphics/non.png").subsample(2)
             no_btn = Button(sure, image = no_img, command=lambda:answer(False))
 
             label_title_.pack(pady=50)
@@ -725,12 +725,12 @@ def modif_hint_menu(master,chapitre,lesson,exercice):
     hint_suppr.current(0)
     hint_suppr.bind("<<ComboboxSelected>>",None)
 
-    add_img = PhotoImage(master = window, file="graphics/ajouter.png").subsample(2)
+    add_img = PhotoImage(master = window, file="../graphics/ajouter.png").subsample(2)
     add_btn = Button(window, image=add_img, command=lambda:enter("ajouté"))
-    del_img = PhotoImage(master = window, file="graphics/supprimer.png").subsample(2)
+    del_img = PhotoImage(master = window, file="../graphics/supprimer.png").subsample(2)
     del_btn = Button(window,image = del_img, command=lambda:enter("supprimé", hint_suppr))
 
-    quit_img = PhotoImage(master = window, file="graphics/quitter.png")
+    quit_img = PhotoImage(master = window, file="../graphics/quitter.png")
     quit_btn = Button(master = window,image= quit_img, command=window.destroy)
 
     label_title.pack(pady = 10)

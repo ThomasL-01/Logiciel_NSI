@@ -7,7 +7,7 @@ from sauvegarde_ import add_user
 
 def get_all_chapters() -> list: 
     """Permet de récupérer la liste de tous les chapitres"""
-    f = open("csv_data/chapitres.csv", "r", encoding= "utf-8")
+    f = open("../csv_data/chapitres.csv", "r", encoding= "utf-8")
     table = list(csv.DictReader(f,delimiter=";")) #Preciser que le delimiter est ; et non ,
     val = []
     for e in table:
@@ -16,7 +16,7 @@ def get_all_chapters() -> list:
 
 def get_lessons(chapter: str) -> list:
     """Renvoie une liste composée de couples (path,nom_leçon)"""
-    f = open("csv_data/chapitres.csv", "r", encoding= "utf-8")
+    f = open("../csv_data/chapitres.csv", "r", encoding= "utf-8")
     table = list(csv.DictReader(f,delimiter=";")) #Preciser que le delimiter est ; et non ,
     val = []
     for e in table:
@@ -26,7 +26,7 @@ def get_lessons(chapter: str) -> list:
 
 def get_enonce_exercice(chapter: str, lesson: str, nom: str) -> list:
     """Renvoie une liste composée de couples (path,nom_leçon)"""
-    f = open("csv_data/exercices.csv", "r", encoding= "utf-8")
+    f = open("../csv_data/exercices.csv", "r", encoding= "utf-8")
     table = list(csv.DictReader(f)) 
     val = ""
     for e in table:
@@ -36,7 +36,7 @@ def get_enonce_exercice(chapter: str, lesson: str, nom: str) -> list:
 
 def get_hint(chapter: str, lesson: str, name_exo: str) -> list:
     """Renvoie la liste des indices pour l'exercice donné"""
-    f = open("csv_data/indices.csv", "r", encoding= "utf-8")
+    f = open("../csv_data/indices.csv", "r", encoding= "utf-8")
     r = list(csv.DictReader(f))
     lst = []
     for exo in r:
@@ -47,7 +47,7 @@ def get_hint(chapter: str, lesson: str, name_exo: str) -> list:
 
 def get_correction(chapter: str, lesson: str, name_exercice: str) -> str:
     """Renvoie le path de la correction de l'exercice donné"""
-    f = open("csv_data/exercices.csv", "r", encoding= "utf-8")
+    f = open("../csv_data/exercices.csv", "r", encoding= "utf-8")
     r = list(csv.DictReader(f))
     for exo in r:
         if exo["chapitre"] == chapter and exo["lecon"] == lesson and exo["nom_exo"] == name_exercice:
@@ -64,7 +64,7 @@ def get_name_lessons(chapter: str) -> list:
 
 def get_name_exercices(chapter: str, lesson: str) -> list:
     """Permet de récupérer la liste de tous les exercices d'un chapter et d'une leçon données"""
-    f = open("csv_data/exercices.csv", "r", encoding= "utf-8")
+    f = open("../csv_data/exercices.csv", "r", encoding= "utf-8")
     table = list(csv.DictReader(f)) #Preciser que le delimiter est ; et non ,
     val = []
     for e in table:
@@ -75,7 +75,7 @@ def get_name_exercices(chapter: str, lesson: str) -> list:
 def add_chapter(chapter: str) -> bool:
     """Ajoute le chapter dans le csv et renvoie true si l'opération a eu lieu, False sinon"""
     if not chapter in get_all_chapters():
-        f = open("csv_data/chapitres.csv", "a", encoding= "utf-8")
+        f = open("../csv_data/chapitres.csv", "a", encoding= "utf-8")
         table = csv.DictWriter(f, ["chapitres", "lst_lecons"], delimiter=";")
         table.writerow({"chapitres":chapter, "lst_lecons":[]})
         f.close()
@@ -84,13 +84,13 @@ def add_chapter(chapter: str) -> bool:
 
 def delete_user(user: str) -> bool:
     """Supprime l'utilisateur dont le pseudo est donné en argument. Renvoie True si tout c'est bien passé, False sinon"""
-    with open('csv_data/csvfile.csv', 'r', encoding= "utf-8") as fr:
+    with open('../csv_data/csvfile.csv', 'r', encoding= "utf-8") as fr:
         # reading line by line
         lines = fr.readlines()
-        line_to_delete = _find_line(user, "pseudo", 'csv_data/csvfile.csv')
+        line_to_delete = _find_line(user, "pseudo", '../csv_data/csvfile.csv')
         acc = 0
         # opening in writing mode
-        with open('csv_data/csvfile.csv', 'w', encoding= "utf-8") as fw:
+        with open('../csv_data/csvfile.csv', 'w', encoding= "utf-8") as fw:
             for line in lines:
                 if acc != line_to_delete:
                     fw.write(line)
@@ -116,13 +116,13 @@ def add_lesson(chapter: str ,path_lecon: str ,nom_lecon: str) -> bool:
     """Ajoute la leçon dans le csv et renvoie True si l'opération a eu lieu, False sinon\n
     ATTENTION: Doit suivre la syntaxe suivante : "'path'" et " 'nom'" (l'espace est important)"""
     if chapter in get_all_chapters():
-        with open("csv_data/chapitres.csv",'r', encoding= "utf-8") as fr:
+        with open("../csv_data/chapitres.csv",'r', encoding= "utf-8") as fr:
             lines = fr.readlines()
-            line_to_modifiy = _find_line(chapter,"chapitres","csv_data/chapitres.csv",";") 
+            line_to_modifiy = _find_line(chapter,"chapitres","../csv_data/chapitres.csv",";") 
             line_to_update = _add_lesson_bis(chapter,path_lecon,nom_lecon)
             acc = 0
             a_marché = False
-            with open("csv_data/chapitres.csv", 'w', encoding= "utf-8") as fw:
+            with open("../csv_data/chapitres.csv", 'w', encoding= "utf-8") as fw:
                 for line in lines:
                     if acc != line_to_modifiy:
                         fw.write(line)
@@ -140,7 +140,7 @@ def add_lesson(chapter: str ,path_lecon: str ,nom_lecon: str) -> bool:
 
 def _add_lesson_bis(chapter: str ,path: str ,nom_lecon: str) -> None or str :
     """Renvoie la ligne changée ou None si le changement n'a pas pu avoir lieu"""
-    with open("csv_data/chapitres.csv", 'r', encoding= "utf-8") as f:
+    with open("../csv_data/chapitres.csv", 'r', encoding= "utf-8") as f:
         test = list(csv.DictReader(f, delimiter=";"))
         for e in test:
             if e["chapitres"] == chapter and not nom_lecon in e["lst_lecons"]:
@@ -163,7 +163,7 @@ def _change_txt(base_txt: str, what_to_add: str) -> str:
 def add_exercice(chapter:str ,lesson: str, nom: str, enonce: str, correction: str)-> bool:
     """Ajoute l'exercice dans le csv suivant les paramètres donnés. Renvoie True si l'action a eu lieu, false sinon."""
     if chapter in get_all_chapters() and lesson in get_name_lessons(chapter) and not nom in get_name_exercices(chapter,lesson):
-        with open("csv_data/exercices.csv","a", encoding= "utf-8") as f:
+        with open("../csv_data/exercices.csv","a", encoding= "utf-8") as f:
             w = csv.DictWriter(f, ["chapitre", "lecon", "nom_exo", "enonce", "correction"])
             w.writerow({"chapitre": chapter, "lecon": lesson, "nom_exo": nom, "enonce": enonce, "correction": correction})
             return True      
@@ -172,14 +172,14 @@ def add_exercice(chapter:str ,lesson: str, nom: str, enonce: str, correction: st
 def delete_exo(chapter: str, lesson: str = None, nom: str = None)-> bool:
     """Supprime l'exercice avec les infos données en argument. Renvoie True si tout c'est bien passé, False sinon"""
     if nom in get_name_exercices(chapter,lesson):
-        with open('csv_data/exercices.csv', 'r', encoding= "utf-8") as fr:
+        with open('../csv_data/exercices.csv', 'r', encoding= "utf-8") as fr:
             # reading line by line
             lines = fr.readlines()
             lines_to_delete = _find_line_exo(chapter, lesson, nom)
             acc = 0
             file_to_delete = get_correction(chapter,lesson,nom)
             # opening in writing mode
-            with open('csv_data/exercices.csv', 'w', encoding= "utf-8") as fw:
+            with open('../csv_data/exercices.csv', 'w', encoding= "utf-8") as fw:
                 for line in lines:
                     if lines_to_delete is None or acc not in lines_to_delete:
                         fw.write(line)
@@ -193,7 +193,7 @@ def delete_exo(chapter: str, lesson: str = None, nom: str = None)-> bool:
     return False
 
 def _find_line_exo(chapter: str, lesson: str, nom: str)-> int or None:
-    with open("csv_data/exercices.csv", 'r', encoding= "utf-8") as f:
+    with open("../csv_data/exercices.csv", 'r', encoding= "utf-8") as f:
         test = list(csv.DictReader(f))
         line_to_delete = 0
         res = []
@@ -210,13 +210,13 @@ def _find_line_exo(chapter: str, lesson: str, nom: str)-> int or None:
        
 def delete_chapter(chapter: str) -> bool: 
     """Supprime le chapter donné en argument (et donc les leçons et exos qu'il y'avait). Renvoie True si tout c'est bien passé, False sinon"""
-    with open('csv_data/chapitres.csv', 'r', encoding= "utf-8") as fr:
+    with open('../csv_data/chapitres.csv', 'r', encoding= "utf-8") as fr:
         # reading line by line
         lines = fr.readlines()
-        line_to_delete = _find_line(chapter, "chapitres", 'csv_data/chapitres.csv',";")
+        line_to_delete = _find_line(chapter, "chapitres", '../csv_data/chapitres.csv',";")
         acc = 0
         # opening in writing mode
-        with open('csv_data/chapitres.csv', 'w', encoding= "utf-8") as fw:
+        with open('../csv_data/chapitres.csv', 'w', encoding= "utf-8") as fw:
             for line in lines:
                 if acc != line_to_delete:
                     fw.write(line)
@@ -241,7 +241,7 @@ def delete_lesson(chapter: str,lesson_name: str) -> bool:
             return False
         else:
             delete_exo(chapter, lesson_name)
-            return _modif_line(str(res), str(lst), "lst_lecons", "csv_data/chapitres.csv", ";")
+            return _modif_line(str(res), str(lst), "lst_lecons", "../csv_data/chapitres.csv", ";")
     return False
 
 def _modif_line(new_val: str, previous_val: str, key: str, file: str, delimiter: str = ",") -> bool:
@@ -274,7 +274,7 @@ def get_path_lesson(chapter: str, lesson: str) -> str or None:
 def add_hint(text: str, chapter: str, lesson: str, exercice: str)-> bool:
     """Ajoute un indice en fonction des paramtètres donnés. renvoie True si tout c'est bien passé, False sinon"""
     if not text in get_hint(chapter,lesson,exercice):
-        f = open("csv_data/indices.csv", "a", encoding= "utf-8")
+        f = open("../csv_data/indices.csv", "a", encoding= "utf-8")
         w = csv.DictWriter(f, ["chapitre","lecon","exercice","text"])
         w.writerow({"chapitre": chapter, "lecon": lesson, "exercice": exercice, "text": text})
         f.close()
@@ -283,13 +283,13 @@ def add_hint(text: str, chapter: str, lesson: str, exercice: str)-> bool:
 
 def delete_hint(chapter: str, lesson: str = None, exercice: str = None, txt = None) -> bool:
     """Supprime l'indice avec les infos données en argument. Renvoie True si tout c'est bien passé, False sinon"""
-    with open('csv_data/indices.csv', 'r', encoding= "utf-8") as fr:
+    with open('../csv_data/indices.csv', 'r', encoding= "utf-8") as fr:
         # reading line by line
         lines = fr.readlines()
         lines_to_delete = _find_line_hint(chapter, lesson,exercice, txt)
         acc = 0
         # opening in writing mode
-        with open('csv_data/indices.csv', 'w', encoding= "utf-8") as fw:
+        with open('../csv_data/indices.csv', 'w', encoding= "utf-8") as fw:
             for line in lines:
                 if lines_to_delete is None or acc not in lines_to_delete:
                     fw.write(line)
@@ -300,7 +300,7 @@ def delete_hint(chapter: str, lesson: str = None, exercice: str = None, txt = No
 
 def _find_line_hint(chapter: str, lesson: str, exercice: str, txt) -> int:
     """Renvoie la ligne correspondant à la valeur de l'indice"""
-    with open("csv_data/indices.csv", 'r', encoding= "utf-8") as f:
+    with open("../csv_data/indices.csv", 'r', encoding= "utf-8") as f:
         test = list(csv.DictReader(f))
         line_to_delete = 0
         res = []
@@ -319,7 +319,7 @@ def _find_line_hint(chapter: str, lesson: str, exercice: str, txt) -> int:
 
 def get_user():
     """Renvoie la liste de tous les utilisateurs"""
-    f = open("csv_data/csvfile.csv", "r", encoding= "utf-8")
+    f = open("../csv_data/csvfile.csv", "r", encoding= "utf-8")
     table = list(csv.DictReader(f,delimiter=",")) #Preciser que le delimiter est ; et non ,
     val = []
     for e in table:
@@ -334,7 +334,7 @@ def get_save(chapitre,lesson,exercice):
     x = _find_line_save(chapitre,lesson,exercice)
     if x == []:
         return None
-    f = open("csv_data/csv_save.csv", "r", encoding= "utf-8")
+    f = open("../csv_data/csv_save.csv", "r", encoding= "utf-8")
     table = list(csv.DictReader(f,delimiter=";")) #Preciser que le delimiter est ; et non ,
     acc = 1
     for e in table:
@@ -344,7 +344,7 @@ def get_save(chapitre,lesson,exercice):
 
 
 def _find_line_save(chapitre, lesson, exercice):
-    with open("csv_data/csv_save.csv", 'r', encoding= "utf-8") as f:
+    with open("../csv_data/csv_save.csv", 'r', encoding= "utf-8") as f:
         test = list(csv.DictReader(f, delimiter=";"))
         line_to_delete = 0
         res = []
@@ -358,20 +358,20 @@ def _find_line_save(chapitre, lesson, exercice):
 def save_code(chapitre,lesson,exercice,code):
     x = _find_line_save(chapitre,lesson,exercice)
     if x == []:
-        f = open("csv_data/csv_save.csv", "a", encoding= "utf-8")
+        f = open("../csv_data/csv_save.csv", "a", encoding= "utf-8")
         table = csv.DictWriter(f, ["chapitre", "lecon", "exercice", "code"], delimiter=";")
         table.writerow({"chapitre":chapitre, "lecon":lesson,"exercice":exercice, "code":code})
         f.close()
     else:
-        f = open("csv_data/csv_save.csv", "r", encoding= "utf-8")
+        f = open("../csv_data/csv_save.csv", "r", encoding= "utf-8")
         lines = f.readlines()
         acc = 0
-        with open('csv_data/csv_save.csv', 'w', encoding= "utf-8") as fw:
+        with open('../csv_data/csv_save.csv', 'w', encoding= "utf-8") as fw:
             for line in lines:
                 if x is None or acc not in x:
                     fw.write(line)
                 acc += 1
-        f = open("csv_data/csv_save.csv", "a", encoding= "utf-8")
+        f = open("../csv_data/csv_save.csv", "a", encoding= "utf-8")
         table = csv.DictWriter(f, ["chapitre", "lecon", "exercice", "code"], delimiter=";")
         table.writerow({"chapitre":chapitre, "lecon":lesson,"exercice":exercice, "code":code})
         f.close()
