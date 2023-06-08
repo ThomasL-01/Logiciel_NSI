@@ -8,9 +8,17 @@ from test_git import *
 from datetime import datetime
 import hashlib
 from random import choice
+import platform
+
+if platform.system() == "Darwin":
+    font = 17
+    big_font = 20
+else:
+    font = 14
+    big_font = 17
 
 #Update la version de l'utilisateur
-#git_update() Pour le moment vu qu'on est en dev on le met pas
+git_update() #Pour le moment vu qu'on est en dev on le met pas
 
 #Création de la fenètre de base
 root = Tk()
@@ -83,7 +91,6 @@ def start_menu() -> None:
     #On reset la fenètre
     destroy_widgets()
     
-
     #On créé des widgets
     cnvas = Canvas(master = root, bg = "black", width=500, height=100, highlightthickness=0, bd = 0)
     gif = AnimatedGif(7, "graphics/titre.gif" ,cnvas, 1, 150, -1)
@@ -91,9 +98,9 @@ def start_menu() -> None:
     quit_img = PhotoImage(master = root, file="graphics/quitter.png")
     quit_btn = Button(master = root, image=quit_img, command=root.destroy)
     connect_img = PhotoImage(master = root, file="graphics/connexion.png")
-    btn_connect = Button(master = root, image = connect_img , command=connection_menu, font=("Cascadia Code", 17))
+    btn_connect = Button(master = root, image = connect_img , command=connection_menu, font=("Cascadia Code", font))
     create_img = PhotoImage(master = root, file="graphics/create.png")
-    btn_create = Button(master = root,image=create_img, command=lambda:connection_menu('create'), font=("Cascadia Code", 17))
+    btn_create = Button(master = root,image=create_img, command=lambda:connection_menu('create'), font=("Cascadia Code", font))
 
     #On récupère les widgets dans la liste afin de pouvoir les détruire
     widget_lst.append(btn_connect)
@@ -149,19 +156,19 @@ def connection_menu(menu:str = 'load') -> None:
                 main_menu()
     
     #On créé les widgets puis on les récupère dans la liste afin de pouvoir les détruire
-    label_titel = Label(root, font = ("Cascadia Code", 20), bg = 'black', fg='white')
+    label_titel = Label(root, font = ("Cascadia Code", big_font), bg = 'black', fg='white')
     widget_lst.append(label_titel)
 
-    label_pseudo = Label(root, text = "Votre Pseudo:", font = ("Cascadia Code", 20),bg = 'black', fg='white')
+    label_pseudo = Label(root, text = "Votre Pseudo:", font = ("Cascadia Code", big_font),bg = 'black', fg='white')
     widget_lst.append(label_pseudo)
 
-    pseudo_joueur = Entry(root,font = ("Cascadia Code", 20), bg="black", fg='white', insertbackground='white', width=30, highlightbackground="white")
+    pseudo_joueur = Entry(root,font = ("Cascadia Code", big_font), bg="black", fg='white', insertbackground='white', width=30, highlightbackground="white")
     widget_lst.append(pseudo_joueur)
 
-    label_mdp = Label(root, text = "Mot de Passe:", font = ("Cascadia Code", 20), bg="black", fg='white')
+    label_mdp = Label(root, text = "Mot de Passe:", font = ("Cascadia Code", big_font), bg="black", fg='white')
     widget_lst.append(label_mdp)
 
-    mdp_joueur = Entry(root,font = ("Cascadia Code", 20),bg ='black', fg='white', insertbackground='white', width=30, show="*", highlightbackground="white")
+    mdp_joueur = Entry(root,font = ("Cascadia Code", big_font),bg ='black', fg='white', insertbackground='white', width=30, show="*", highlightbackground="white")
     widget_lst.append(mdp_joueur)
 
     def show()-> None:
@@ -181,11 +188,11 @@ def connection_menu(menu:str = 'load') -> None:
     see_mdp_txt = Label(root,text="Voir Mot de passe:", fg="white", bg="black", font=("Cascadia Code",13))
     widget_lst.append(see_mdp_txt)
 
-    error_text = Label(root, text=None, font = ("Cascadia Code", 20), bg="black", fg='black')
+    error_text = Label(root, text=None, font = ("Cascadia Code", big_font), bg="black", fg='black')
     widget_lst.append(error_text)
 
     enter_img = PhotoImage(master = root, file="graphics/enter.png").subsample(2)
-    entrer_button = Button(root, text= 'Entrer',font = ("Cascadia Code", 20), image=enter_img)
+    entrer_button = Button(root, text= 'Entrer',font = ("Cascadia Code", big_font), image=enter_img)
     widget_lst.append(entrer_button)
 
     back_img = PhotoImage(master = root, file="graphics/back.png")
@@ -305,7 +312,7 @@ def main_menu() -> None:
 
     if is_admin:
         account_img = PhotoImage(master = root, file="graphics/compte.png")
-        btn_account = Button(image =account_img, text='Compte', font=("Cascadia Code", 17), command = lambda:menu_compte(root))
+        btn_account = Button(image =account_img, text='Compte', font=("Cascadia Code", font), command = lambda:menu_compte(root))
         btn_account.place(anchor=NW)
         widget_lst.append(btn_account)
 
@@ -408,7 +415,7 @@ def exercice(enonce: str, chapter_name: str, lesson_pdf:str, lesson_name:str, no
     
 
     # Zone de texte pour l'ennonce
-    enonce_txt = Text(master = frame_1, bg="Black", fg="White", font=("Cascadia Code", 17), highlightbackground="white", highlightthickness=1, state="normal", height=5)
+    enonce_txt = Text(master = frame_1, bg="Black", fg="White", font=("Cascadia Code", font), highlightbackground="white", highlightthickness=1, state="normal", height=5)
     enonce_txt.insert("end", f"{enonce}")
     enonce_txt.configure(state="disabled")
     enonce_txt.pack(fill=X, pady=10)
@@ -443,29 +450,29 @@ def exercice(enonce: str, chapter_name: str, lesson_pdf:str, lesson_name:str, no
         window.title("Indice")
 
         if not hint_list == []:
-            hint_label = Label(master=window, font=("Cascadia Code", 17), bg="black", fg="white", text=f"{choice(hint_list)}", wraplength=500)
+            hint_label = Label(master=window, font=("Cascadia Code", font), bg="black", fg="white", text=f"{choice(hint_list)}", wraplength=500)
             nb_indices_depenses += 1
             if nb_indices_depenses ==3:
                 change_state_correction_button()
             hint_label.pack()
         else:
-            hint_label = Label(master=window, font=("Cascadia Code", 17), bg="black", fg="white", text=f"Il n'y a aucun indice disponible pour cet exercice", wraplength=500)
+            hint_label = Label(master=window, font=("Cascadia Code", font), bg="black", fg="white", text=f"Il n'y a aucun indice disponible pour cet exercice", wraplength=500)
             hint_label.pack()
         
     #Bouton pour acceder aux indices
     indices_img = PhotoImage(master = root, file = "graphics/hint.png").subsample(2)
-    indices_btn = Button(frame_2, image = indices_img, bg="White", fg="black", font=("Cascadia Code", 17), command=access_hint)
+    indices_btn = Button(frame_2, image = indices_img, bg="White", fg="black", font=("Cascadia Code", font), command=access_hint)
     indices_btn.pack(pady=50, expand=True)    
 
     if is_admin:
         add_suppr_hint_img = PhotoImage(master = root, file="graphics/add_supr_hint.png").subsample(2)
-        add_suppr_hint_btn = Button(frame_2, image=add_suppr_hint_img, bg="White", fg="black", font=("Cascadia Code", 17),command=lambda: modif_hint_menu(root,chapter_name,lesson_name,nom_exo))
-        add_suppr_hint_btn.pack(pady=20, expand=True)    
+        add_suppr_hint_btn = Button(frame_2, image=add_suppr_hint_img, bg="White", fg="black", font=("Cascadia Code", font),command=lambda: modif_hint_menu(root,chapter_name,lesson_name,nom_exo))
+        add_suppr_hint_btn.pack(pady=big_font, expand=True)    
         widget_lst.append(add_suppr_hint_btn)
 
     #Bouton pour accéder à la correction
     corrcetion_img = PhotoImage(master = root, file="graphics/correction.png").subsample(2)
-    correction_btn = Button(frame_2, image = corrcetion_img, command=lambda:open_given_file(get_correction(chapter_name, lesson_name, nom_exo)), state=DISABLED, font=("Cascadia Code", 20), fg="black", bg="White")
+    correction_btn = Button(frame_2, image = corrcetion_img, command=lambda:open_given_file(get_correction(chapter_name, lesson_name, nom_exo)), state=DISABLED, font=("Cascadia Code", big_font), fg="black", bg="White")
     def change_state_correction_button():
         correction_btn.config(state=ACTIVE)
     correction_btn.pack(pady=50, expand=True)

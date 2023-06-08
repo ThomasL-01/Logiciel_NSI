@@ -3,6 +3,14 @@ from tkinter import ttk
 from import_csv import get_all_chapters, add_lesson, get_name_exercices, get_name_lessons, delete_lesson, add_chapter, delete_chapter, add_exercice, delete_exo, add_hint, delete_hint, get_hint, get_user, delete_user,modif_mdp_admin
 from pdf_opener import recup_path, copy_file, delete_file, recup_path_py
 from sauvegarde_ import add_user
+import platform
+
+if platform.system() == "Darwin":
+    font = 17
+    big_font = 20
+else:
+    font = 14
+    big_font = 17
 
 def set_background(image_path: str, root) -> None:
     """Définit l'image de fond de la fenêtre principale"""
@@ -28,15 +36,15 @@ def menu_compte(master):
         window_2.attributes("-topmost", True)
         set_background("graphics/bg.png", window_2)
 
-        label_title = Label(window_2, bg="black", fg="White", font=("Cascadia Code", 20), text="Ajouter un utilisateur")
-        user_txt = Label(window_2, bg="black", fg="White", font=("Cascadia Code", 17), text="Ajouter le nom de l'utilisateur:")
-        error_txt = Label(window_2, bg="black", fg="black", font=("Cascadia Code", 17), text="")
-        mdp_txt = Label(window_2, bg="black", fg="white", font=("Cascadia Code", 17), text="Renseigner son mot de passe:")
-        selected_mdp = Label(window_2, bg="black", fg="black", font=("Cascadia Code", 17))
-        res_txt = Label(window_2, bg="black", fg="White", font=("Cascadia Code", 20), text="L'utilisateur a été ajouter avec succès' !\n Vous pouvez fermer cette fenêtre, elle se fermera dans 5 secondes")
+        label_title = Label(window_2, bg="black", fg="White", font=("Cascadia Code", big_font), text="Ajouter un utilisateur")
+        user_txt = Label(window_2, bg="black", fg="White", font=("Cascadia Code", big_font), text="Ajouter le nom de l'utilisateur:")
+        error_txt = Label(window_2, bg="black", fg="black", font=("Cascadia Code", big_font), text="")
+        mdp_txt = Label(window_2, bg="black", fg="white", font=("Cascadia Code", big_font), text="Renseigner son mot de passe:")
+        selected_mdp = Label(window_2, bg="black", fg="black", font=("Cascadia Code", big_font))
+        res_txt = Label(window_2, bg="black", fg="White", font=("Cascadia Code", big_font), text="L'utilisateur a été ajouter avec succès' !\n Vous pouvez fermer cette fenêtre, elle se fermera dans 5 secondes")
         
-        user_entry = Entry(window_2, font = ("Cascadia Code", 20), bg="black", fg='white', insertbackground='white', width=30, highlightbackground="white")
-        mdp_entry = Entry(window_2, font = ("Cascadia Code", 20), bg="black", fg='white', insertbackground='white', width=30, highlightbackground="white")
+        user_entry = Entry(window_2, font = ("Cascadia Code", big_font), bg="black", fg='white', insertbackground='white', width=30, highlightbackground="white")
+        mdp_entry = Entry(window_2, font = ("Cascadia Code", big_font), bg="black", fg='white', insertbackground='white', width=30, highlightbackground="white")
 
         def enter():
             if user_entry.get() == "" or mdp_entry.get() == "":
@@ -53,14 +61,14 @@ def menu_compte(master):
         quit_img = PhotoImage(master = window, file="graphics/quitter.png")
         quit_btn = Button(master = window_2, image= quit_img, command=window_2.destroy)
 
-        label_title.pack(pady = 20)
+        label_title.pack(pady = big_font)
         user_txt.pack()
         user_entry.pack()
-        mdp_txt.pack(pady = 20)
+        mdp_txt.pack(pady = big_font)
         mdp_entry.pack()
         selected_mdp.pack()
         error_txt.pack()
-        enter_btn.pack(pady = 20)
+        enter_btn.pack(pady = big_font)
         quit_btn.pack(side=BOTTOM, fill=X)
 
         window_2.mainloop()
@@ -73,12 +81,12 @@ def menu_compte(master):
         window_2.attributes("-topmost", True)
         set_background("graphics/bg.png", window_2)
 
-        label_title = Label(window_2, bg="black", fg="White", font=("Cascadia Code", 20), text="Supprimer un utilisateur")
-        user_txt = Label(window_2, bg="black", fg="White", font=("Cascadia Code", 17), text="Ajouter le nom de l'utilisateur: que vous voulez supprimer")
-        error_txt = Label(window_2, bg="black", fg="black", font=("Cascadia Code", 17), text="")
-        res_txt = Label(window_2, bg="black", fg="White", font=("Cascadia Code", 20), text="L'utilisateur a été supprimer avec succès' !\n Vous pouvez fermer cette fenêtre, elle se fermera dans 5 secondes")
+        label_title = Label(window_2, bg="black", fg="White", font=("Cascadia Code", big_font), text="Supprimer un utilisateur")
+        user_txt = Label(window_2, bg="black", fg="White", font=("Cascadia Code", big_font), text="Ajouter le nom de l'utilisateur: que vous voulez supprimer")
+        error_txt = Label(window_2, bg="black", fg="black", font=("Cascadia Code", big_font), text="")
+        res_txt = Label(window_2, bg="black", fg="White", font=("Cascadia Code", big_font), text="L'utilisateur a été supprimer avec succès' !\n Vous pouvez fermer cette fenêtre, elle se fermera dans 5 secondes")
         
-        user_entry = Entry(window_2, font = ("Cascadia Code", 20), bg="black", fg='white', insertbackground='white', width=30, highlightbackground="white")
+        user_entry = Entry(window_2, font = ("Cascadia Code", big_font), bg="black", fg='white', insertbackground='white', width=30, highlightbackground="white")
 
         def enter():
             if user_entry.get() == "" or user_entry.get() not in get_user():
@@ -112,15 +120,15 @@ def menu_compte(master):
         window_2.attributes("-topmost", True)
         set_background("graphics/bg.png", window_2)
 
-        label_title = Label(window_2, bg="black", fg="White", font=("Cascadia Code", 20), text="Modifier mot de passe")
-        user_txt = Label(window_2, bg="black", fg="White", font=("Cascadia Code", 17), text="Veuillez mettre votre nouveau mot de passe")
-        error_txt = Label(window_2, bg="black", fg="black", font=("Cascadia Code", 17), text="")
-        user2_txt = Label(window_2, bg="black", fg="white", font=("Cascadia Code", 17), text="Veuillez de nouveau mettre votre nouveau mot de passe")
-        selected_user2 = Label(window_2, bg="black", fg="black", font=("Cascadia Code", 17))
-        res_txt = Label(window_2, bg="black", fg="White", font=("Cascadia Code", 20), text="Le mot de passe a été modifier avec succès' !\n Vous pouvez fermer cette fenêtre, elle se fermera dans 5 secondes")
+        label_title = Label(window_2, bg="black", fg="White", font=("Cascadia Code", big_font), text="Modifier mot de passe")
+        user_txt = Label(window_2, bg="black", fg="White", font=("Cascadia Code", big_font), text="Veuillez mettre votre nouveau mot de passe")
+        error_txt = Label(window_2, bg="black", fg="black", font=("Cascadia Code", big_font), text="")
+        user2_txt = Label(window_2, bg="black", fg="white", font=("Cascadia Code", big_font), text="Veuillez de nouveau mettre votre nouveau mot de passe")
+        selected_user2 = Label(window_2, bg="black", fg="black", font=("Cascadia Code", big_font))
+        res_txt = Label(window_2, bg="black", fg="White", font=("Cascadia Code", big_font), text="Le mot de passe a été modifier avec succès' !\n Vous pouvez fermer cette fenêtre, elle se fermera dans 5 secondes")
         
-        user_entry = Entry(window_2, font = ("Cascadia Code", 20), bg="black", fg='white', insertbackground='white', width=30, highlightbackground="white")
-        user2_entry = Entry(window_2, font = ("Cascadia Code", 20), bg="black", fg='white', insertbackground='white', width=30, highlightbackground="white")
+        user_entry = Entry(window_2, font = ("Cascadia Code", big_font), bg="black", fg='white', insertbackground='white', width=30, highlightbackground="white")
+        user2_entry = Entry(window_2, font = ("Cascadia Code", big_font), bg="black", fg='white', insertbackground='white', width=30, highlightbackground="white")
 
         def enter():
             if user_entry.get() != user2_entry.get():
@@ -150,9 +158,9 @@ def menu_compte(master):
 
         window_2.mainloop()
     
-    useradd = Button(window,text='Ajouter un utilisateur', font=("Cascadia Code", 17), command = add_user_window, pady = 20)
-    usersuppr = Button(window,text='Supprimer un utilisateur', font=("Cascadia Code", 17), command = suppr_user_window, pady = 20)
-    usermodif = Button(window,text='Modifier mot de passe', font=("Cascadia Code", 17), command = modifier_mdp, pady = 20)
+    useradd = Button(window,text='Ajouter un utilisateur', font=("Cascadia Code", big_font), command = add_user_window, pady = big_font)
+    usersuppr = Button(window,text='Supprimer un utilisateur', font=("Cascadia Code", big_font), command = suppr_user_window, pady = big_font)
+    usermodif = Button(window,text='Modifier mot de passe', font=("Cascadia Code", big_font), command = modifier_mdp, pady = big_font)
     #On crée le bouton de séléction des users
     users_lst : list = ["Voici la liste des users :"]
     for user in get_user():
@@ -164,9 +172,9 @@ def menu_compte(master):
     quit_img = PhotoImage(master = window, file="graphics/quitter.png")
     quit_btn = Button(master = window, image= quit_img, command=window.destroy)
 
-    useradd.pack(pady=20)
-    usersuppr.pack(pady=20)
-    usermodif.pack(pady=20)
+    useradd.pack(pady=big_font)
+    usersuppr.pack(pady=big_font)
+    usermodif.pack(pady=big_font)
     user_btn.pack(pady=30)
     quit_btn.pack(side=BOTTOM, fill=X)
 
@@ -183,16 +191,16 @@ def add_lesson_menu(master, combobox, chapter_selected):
     path = ""
     set_background("graphics/bg.png", window)
 
-    label_title = Label(window, bg="black", fg="White", font=("Cascadia Code", 20), text="Ajouter une leçon")
-    chapter_txt = Label(window, bg="black", fg="White", font=("Cascadia Code", 17), text="Insérer le nom du chapitre")
-    error_txt = Label(window, bg="black", fg="black", font=("Cascadia Code", 17), text="")
-    path_txt = Label(window, bg="black", fg="white", font=("Cascadia Code", 17), text="Veuillez rensigner le fichier PDF")
-    selected_path = Label(window, bg="black", fg="black", font=("Cascadia Code", 17))
-    lesson_txt = Label(window, bg="black", fg="White", font=("Cascadia Code", 17), text="Insérer le nom de votre nouvelle leçon")
-    res_txt = Label(window, bg="black", fg="White", font=("Cascadia Code", 20), text="La leçon a été ajoutée avec succès !\n Vous pouvez fermer cette fenêtre, elle se fermera dans 5 secondes")
+    label_title = Label(window, bg="black", fg="White", font=("Cascadia Code", big_font), text="Ajouter une leçon")
+    chapter_txt = Label(window, bg="black", fg="White", font=("Cascadia Code", big_font), text="Insérer le nom du chapitre")
+    error_txt = Label(window, bg="black", fg="black", font=("Cascadia Code", big_font), text="")
+    path_txt = Label(window, bg="black", fg="white", font=("Cascadia Code", big_font), text="Veuillez rensigner le fichier PDF")
+    selected_path = Label(window, bg="black", fg="black", font=("Cascadia Code", big_font))
+    lesson_txt = Label(window, bg="black", fg="White", font=("Cascadia Code", big_font), text="Insérer le nom de votre nouvelle leçon")
+    res_txt = Label(window, bg="black", fg="White", font=("Cascadia Code", big_font), text="La leçon a été ajoutée avec succès !\n Vous pouvez fermer cette fenêtre, elle se fermera dans 5 secondes")
     
-    chapter_entry = Entry(window, font = ("Cascadia Code", 20), bg="black", fg='white', insertbackground='white', width=30, textvariable=StringVar(value=chapter_selected), highlightbackground="white")
-    lesson_entry = Entry(window, font = ("Cascadia Code", 20), bg="black", fg='white', insertbackground='white', width=30, highlightbackground="white")
+    chapter_entry = Entry(window, font = ("Cascadia Code", big_font), bg="black", fg='white', insertbackground='white', width=30, textvariable=StringVar(value=chapter_selected), highlightbackground="white")
+    lesson_entry = Entry(window, font = ("Cascadia Code", big_font), bg="black", fg='white', insertbackground='white', width=30, highlightbackground="white")
 
     def recup_path_bis():
         global path
@@ -236,7 +244,7 @@ def add_lesson_menu(master, combobox, chapter_selected):
 
     label_title.pack(pady=50)
     chapter_txt.pack()
-    chapter_entry.pack(pady=20)
+    chapter_entry.pack(pady=big_font)
     path_txt.pack()
     select_path_btn.pack(pady=10)
     selected_path.pack()
@@ -257,15 +265,15 @@ def del_lesson_menu(master, combobox, chapter_selected):
     window.attributes("-topmost", True)
     set_background("graphics/bg.png", window)
 
-    label_title = Label(window, bg="black", fg="White", font=("Cascadia Code", 20), text="Supprmier une leçon")
-    chapter_txt = Label(window, bg="black", fg="White", font=("Cascadia Code", 17), text="Insérer le nom du chapitre")
-    error_txt = Label(window, bg="black", fg="black", font=("Cascadia Code", 17), text="")
+    label_title = Label(window, bg="black", fg="White", font=("Cascadia Code", big_font), text="Supprmier une leçon")
+    chapter_txt = Label(window, bg="black", fg="White", font=("Cascadia Code", big_font), text="Insérer le nom du chapitre")
+    error_txt = Label(window, bg="black", fg="black", font=("Cascadia Code", big_font), text="")
 
-    lesson_txt = Label(window, bg="black", fg="White", font=("Cascadia Code", 17), text="Insérer le nom de la leçon à supprimer")
-    res_txt = Label(window, bg="black", fg="White", font=("Cascadia Code", 20), text="La leçon a été supprimée avec succès !\n Vous pouvez fermer cette fenêtre, elle se fermera dans 5 secondes")
+    lesson_txt = Label(window, bg="black", fg="White", font=("Cascadia Code", big_font), text="Insérer le nom de la leçon à supprimer")
+    res_txt = Label(window, bg="black", fg="White", font=("Cascadia Code", big_font), text="La leçon a été supprimée avec succès !\n Vous pouvez fermer cette fenêtre, elle se fermera dans 5 secondes")
     
-    chapter_entry = Entry(window, font = ("Cascadia Code", 20), bg="black", fg='white', insertbackground='white', width=30, textvariable=StringVar(value=chapter_selected), highlightbackground="white")
-    lesson_entry = Entry(window, font = ("Cascadia Code", 20), bg="black", fg='white', insertbackground='white', width=30, highlightbackground="white")
+    chapter_entry = Entry(window, font = ("Cascadia Code", big_font), bg="black", fg='white', insertbackground='white', width=30, textvariable=StringVar(value=chapter_selected), highlightbackground="white")
+    lesson_entry = Entry(window, font = ("Cascadia Code", big_font), bg="black", fg='white', insertbackground='white', width=30, highlightbackground="white")
 
     def enter():
         global path
@@ -281,7 +289,7 @@ def del_lesson_menu(master, combobox, chapter_selected):
             sure.title("En êtes vous sûr ?")
             sure.attributes("-topmost",True)
 
-            label_title_ = Label(sure, bg="black", fg="White", font=("Cascadia Code", 20), text=f"Voulez vous vraiment supprimer la leçon: {lesson_entry.get()} ?\n cela entraînera la suppression de tous les exercices")
+            label_title_ = Label(sure, bg="black", fg="White", font=("Cascadia Code", big_font), text=f"Voulez vous vraiment supprimer la leçon: {lesson_entry.get()} ?\n cela entraînera la suppression de tous les exercices")
 
             def answer(x):
                 if not x :
@@ -310,7 +318,7 @@ def del_lesson_menu(master, combobox, chapter_selected):
             no_btn = Button(sure, image = no_img, command=lambda:answer(False))
 
             label_title_.pack(pady=50)
-            yes_btn.pack(pady=20)
+            yes_btn.pack(pady=big_font)
             no_btn.pack()
 
             sure.mainloop()
@@ -323,7 +331,7 @@ def del_lesson_menu(master, combobox, chapter_selected):
 
     label_title.pack(pady=50)
     chapter_txt.pack()
-    chapter_entry.pack(pady=20)
+    chapter_entry.pack(pady=big_font)
     lesson_txt.pack(pady=5)
     lesson_entry.pack()
     error_txt.pack(pady=10)
@@ -341,13 +349,13 @@ def add_chapter_menu(master, combobox):
     window.attributes("-topmost", True)
     set_background("graphics/bg.png", window)
 
-    label_title = Label(window, bg="black", fg="White", font=("Cascadia Code", 20), text="Ajouter un chapitre")
-    chapter_txt = Label(window, bg="black", fg="White", font=("Cascadia Code", 17), text="Insérer le nom du chapitre à ajouter")
-    error_txt = Label(window, bg="black", fg="black", font=("Cascadia Code", 17), text="")
+    label_title = Label(window, bg="black", fg="White", font=("Cascadia Code", big_font), text="Ajouter un chapitre")
+    chapter_txt = Label(window, bg="black", fg="White", font=("Cascadia Code", big_font), text="Insérer le nom du chapitre à ajouter")
+    error_txt = Label(window, bg="black", fg="black", font=("Cascadia Code", big_font), text="")
 
-    res_txt = Label(window, bg="black", fg="White", font=("Cascadia Code", 20), text="Le chapitre a été ajoutée avec succès !\n Vous pouvez fermer cette fenêtre, elle se fermera dans 5 secondes")
+    res_txt = Label(window, bg="black", fg="White", font=("Cascadia Code", big_font), text="Le chapitre a été ajoutée avec succès !\n Vous pouvez fermer cette fenêtre, elle se fermera dans 5 secondes")
     
-    chapter_entry = Entry(window, font = ("Cascadia Code", 20), bg="black", fg='white', insertbackground='white', width=30, highlightbackground="white")
+    chapter_entry = Entry(window, font = ("Cascadia Code", big_font), bg="black", fg='white', insertbackground='white', width=30, highlightbackground="white")
 
 
     def enter():
@@ -377,7 +385,7 @@ def add_chapter_menu(master, combobox):
 
     label_title.pack(pady=50)
     chapter_txt.pack()
-    chapter_entry.pack(pady=20)
+    chapter_entry.pack(pady=big_font)
     error_txt.pack(pady=5)
     enter_btn.pack(pady=0)
     quit_btn.pack(side=BOTTOM, fill=X)
@@ -393,13 +401,13 @@ def del_chapter_menu(master, combobox):
     window.attributes("-topmost", True)
     set_background("graphics/bg.png", window)
 
-    label_title = Label(window, bg="black", fg="White", font=("Cascadia Code", 20), text="Supprimer un chapitre")
-    chapter_txt = Label(window, bg="black", fg="White", font=("Cascadia Code", 17), text="Insérer le nom du chapitre à supprimer")
-    error_txt = Label(window, bg="black", fg="black", font=("Cascadia Code", 17), text="")
+    label_title = Label(window, bg="black", fg="White", font=("Cascadia Code", big_font), text="Supprimer un chapitre")
+    chapter_txt = Label(window, bg="black", fg="White", font=("Cascadia Code", big_font), text="Insérer le nom du chapitre à supprimer")
+    error_txt = Label(window, bg="black", fg="black", font=("Cascadia Code", big_font), text="")
 
-    res_txt = Label(window, bg="black", fg="White", font=("Cascadia Code", 20), text="Le chapitre a été supprimé avec succès !\n Vous pouvez fermer cette fenêtre, elle se fermera dans 5 secondes")
+    res_txt = Label(window, bg="black", fg="White", font=("Cascadia Code", big_font), text="Le chapitre a été supprimé avec succès !\n Vous pouvez fermer cette fenêtre, elle se fermera dans 5 secondes")
     
-    chapter_entry = Entry(window, font = ("Cascadia Code", 20), bg="black", fg='white', insertbackground='white', width=30, highlightbackground="white")
+    chapter_entry = Entry(window, font = ("Cascadia Code", big_font), bg="black", fg='white', insertbackground='white', width=30, highlightbackground="white")
 
 
     def enter():
@@ -415,7 +423,7 @@ def del_chapter_menu(master, combobox):
             sure.title("En êtes vous sûr ?")
             sure.attributes("-topmost",True)
 
-            label_title_ = Label(sure, bg="black", fg="White", font=("Cascadia Code", 20), text=f"Voulez vous vraiment supprimer le chapitre: {chapter_entry.get()} ?\n cela entraînera la suppression de toutes les leçons et exercices")
+            label_title_ = Label(sure, bg="black", fg="White", font=("Cascadia Code", big_font), text=f"Voulez vous vraiment supprimer le chapitre: {chapter_entry.get()} ?\n cela entraînera la suppression de toutes les leçons et exercices")
 
             def answer(x):
                 if not x :
@@ -442,7 +450,7 @@ def del_chapter_menu(master, combobox):
             no_btn = Button(sure, image = no_img, command=lambda:answer(False))
 
             label_title_.pack(pady=50)
-            yes_btn.pack(pady=20)
+            yes_btn.pack(pady=big_font)
             no_btn.pack()
 
             sure.mainloop()
@@ -454,7 +462,7 @@ def del_chapter_menu(master, combobox):
 
     label_title.pack(pady=50)
     chapter_txt.pack()
-    chapter_entry.pack(pady=20)
+    chapter_entry.pack(pady=big_font)
     error_txt.pack(pady=5)
     enter_btn.pack(pady=0)
     quit_btn.pack(side=BOTTOM, fill=X)
@@ -482,10 +490,10 @@ def add_exercice_menu(master, combobox, chapter_selected, lesson_selected):
     exercice_enonce = Label(window, bg="black", fg="White", font=("Cascadia Code", 16), text="Insérer l'énoncé de l'exercice")
     res_txt = Label(window, bg="black", fg="White", font=("Cascadia Code", 16), text="L'exercice a été ajouté avec succès !\n Vous pouvez fermer cette fenêtre, elle se fermera dans 5 secondes")
     
-    chapter_entry = Entry(window, font = ("Cascadia Code", 20), bg="black", fg='white', insertbackground='white', width=30, textvariable=StringVar(value=chapter_selected), highlightbackground="white")
-    lesson_entry = Entry(window, font = ("Cascadia Code", 20), bg="black", fg='white', insertbackground='white', width=30, textvariable=StringVar(value=lesson_selected), highlightbackground="white")
-    exercice_entry = Entry(window, font = ("Cascadia Code", 20), bg="black", fg='white', insertbackground='white', width=30, highlightbackground="white")
-    enonce_entry = Text(window, font = ("Cascadia Code", 20), bg="black", fg='white', insertbackground='white', width=30, highlightbackground="white", state="normal", height=5)
+    chapter_entry = Entry(window, font = ("Cascadia Code", big_font), bg="black", fg='white', insertbackground='white', width=30, textvariable=StringVar(value=chapter_selected), highlightbackground="white")
+    lesson_entry = Entry(window, font = ("Cascadia Code", big_font), bg="black", fg='white', insertbackground='white', width=30, textvariable=StringVar(value=lesson_selected), highlightbackground="white")
+    exercice_entry = Entry(window, font = ("Cascadia Code", big_font), bg="black", fg='white', insertbackground='white', width=30, highlightbackground="white")
+    enonce_entry = Text(window, font = ("Cascadia Code", big_font), bg="black", fg='white', insertbackground='white', width=30, highlightbackground="white", state="normal", height=5)
 
     def recup_path_bis():
         global path
@@ -556,17 +564,17 @@ def del_exercice_menu(master, combobox, chapter_selected, lesson_selected):
     window.attributes("-topmost", True)
     set_background("graphics/bg.png", window)
 
-    label_title = Label(window, bg="black", fg="White", font=("Cascadia Code", 20), text="Supprimer un exercice")
-    chapter_txt = Label(window, bg="black", fg="White", font=("Cascadia Code", 17), text="Insérer le nom du chapitre")
+    label_title = Label(window, bg="black", fg="White", font=("Cascadia Code", big_font), text="Supprimer un exercice")
+    chapter_txt = Label(window, bg="black", fg="White", font=("Cascadia Code", big_font), text="Insérer le nom du chapitre")
     
-    lesson_txt = Label(window, bg="black", fg="White", font=("Cascadia Code", 17), text="Insérer le nom de la leçon")
-    error_txt = Label(window, bg="black", fg="black", font=("Cascadia Code", 17), text="")
-    exercice_txt = Label(window, bg="black", fg="White", font=("Cascadia Code", 17), text="Insérer le nom de votre exercice à supprimer")
-    res_txt = Label(window, bg="black", fg="White", font=("Cascadia Code", 20), text="L'exercice a été supprimé avec succès !\n Vous pouvez fermer cette fenêtre, elle se fermera dans 5 secondes")
+    lesson_txt = Label(window, bg="black", fg="White", font=("Cascadia Code", big_font), text="Insérer le nom de la leçon")
+    error_txt = Label(window, bg="black", fg="black", font=("Cascadia Code", big_font), text="")
+    exercice_txt = Label(window, bg="black", fg="White", font=("Cascadia Code", big_font), text="Insérer le nom de votre exercice à supprimer")
+    res_txt = Label(window, bg="black", fg="White", font=("Cascadia Code", big_font), text="L'exercice a été supprimé avec succès !\n Vous pouvez fermer cette fenêtre, elle se fermera dans 5 secondes")
     
-    chapter_entry = Entry(window, font = ("Cascadia Code", 20), bg="black", fg='white', insertbackground='white', width=30, textvariable=StringVar(value=chapter_selected), highlightbackground="white")
-    lesson_entry = Entry(window, font = ("Cascadia Code", 20), bg="black", fg='white', insertbackground='white', width=30, textvariable=StringVar(value=lesson_selected), highlightbackground="white")
-    exercice_entry = Entry(window, font = ("Cascadia Code", 20), bg="black", fg='white', insertbackground='white', width=30, highlightbackground="white")
+    chapter_entry = Entry(window, font = ("Cascadia Code", big_font), bg="black", fg='white', insertbackground='white', width=30, textvariable=StringVar(value=chapter_selected), highlightbackground="white")
+    lesson_entry = Entry(window, font = ("Cascadia Code", big_font), bg="black", fg='white', insertbackground='white', width=30, textvariable=StringVar(value=lesson_selected), highlightbackground="white")
+    exercice_entry = Entry(window, font = ("Cascadia Code", big_font), bg="black", fg='white', insertbackground='white', width=30, highlightbackground="white")
 
     def enter(): 
         if chapter_entry.get() not in get_all_chapters():
@@ -583,7 +591,7 @@ def del_exercice_menu(master, combobox, chapter_selected, lesson_selected):
             sure.title("En êtes vous sûr ?")
             sure.attributes("-topmost",True)
 
-            label_title_ = Label(sure, bg="black", fg="White", font=("Cascadia Code", 20), text=f"Voulez vous vraiment supprimer l'exercice: {exercice_entry.get()} ?\n Cela entraînera la suppression de l'exercice, de la correction et de tous les indices", wraplength=1000)
+            label_title_ = Label(sure, bg="black", fg="White", font=("Cascadia Code", big_font), text=f"Voulez vous vraiment supprimer l'exercice: {exercice_entry.get()} ?\n Cela entraînera la suppression de l'exercice, de la correction et de tous les indices", wraplength=1000)
 
             def answer(x):
                 if not x :
@@ -611,7 +619,7 @@ def del_exercice_menu(master, combobox, chapter_selected, lesson_selected):
             no_btn = Button(sure, image = no_img, command=lambda:answer(False))
 
             label_title_.pack(pady=50)
-            yes_btn.pack(pady=20)
+            yes_btn.pack(pady=big_font)
             no_btn.pack()
 
             sure.mainloop()
@@ -645,15 +653,15 @@ def modif_hint_menu(master,chapitre,lesson,exercice):
     window.attributes("-topmost", True)
     set_background("graphics/bg.png", window)
 
-    label_title = Label(master = window, bg="black", text="Modifier un indice",font=("Cascadia Code", 17))
-    error_txt = Label(window, bg="black", fg="black", font=("Cascadia Code", 17), text="")
-    hint_txt = Label(window, bg="black", fg="White", font=("Cascadia Code", 17), text="Ii vous souhaitez supprimer un indice, séléctionné")
-    res_txt = Label(window, bg="black", fg="White", font=("Cascadia Code", 20), text="")
+    label_title = Label(master = window, bg="black", text="Modifier un indice",font=("Cascadia Code", big_font))
+    error_txt = Label(window, bg="black", fg="black", font=("Cascadia Code", big_font), text="")
+    hint_txt = Label(window, bg="black", fg="White", font=("Cascadia Code", big_font), text="Ii vous souhaitez supprimer un indice, séléctionné")
+    res_txt = Label(window, bg="black", fg="White", font=("Cascadia Code", big_font), text="")
 
-    hint_add_label = Label(window, bg="black", fg="White", font=("Cascadia Code", 17), text="Si vous souhaitez ajouter un indice, rensignez le ici:")
-    hint_add_entry = Entry(window, font = ("Cascadia Code", 20), bg="black", fg='white', insertbackground='white', width=30, highlightbackground="white")
+    hint_add_label = Label(window, bg="black", fg="White", font=("Cascadia Code", big_font), text="Si vous souhaitez ajouter un indice, rensignez le ici:")
+    hint_add_entry = Entry(window, font = ("Cascadia Code", big_font), bg="black", fg='white', insertbackground='white', width=30, highlightbackground="white")
 
-    info_txt = Label(window, bg="black", fg="White", font=("Cascadia Code", 17), text="Cliquez sur l'action correspondante:")
+    info_txt = Label(window, bg="black", fg="White", font=("Cascadia Code", big_font), text="Cliquez sur l'action correspondante:")
     
     def enter(command, combobox = None):
         if command == "supprimé":
@@ -665,7 +673,7 @@ def modif_hint_menu(master,chapitre,lesson,exercice):
             sure.title("En êtes vous sûr ?")
             sure.attributes("-topmost",True)
 
-            label_title_ = Label(sure, bg="black", fg="White", font=("Cascadia Code", 20), text=f"Voulez vous vraiment supprimer l'indice ?", wraplength=1000)
+            label_title_ = Label(sure, bg="black", fg="White", font=("Cascadia Code", big_font), text=f"Voulez vous vraiment supprimer l'indice ?", wraplength=1000)
 
             def answer(x):
                 if not x :
@@ -691,7 +699,7 @@ def modif_hint_menu(master,chapitre,lesson,exercice):
             no_btn = Button(sure, image = no_img, command=lambda:answer(False))
 
             label_title_.pack(pady=50)
-            yes_btn.pack(pady=20)
+            yes_btn.pack(pady=big_font)
             no_btn.pack()
 
             sure.mainloop()

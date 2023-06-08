@@ -17,7 +17,7 @@ def install_git()-> None:
             subprocess.run('git --version', check=True, shell=True)
         except subprocess.CalledProcessError:
             # Télécharger et exécuter l'installateur Git pour Windows
-            git_installer_url = 'https://github.com/git-for-windows/git/releases/latest/download/Git-2.33.0-64-bit.exe'
+            git_installer_url = 'https://github.com/git-for-windows/git/releases/latest/download/Git-2.41.0-64-bit.exe'
             subprocess.run(['powershell', 'Start-BitsTransfer', '-Source', git_installer_url, '-Destination', 'GitInstaller.exe'])
             subprocess.run(['cmd', '/c', 'start', 'GitInstaller.exe'])
 
