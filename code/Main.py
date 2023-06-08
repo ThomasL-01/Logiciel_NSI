@@ -5,7 +5,6 @@ from pdf_opener import open_given_file
 from import_csv import get_all_chapters, get_name_exercices, get_name_lessons, get_path_lesson, get_enonce_exercice, get_correction, get_hint, save_code, get_save
 from add_and_supr_menus import add_chapter_menu, add_exercice_menu, add_lesson_menu, del_chapter_menu, del_lesson_menu, del_exercice_menu, modif_hint_menu, set_background, menu_compte
 from test_git import *
-from datetime import datetime
 import hashlib
 from random import choice
 import platform
@@ -509,4 +508,4 @@ start_menu()
 
 #A la fin du programme, si admin, MAJ du dépot git
 if is_admin:
-    git_add_commit_push(["../PDF", "../csv_data"], f"Mise à jour des fichiers -{datetime.now().date()}")
+    git_add_commit_push()
