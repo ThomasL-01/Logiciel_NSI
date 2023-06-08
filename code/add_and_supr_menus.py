@@ -242,7 +242,7 @@ def add_lesson_menu(master, combobox, chapter_selected):
     quit_img = PhotoImage(master = window, file="../graphics/quitter.png")
     quit_btn = Button(master = window, image= quit_img, command=window.destroy)
 
-    label_title.pack(pady=50)
+    label_title.pack(pady=20)
     chapter_txt.pack()
     chapter_entry.pack(pady=big_font)
     path_txt.pack()

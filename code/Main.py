@@ -509,4 +509,4 @@ start_menu()
 
 #A la fin du programme, si admin, MAJ du dépot git
 if is_admin:
-    git_add_commit_push(["PDF", "../csv_data"], f"Mise à jour des fichiers -{datetime.now().date()}")
+    git_add_commit_push(["../PDF", "../csv_data"], f"Mise à jour des fichiers -{datetime.now().date()}")

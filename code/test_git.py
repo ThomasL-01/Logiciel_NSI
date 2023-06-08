@@ -25,12 +25,12 @@ def get_files_in_directory() -> list:
 def git_add_commit_push(directory_names: list, commit_message: list, branch: str ='master',repo_path: str =os.getcwd()) -> None:
     """Pour l'admin
     Permet de mettre à jour le dépot git avec tout les PDF et autres cours/exercices ajoutés ou supprimés par l'admin"""
-    repo = Repo(repo_path)
+    repo = Repo(os.path.dirname(repo_path))
     repo.git.checkout(branch)
 
     for directory_name in directory_names:
         directory_path = os.path.join(repo_path, directory_name)
-        if directory_name == "PDF":
+        if directory_name == "../PDF":
 
             # Comparer les fichiers dans le répertoire spécifié avec ceux du dépôt
             diff = repo.index.diff(None, paths=[directory_name])
@@ -52,7 +52,7 @@ def git_add_commit_push(directory_names: list, commit_message: list, branch: str
                     file_path = os.path.join(repo_path, diff_file.a_path)
                     if not os.path.exists(file_path):
                         repo.git.rm(diff_file.a_path)
-        if directory_name == "csv_data":
+        if directory_name == "../csv_data":
             try:
                 repo.git.add(directory_path, update=True)
             except GitCommandError:
