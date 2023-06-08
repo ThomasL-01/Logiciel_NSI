@@ -28,12 +28,22 @@ def obtenir_dossier_parent():
     return dossier_parent
 
 def git_add_commit_push(repo_path = obtenir_dossier_parent()):
-    try:
-        repo = Repo(repo_path)
-        repo.remotes.origin.pull()
-        print("Le référentiel a été mis à jour avec succès.")
-    except Exception as e:
-        print("Une erreur s'est produite lors de la mise à jour du référentiel :", e)
+    repo = Repo(repo_path)
+    
+    # Vérifier si le dépôt est à jour
+    if repo.is_dirty() or repo.untracked_files:
+        # Ajouter tous les fichiers modifiés ou non suivis
+        repo.git.add(all=True)
+        
+        # Créer un nouvel objet commit
+        repo.index.commit("Mise à jour du dépôt")
+        
+        # Pousser les modifications vers le dépôt distant (origin)
+        repo.remotes.origin.push()
+        
+        print("Le dépôt a été mis à jour avec succès.")
+    else:
+        print("Le dépôt est déjà à jour.")
 
 def git_update(repo_path: str = os.getcwd(), branch: str = 'master') -> None:
     """Pour l'utilisateur: Permet de mettre à jour sa version du logiciel avec tous les cours etc que l'admin a pu ajouter"""
