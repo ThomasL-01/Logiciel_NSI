@@ -76,5 +76,3 @@ def git_update(repo_path: str = os.getcwd(), branch: str = 'master') -> None:
     
     # Revenir au répertoire de départ
     os.chdir(repo_path)
-
-git_update()
