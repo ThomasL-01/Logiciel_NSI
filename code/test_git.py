@@ -64,14 +64,13 @@ def git_add_commit_push(directory_names: list, commit_message: list, branch: str
 
 def git_update(repo_path: str = os.getcwd(), branch: str = 'master') -> None:
     """Pour l'utilisateur: Permet de mettre à jour sa version du logiciel avec tous les cours etc que l'admin a pu ajouter"""
-    repo = Repo(repo_path)
+    repo = Repo(os.path.dirname(repo_path))
     origin = repo.remotes.origin
 
-    repo_dir = Repo(os.getcwd())
-    if repo_dir.is_dirty():
+    if repo.is_dirty():
         # Réinitialiser le répertoire au commit de la branche distante
         origin.fetch()
-        repo_dir.head.reset(commit=f'origin/{branch}', working_tree=True)
+        repo.head.reset(commit=f'origin/{branch}', working_tree=True)
         # Effectuer le pull pour récupérer les dernières modifications
         origin.pull()
     
