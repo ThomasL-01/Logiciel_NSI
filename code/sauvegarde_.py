@@ -42,4 +42,4 @@ def user_is_admin(pseudo:str ,table:str) -> bool:
 def add_user(username, mdp, is_admin = False):
     hash_object = hashlib.sha256(mdp.encode())  # Encode la chaîne en bytes et calcule le haché
     hex_digest = hash_object.hexdigest()  # Convertit le haché en une représentation hexadécimale
-    nouvelle_sauvegarde(username, hex_digest, 'csv_data/csvfile.csv', is_admin)
+    nouvelle_sauvegarde(username, hex_digest, '../csv_data/csvfile.csv', is_admin)
